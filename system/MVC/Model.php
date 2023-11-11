@@ -2,12 +2,12 @@
 
 namespace MVC;
 
-abstract class Model {
+class Model {
 
-    abstract protected function getData();
+    protected $connection;
 
     public function __construct() {
-        \Database\Database::getConnection();
+       $this->connection = \Database\Database::getConnection();
     }
 
 }

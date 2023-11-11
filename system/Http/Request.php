@@ -22,7 +22,7 @@ class Request {
         if ($key != '')
             return isset($_GET[$key]) ? $this->clean($_GET[$key]) : null;
 
-        return  $this->clean($_GET);
+        return $this->clean($_GET);
     }
 
   
@@ -30,7 +30,7 @@ class Request {
         if ($key != '')
             return isset($_POST[$key]) ? $this->clean($_POST[$key]) : null;
 
-        return  $this->clean($_POST);
+        return $this->clean($_POST);
     }
 
   

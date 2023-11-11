@@ -32,11 +32,11 @@ class UserController extends Controller{
     {
      
         $request = new UserRegisterRequest();
-        $request->id = $_POST['id'];
-        $request->name = $_POST['name'];
-        $request->password = $_POST['password'];
+        $request->id = $this->request->post('id');
+        $request->name = $this->request->post('name');
+        $request->password =$this->request->post('password');
 
-        try {
+        try { 
             $this->userService->register($request);
             $this->response->redirect('/user/login');
         } catch (ValidationException $exception) {
@@ -60,8 +60,8 @@ class UserController extends Controller{
     {
      
         $request = new UserLoginRequest();
-        $request->id = $_POST['id'];
-        $request->password = $_POST['password'];
+        $request->id = $this->request->post('id');
+        $request->password = $this->request->post('password');
 
         try {
             $response = $this->userService->login($request);
@@ -105,7 +105,7 @@ class UserController extends Controller{
 
         $request = new UserProfileUpdateRequest();
         $request->id = $user->id;
-        $request->name = $_POST['name'];
+        $request->name = $this->request->post('name');
 
         try {
             $this->userService->updateProfile($request);
@@ -141,8 +141,8 @@ class UserController extends Controller{
         $user = $this->sessionService->current();
         $request = new UserPasswordUpdateRequest();
         $request->id = $user->id;
-        $request->oldPassword = $_POST['oldPassword'];
-        $request->newPassword = $_POST['newPassword'];
+        $request->oldPassword = $this->request->post('oldPassword');
+        $request->newPassword = $this->request->post('newPassword');
 
         try {
             $this->userService->updatePassword($request);

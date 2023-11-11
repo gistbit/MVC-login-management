@@ -10,7 +10,6 @@ class Controller {
     protected $response;
 
     protected $view;
-    // abstract protected function index();
 
     public function __construct() {
         $this->view = new View();

@@ -36,48 +36,4 @@ class Database
     {
         self::$pdo->rollBack();
     }
-
-    public static function query($query)
-    {
-        self::$stmt = self::$pdo->prepare($query);
-    }
-
-    public static function bind($param, $value, $type = null)
-    {
-        if (is_null($type)) {
-            switch (true) {
-                case is_int($value):
-                    $type = \PDO::PARAM_INT;
-                    break;
-                case is_bool($value):
-                    $type = \PDO::PARAM_BOOL;
-                    break;
-                case is_null($value):
-                    $type = \PDO::PARAM_NULL;
-                    break;
-                default:
-                    $type = \PDO::PARAM_STR;
-            }
-        }
-        self::$stmt->bindValue($param, $value, $type);
-    }
-
-    public static function execute()
-    {
-        if (self::$stmt) {
-            self::$stmt->execute();
-        }
-    }
-
-    public static function resultAll()
-    {
-        self::execute();
-        return self::$stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    public static function result()
-    {
-        self::execute();
-        return self::$stmt->fetch(\PDO::FETCH_ASSOC);
-    }
 }

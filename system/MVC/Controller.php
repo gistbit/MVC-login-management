@@ -2,7 +2,7 @@
 
 namespace MVC;
 
-abstract class Controller {
+class Controller {
 
 
     protected $request;

@@ -1,7 +1,7 @@
 <?php
 
 // load config and startup file
-require __DIR__.'/../config/constanta.php';
+require __DIR__.'/../config/constants.php';
 require SYSTEM . 'startup.php';
 require_once APPLICATION.'init.php';
 

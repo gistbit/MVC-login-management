@@ -1,5 +1,7 @@
 <?php
 
+use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware};
+
 $router->get('/', 'homeController@index');
 
 $router->get("/user/register", "UserController@register", [MustNotLoginMiddleware::class]);
@@ -16,13 +18,15 @@ $router->post("/user/profile", "UserController@postUpdateProfile", [MustLoginMid
 $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddleware::class]);
 $router->post("/user/password", "UserController@postupdatePassword", [MustLoginMiddleware::class]);
 
-$router->get('/versi', function() {
-    $versi = $GLOBALS['response']->getVersion();
-    echo 'Versi : '. $versi;
+
+$router->get('/:redirect', function() {
+    $GLOBALS['response']->redirect("/");
 });
 
-$router->get('/:name', function() {
-    $GLOBALS['response']->redirect("/");
+
+$router->get('/:name', function($param) {
+    // $GLOBALS['response']->redirect("/");
+    echo 'aku'.$param['name'];
 });
 
 

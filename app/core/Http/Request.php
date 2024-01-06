@@ -45,16 +45,12 @@ class Request {
         return ($request);
     }
 
-    public function server(String $key = '') {
-        return isset($_SERVER[strtoupper($key)]) ? $this->clean($_SERVER[strtoupper($key)]) : $this->clean($_SERVER);
+    public function getPath_Info() {
+        return isset($_SERVER['PATH_INFO']) ? $this->clean($_SERVER['PATH_INFO']) : '/';
     }
 
     public function getMethod() {
-        return strtoupper($this->server('REQUEST_METHOD'));
-    }
-
-    public function getUrl() {
-        return $this->server('REQUEST_URI');
+        return isset($_SERVER['REQUEST_METHODE']) ? $this->clean($_SERVER['REQUEST_METHODE']) : 'GET';
     }
     
     private function clean($data) {

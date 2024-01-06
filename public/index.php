@@ -18,7 +18,7 @@ $response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTI
 $response->setHeader('Content-Type: text/html; charset=UTF-8');
 
 // set request url and method
-$router = new Router($request->getUrl(), $request->getMethod(), $response);
+$router = new Router($request->getPath_Info(), $request->getMethod(), $response);
 
 // include routes
 require_once ROOT . 'router/router.php';

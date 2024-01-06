@@ -26,7 +26,7 @@ $router->get('/:redirect', function() {
 
 $router->get('/:name', function($param) {
     // $GLOBALS['response']->redirect("/");
-    echo 'aku'.$param['name'];
+    echo 'aku '. $param['name'];
 });
 
 

@@ -6,14 +6,11 @@ class Request {
 
 
     public $cookie;
-
-    public $request;
-
+    
     public $files;
 
    
     public function __construct() {
-        $this->request = $_REQUEST;
         $this->cookie = $this->clean($_COOKIE);
         $this->files = $this->clean($_FILES);
     }

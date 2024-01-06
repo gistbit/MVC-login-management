@@ -1,9 +1,0 @@
-Options -Indexes
-
-# Allow access to the "public" directory
-RewriteEngine On
-RewriteRule ^public/ - [L]
-
-# Block access to all other directories
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [F]

@@ -8,7 +8,7 @@ class View
     {
         try {
             $viewContent = $this->renderViewContent($view, $model);
-            $templateContent = $this->renderTemplateContent($viewContent);
+            $templateContent = $this->renderTemplateContent($viewContent, $model);
             return $templateContent;
         } catch (\Exception $e) {
             return $this->handleException($e);
@@ -24,18 +24,17 @@ class View
         }
     }
 
-    private function renderViewContent(string $view, $model = [])
+    private function renderViewContent(string $view, $data = [])
     {
         $viewFilePath = VIEWS . $view . '.php';
         $this->checkViewFile($viewFilePath);
 
-        $data = $model;
         ob_start();
         include $viewFilePath;
         return ob_get_clean();
     }
 
-    private function renderTemplateContent(string $viewContent)
+    private function renderTemplateContent(string $viewContent, $data = [])
     {
         ob_start();
         include VIEWS . "templates/main.php";

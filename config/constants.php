@@ -9,3 +9,4 @@ define('VIEWS', ROOT . 'app/Views/');
 define('UPLOAD', ROOT . 'upload/');
 define('CONFIG', ROOT . 'config/');
 
+define('BASE_URL', "https://localhost:8080/");

@@ -6,7 +6,7 @@ class Request {
 
 
     public $cookie;
-    
+
     public $files;
 
    
@@ -42,7 +42,7 @@ class Request {
         return ($request);
     }
 
-    public function getPath_Info() {
+    public function getPath() {
         return isset($_SERVER['PATH_INFO']) ? $this->clean($_SERVER['PATH_INFO']) : '/';
     }
 

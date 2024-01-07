@@ -47,7 +47,7 @@ class Request {
     }
 
     public function getMethod() {
-        return isset($_SERVER['REQUEST_METHODE']) ? $this->clean($_SERVER['REQUEST_METHODE']) : 'GET';
+        return isset($_SERVER['REQUEST_METHOD']) ? $this->clean($_SERVER['REQUEST_METHOD']) : 'GET';
     }
     
     private function clean($data) {

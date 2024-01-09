@@ -6,8 +6,8 @@ use App\Core\Database\Database;
 use App\Repository\{SessionRepository, UserRepository};
 use App\Exception\ValidationException;
 use App\Domain\User;
-use App\DTOs\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
-use App\DTOs\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
+use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+use App\Models\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
 
 class UserService{
 

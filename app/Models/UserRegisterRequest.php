@@ -1,5 +1,5 @@
 <?php
-namespace app\DTOs;
+namespace app\Models;
 
 class UserRegisterRequest
     {

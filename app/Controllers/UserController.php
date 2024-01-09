@@ -7,7 +7,7 @@ use App\Repository\{SessionRepository, UserRepository};
 use App\Service\{SessionService, UserService};
 use App\Exception\ValidationException;
 use App\Domain\{User, Session};
-use App\DTOs\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
 
 class UserController extends Controller{
 

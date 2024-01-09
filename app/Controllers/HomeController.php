@@ -25,8 +25,6 @@ class HomeController extends Controller {
     public function index() {
         $this->user = $this->sessionService->current();
         if($this->user == null){
-            $model = $this->model('HomeModel');
-            $data = $model->getData();
             $html = $this->view->renderView('home/index');
             $this->response->setContent($html);
         }else{
@@ -34,8 +32,6 @@ class HomeController extends Controller {
         }        
     }
     private function dashboard() {
-        $model = $this->model('HomeModel');
-        $data = $model->getData();
         $html = $this->view->renderView('home/dashboard', [
             "title" => "Dashboard",
             "user" => [

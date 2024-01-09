@@ -8,10 +8,8 @@ use Exception;
 class Router
 {
     private array $router = [];
-    private array $matchRouter = [];
     private string $url;
     private string $method;
-    private array $params = [];
 
     private Response $response;
 
@@ -48,56 +46,6 @@ class Router
         $this->router[] = new Route($method, $pattern, $callback, $middlewares);
     }
 
-    private function filterRoutesByRequestMethod() {
-        foreach ($this->router as $value) {
-            if (strtoupper($this->method) == $value->getMethod()) {
-                $this->matchRouter[] = $value;
-            }
-        }
-    }
-    
-    private function filterRoutesByRequestPattern($pattern) {
-        $this->matchRouter = [];
-        foreach ($pattern as $value) {
-            if ($this->dispatch($this->url, $value->getPattern())) {
-                $this->matchRouter[] = $value;
-            }
-        }
-    }
-    private function dispatch($url, $pattern) {
-        preg_match_all('@:([\w]+)@', $pattern, $params, PREG_PATTERN_ORDER);
-        $patternAsRegex = preg_replace_callback('@:([\w]+)@', [$this, 'convertPatternToRegex'], $pattern);
-        if (substr($pattern, -1) === '/' ) {
-	        $patternAsRegex = $patternAsRegex . '?';
-	    }
-        
-        $patternAsRegex = '@^' . $patternAsRegex . '$@';
-        
-        // check match request url
-        if (preg_match($patternAsRegex, $url, $paramsValue)) {
-            array_shift($paramsValue);
-            foreach ($params[0] as $key => $value) {
-                $val = substr($value, 1);
-                if ($paramsValue[$val]) {
-                    $this->setParams($val, urlencode($paramsValue[$val]));
-                }
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private function setParams($key, $value) {
-        $this->params[$key] = $value;
-    }
-
-
-    private function convertPatternToRegex($matches) {
-        $key = str_replace(':', '', $matches[0]);
-        return '(?P<' . $key . '>[a-zA-Z0-9_\-\.\!\~\*\\\'\(\)\:\@\&\=\$\+,%]+)';
-    }
 
     public function run()
     {
@@ -105,23 +53,29 @@ class Router
             throw new Exception('Konfigurasi Ruote Non-Objek');
         }
 
-        $this->filterRoutesByRequestMethod();
-        $this->filterRoutesByRequestPattern($this->matchRouter);
-        // print_r($this->matchRouter);die;
+        $routeMatcher = new RouteMatcher($this->method, $this->url, $this->router);
+        $matchRouter = $routeMatcher->getMatchingRoutes();
+        $params = $routeMatcher->getParams();
 
-        if (empty($this->matchRouter)) {
-            $this->sendNotFound();
+        if ($matchRouter==null) {
+            $this->response->setContent("Maaf Route tidak ditemukan !");
         } else {
-            $middlewares =  $this->matchRouter[0]->getMiddlewares();
-            $controller = $this->matchRouter[0]->getController();
-            $action = $this->matchRouter[0]->getAction();
-            
-            $this->runMiddleware($middlewares);
-            if ($controller==null) {
-                call_user_func($action, $this->params);
-            } else {
-                $this->runController($controller, $action, $this->params);
-            }
+            $this->executeRoute($matchRouter, $params);
+        }
+    }
+
+    private function executeRoute($route, $params=[])
+    {
+        $middlewares = $route->getMiddlewares();
+        $controller = $route->getController();
+        $action = $route->getAction();
+
+        $this->runMiddleware($middlewares);
+
+        if ($controller == null) {
+            call_user_func($action, $params);
+        } else {
+            $this->runController($controller, $action, $params);
         }
     }
 
@@ -145,11 +99,6 @@ class Router
         } else {
             $this->response->setContent("Maaf File atau Controller Class tidak ada");
         }
-    }
-
-    private function sendNotFound()
-    {
-        $this->response->setContent("Maaf Route tidak ditemukan !");
     }
 
     public function cleanUrl($url)

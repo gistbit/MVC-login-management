@@ -29,16 +29,14 @@ final class Route {
             $this->controller = null;
             $this->action = $callback;
         } else {
-            throw new \InvalidArgumentException('Invalid callback provided');
+            throw new \InvalidArgumentException(print('Invalid callback provided'));
         }
     }
 
     private function parseControllerAction($callback)
     {
         $segments = explode('@', $callback);
-        if (count($segments) !== 2) {
-            throw new \InvalidArgumentException('Invalid controller action format');
-        }
+        if (count($segments) !== 2) throw new \InvalidArgumentException(print('Invalid controller action format'));
 
         $segments['0'] = "\App\Controllers\\".$segments['0'];
 
@@ -53,12 +51,11 @@ final class Route {
         return $this->pattern;
     }
 
-    public function getMiddlewares() {
-        return $this->middlewares;
+    public function getMiddleware()
+    {
+        return empty($this->middlewares) ? null : new $this->middlewares[0];
     }
-
-
-
+    
     public function getController()
     {
         return $this->controller;

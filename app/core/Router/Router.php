@@ -49,40 +49,30 @@ class Router
 
     public function run()
     {
-        if (!is_array($this->router) || empty($this->router)) {
-            throw new Exception('Konfigurasi Ruote Non-Objek');
-        }
+        if (!is_array($this->router) || empty($this->router)) $this->response->setContent('Konfigurasi Ruote Non-Objek');
 
         $routeMatcher = new RouteMatcher($this->method, $this->url, $this->router);
         $matchRouter = $routeMatcher->getMatchingRoutes();
-        $params = $routeMatcher->getParams();
-
         if ($matchRouter==null) {
-            $this->response->setContent("Maaf Route tidak ditemukan !");
+            $this->response->setContent("Route tidak ditemukan !");
         } else {
+            $params = $routeMatcher->getParams();
             $this->executeRoute($matchRouter, $params);
         }
     }
 
     private function executeRoute($route, $params=[])
     {
-        $middlewares = $route->getMiddlewares();
+        $middleware = $route->getMiddleware();
+        if(!is_null($middleware)) $middleware->before();
+
         $controller = $route->getController();
         $action = $route->getAction();
-
-        $this->runMiddleware($middlewares);
 
         if ($controller == null) {
             call_user_func($action, $params);
         } else {
             $this->runController($controller, $action, $params);
-        }
-    }
-
-    private function runMiddleware($middlewares) {
-        foreach ($middlewares as $middleware) {
-            $instance = new $middleware;
-            $instance->before();
         }
     }
 
@@ -94,10 +84,10 @@ class Router
             if (method_exists($controller, $method)) {
                 $controller->$method($params);
             } else {
-                $this->response->setContent("Maaf method tidak ada");
+                $this->response->setContent("Method tidak ada");
             }
         } else {
-            $this->response->setContent("Maaf File atau Controller Class tidak ada");
+            $this->response->setContent("File atau Controller Class tidak ada");
         }
     }
 

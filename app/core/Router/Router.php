@@ -21,29 +21,29 @@ class Router
     }
     
 
-    public function get($pattern, $callback, $middlewares = [])
+    public function get($pattern, $callback, $opstions = [])
     {
-        $this->addRoute('GET', $pattern, $callback, $middlewares);
+        $this->addRoute('GET', $pattern, $callback, $opstions);
     }
 
-    public function post($pattern, $callback, $middlewares = [])
+    public function post($pattern, $callback, $opstions = [])
     {
-        $this->addRoute('POST', $pattern, $callback, $middlewares);
+        $this->addRoute('POST', $pattern, $callback, $opstions);
     }
 
-    public function put($pattern, $callback, $middlewares = [])
+    public function put($pattern, $callback, $opstions = [])
     {
-        $this->addRoute('PUT', $pattern, $callback, $middlewares);
+        $this->addRoute('PUT', $pattern, $callback, $opstions);
     }
 
-    public function delete($pattern, $callback, $middlewares = [])
+    public function delete($pattern, $callback, $opstions = [])
     {
-        $this->addRoute('DELETE', $pattern, $callback, $middlewares);
+        $this->addRoute('DELETE', $pattern, $callback, $opstions);
     }
 
-    public function addRoute($method, $pattern, $callback, $middlewares = [])
+    public function addRoute($method, $pattern, $callback, $opstions = [])
     {
-        $this->router[] = (new addRoute($method, $pattern, $callback, $middlewares))->add();
+        $this->router[] = (new addRoute($method, $pattern, $callback, $opstions))->add();
     }
 
 

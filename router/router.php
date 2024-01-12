@@ -1,6 +1,6 @@
 <?php
 
-use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware};
+use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Role};
 
 $router->get('/', 'homeController@index');
 

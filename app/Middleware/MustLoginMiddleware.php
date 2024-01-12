@@ -10,6 +10,8 @@ class MustLoginMiddleware implements Middleware
     private SessionService $sessionService;
     private \App\Core\Http\Response $response;
 
+    private $admin = false; 
+
     public function __construct()
     {
         $this->response = $GLOBALS['response'];
@@ -23,6 +25,13 @@ class MustLoginMiddleware implements Middleware
         $user = $this->sessionService->current();
         if ($user == null) {
             $this->response->redirect('/user/login');
+        }elseif($admin){
+            if($user->level !== 1) $this->response->redirect('/');
         }
+    }
+
+    function setAdmin(){
+        $this->admin = true;
+        return $this;
     }
 }

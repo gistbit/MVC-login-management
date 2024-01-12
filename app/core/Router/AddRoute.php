@@ -2,17 +2,17 @@
 
 namespace App\Core\Router;
 
-final class Route {
+final class AddRoute {
     
-    private $method;
+    public $method;
 
-    private $pattern;
+    public $pattern;
 
-    private $controller; 
+    public $controller; 
 
-    private $action;
+    public $action;
 
-    private $middleware;
+    public $middleware;
 
     public function __construct(String $method, String $pattern, $callback, $options = []) {
         $this->method = $method;

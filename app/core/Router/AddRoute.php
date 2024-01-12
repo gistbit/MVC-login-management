@@ -52,10 +52,10 @@ final class AddRoute {
             $this->middleware = new $this->middleware;
         } else if (count($option) == 2) {
             [$this->middleware, $role] = $option;
-            if(class_exists($this->middleware)){
+            if(method_exists($this->middleware, $role)){
                 $this->middleware = (new $this->middleware)->$role();
             }else{
-                throw new \InvalidArgumentException(print('Invalid Class Middleware format'));
+                throw new \InvalidArgumentException(print('Invalid Class Method or Middleware format'));
             }
         }
     }

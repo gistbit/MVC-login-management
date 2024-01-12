@@ -18,13 +18,13 @@ final class AddRoute {
         $this->method = $method;
         $this->pattern = $pattern;
         $this->parseCallback($callback);
-        $this->parseOption($options);
+        $this->parseoptions($options);
     }
 
     private function parseCallback($callback)
     {
         if (is_string($callback)) {
-            list($this->controller, $this->action) = $this->parseControllerAction($callback);
+            [$this->controller, $this->action] = $this->parseControllerAction($callback);
         } elseif (is_callable($callback)) {
             $this->controller = null;
             $this->action = $callback;
@@ -43,15 +43,15 @@ final class AddRoute {
         return $segments;
     }
 
-    private function parseOption($options = []){
+    private function parseoptions($options = []){
 
-        if (empty($option)) {
+        if (empty($options)) {
             $this->middleware = null;
-        } else if (count($option) == 1) {
-            $this->middleware = current($option);
+        } else if (count($options) == 1) {
+            $this->middleware = current($options);
             $this->middleware = new $this->middleware;
-        } else if (count($option) == 2) {
-            [$this->middleware, $role] = $option;
+        } else if (count($options) == 2) {
+            [$this->middleware, $role] = $options;
             if(method_exists($this->middleware, $role)){
                 $this->middleware = (new $this->middleware)->$role();
             }else{

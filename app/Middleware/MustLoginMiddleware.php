@@ -25,11 +25,11 @@ class MustLoginMiddleware implements Middleware
         $user = $this->sessionService->current();
         if ($user == null) {
             $this->response->redirect('/user/login');
-        }elseif($admin){
-            if($user->level !== 1) $this->response->redirect('/');
+        }elseif($this->admin){
+            if($user->role !== 1) $this->response->redirect('/');
         }
     }
-
+    
     function setAdmin(){
         $this->admin = true;
         return $this;

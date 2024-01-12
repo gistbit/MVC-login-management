@@ -21,29 +21,29 @@ class Router
     }
     
 
-    public function get($pattern, $callback, $opstions = [])
+    public function get($pattern, $callback, $options = [])
     {
-        $this->addRoute('GET', $pattern, $callback, $opstions);
+        $this->addRoute('GET', $pattern, $callback, $options);
     }
 
-    public function post($pattern, $callback, $opstions = [])
+    public function post($pattern, $callback, $options = [])
     {
-        $this->addRoute('POST', $pattern, $callback, $opstions);
+        $this->addRoute('POST', $pattern, $callback, $options);
     }
 
-    public function put($pattern, $callback, $opstions = [])
+    public function put($pattern, $callback, $options = [])
     {
-        $this->addRoute('PUT', $pattern, $callback, $opstions);
+        $this->addRoute('PUT', $pattern, $callback, $options);
     }
 
-    public function delete($pattern, $callback, $opstions = [])
+    public function delete($pattern, $callback, $options = [])
     {
-        $this->addRoute('DELETE', $pattern, $callback, $opstions);
+        $this->addRoute('DELETE', $pattern, $callback, $options);
     }
 
-    public function addRoute($method, $pattern, $callback, $opstions = [])
+    public function addRoute($method, $pattern, $callback, $options = [])
     {
-        $this->router[] = (new addRoute($method, $pattern, $callback, $opstions))->add();
+        $this->router[] = (new addRoute($method, $pattern, $callback, $options))->add();
     }
 
 
@@ -53,6 +53,9 @@ class Router
 
         $routeMatcher = new RouteMatcher($this->method, $this->url, $this->router);
         $matchRouter = $routeMatcher->getMatchingRoutes();
+        // echo '<pre>';
+        // print_r($matchRouter);die;
+        // echo '</pre>';
         if ($matchRouter==null) {
             $this->response->setContent("Route tidak ditemukan !");
         } else {
@@ -65,7 +68,6 @@ class Router
     {
         $middleware = $route->getMiddleware();
         if(!is_null($middleware)) $middleware->before();
-
         $controller = $route->getController();
         $action = $route->getAction();
 

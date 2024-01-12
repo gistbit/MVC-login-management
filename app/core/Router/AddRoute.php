@@ -60,7 +60,7 @@ final class AddRoute {
         }
     }
 
-    public function add()
+    public function add() : Route
     {
         return new Route($this);
     }

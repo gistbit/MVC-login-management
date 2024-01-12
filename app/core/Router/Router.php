@@ -43,7 +43,7 @@ class Router
 
     public function addRoute($method, $pattern, $callback, $middlewares = [])
     {
-        $this->router[] = new Route($method, $pattern, $callback, $middlewares);
+        $this->router[] = (new addRoute($method, $pattern, $callback, $middlewares))->add();
     }
 
 

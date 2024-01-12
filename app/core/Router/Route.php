@@ -6,41 +6,20 @@ final class Route {
     
     private $method;
 
-    private $pattern; //path
+    private $pattern; 
 
-    private $controller; // controller
+    private $controller; 
 
-    private $action; // function
+    private $action;
 
-    private $middlewares;
+    private $middleware;
 
-    public function __construct(String $method, String $pattern, $callback, $middlewares = []) {
-        $this->method = $method;
-        $this->pattern = $pattern;
-        $this->parseCallback($callback);
-        $this->middlewares = $middlewares;
-    }
-
-    private function parseCallback($callback)
-    {
-        if (is_string($callback)) {
-            list($this->controller, $this->action) = $this->parseControllerAction($callback);
-        } elseif (is_callable($callback)) {
-            $this->controller = null;
-            $this->action = $callback;
-        } else {
-            throw new \InvalidArgumentException(print('Invalid callback provided'));
-        }
-    }
-
-    private function parseControllerAction($callback)
-    {
-        $segments = explode('@', $callback);
-        if (count($segments) !== 2) throw new \InvalidArgumentException(print('Invalid controller action format'));
-
-        $segments['0'] = "\App\Controllers\\".$segments['0'];
-
-        return $segments;
+    public function __construct(AddRoute $route) {
+        $this->method = $route->method;
+        $this->pattern = $route->pattern;
+        $this->controller = $route->controller;
+        $this->action = $route->action;
+        $this->middleware = $route->middleware;
     }
 
     public function getMethod() {
@@ -51,18 +30,18 @@ final class Route {
         return $this->pattern;
     }
 
-    public function getMiddleware()
-    {
-        return empty($this->middlewares) ? null : new $this->middlewares[0];
-    }
-    
     public function getController()
     {
         return $this->controller;
     }
-
+    
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function getMiddleware()
+    {
+        return $this->middleware;
     }
 }

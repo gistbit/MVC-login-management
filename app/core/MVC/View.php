@@ -7,9 +7,10 @@ class View
     public function renderView(string $view, $model = [])
     {
         try {
-            $viewContent = $this->renderViewContent($view, $model);
-            $templateContent = $this->renderTemplateContent($viewContent, $model);
-            return $templateContent;
+            $viewContent = $this->loadViewContent($view, $model);
+            $templateContent = $this->loadViewTemplate($view, $model);
+            return str_replace('{{content}}', $viewContent, $templateContent);
+
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
@@ -18,13 +19,13 @@ class View
     public function renderViewOnly(string $view, $model = [])
     {
         try {
-            return $this->renderViewContent($view, $model);
+            return $this->loadViewContent($view, $model);
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
     }
 
-    private function renderViewContent(string $view, $data = [])
+    private function loadViewContent(string $view, $data = [])
     {
         $viewFilePath = VIEWS . $view . '.php';
         $this->checkViewFile($viewFilePath);
@@ -34,18 +35,27 @@ class View
         return ob_get_clean();
     }
 
-    private function renderTemplateContent(string $viewContent, $data = [])
+    private function loadViewTemplate(string $view , $data = [])
     {
+        $templateFilePath = VIEWS . "templates/{$this->getTemplate($view)}.php";
+        $this->checkViewFile($templateFilePath);
+
         ob_start();
-        include VIEWS . "templates/main.php";
-        $templateContent = ob_get_clean();
-        return str_replace('{{content}}', $viewContent, $templateContent);
+        include $templateFilePath;
+        return ob_get_clean();
     }
+
+    private function getTemplate(string $view)
+    {
+        $viewParts = explode('/', $view);
+        return $viewParts[0];
+    }
+
 
     private function checkViewFile(string $viewFilePath)
     {
         if (!file_exists($viewFilePath)) {
-            throw new \Exception("File tampilan '" . basename($viewFilePath) . "' tidak ditemukan.");
+            throw new \Exception("File View '" . basename($viewFilePath) . "' tidak ditemukan di [$viewFilePath]");
         }
     }
 

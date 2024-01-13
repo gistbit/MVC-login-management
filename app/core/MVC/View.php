@@ -4,62 +4,61 @@ namespace App\Core\MVC;
 
 class View
 {
-    public function renderView(string $view, $model = [])
+    public static function renderView(string $view, $model = [])
     {
         try {
-            $viewContent = $this->loadViewContent($view, $model);
-            $templateContent = $this->loadViewTemplate($view, $model);
+            $viewContent = self::loadViewContent($view, $model);
+            $templateContent = self::loadViewTemplate($view, $model);
             return str_replace('{{content}}', $viewContent, $templateContent);
 
         } catch (\Exception $e) {
-            return $this->handleException($e);
+            return self::handleException($e);
         }
     }
 
-    public function renderViewOnly(string $view, $model = [])
+    public static function renderViewOnly(string $view, $model = [])
     {
         try {
-            return $this->loadViewContent($view, $model);
+            return self::loadViewContent($view, $model);
         } catch (\Exception $e) {
-            return $this->handleException($e);
+            return self::handleException($e);
         }
     }
 
-    private function loadViewContent(string $view, $data = [])
+    private static function loadViewContent(string $view, $data = [])
     {
         $viewFilePath = VIEWS . $view . '.php';
-        $this->checkViewFile($viewFilePath);
+        self::checkViewFile($viewFilePath);
 
         ob_start();
         include $viewFilePath;
         return ob_get_clean();
     }
 
-    private function loadViewTemplate(string $view , $data = [])
+    private static function loadViewTemplate(string $view, $data = [])
     {
-        $templateFilePath = VIEWS . "templates/{$this->getTemplate($view)}.php";
-        $this->checkViewFile($templateFilePath);
+        $templateFilePath = VIEWS . "templates/" . self::getTemplate($view) . '.php';
+        self::checkViewFile($templateFilePath);
 
         ob_start();
         include $templateFilePath;
         return ob_get_clean();
     }
 
-    private function getTemplate(string $view)
+    private static function getTemplate(string $view)
     {
         $viewParts = explode('/', $view);
         return $viewParts[0];
     }
 
-
-    private function checkViewFile(string $viewFilePath)
+    private static function checkViewFile(string $viewFilePath)
     {
         if (!file_exists($viewFilePath)) {
             throw new \Exception("File View '" . basename($viewFilePath) . "' tidak ditemukan di [$viewFilePath]");
         }
     }
 
-    private function handleException(\Exception $e)
+    private static function handleException(\Exception $e)
     {
         return "Terjadi kesalahan: " . $e->getMessage();
     }

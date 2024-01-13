@@ -2,28 +2,10 @@
 namespace App\Controllers;
 
 use App\Core\MVC\Controller;
-use App\Core\Database\Database;
-use App\Repository\{SessionRepository, UserRepository};
-use App\Service\{sessionService};
 
 class HomeController extends Controller {
 
-    private SessionService $sessionService;
-
-    private $user;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $connection = Database::getConnection();
-        $sessionRepository = new SessionRepository($connection);
-        $userRepository = new UserRepository($connection);
-        $this->sessionService = new SessionService($sessionRepository, $userRepository);
-
-    }
-
     public function index() {
-        $this->user = $this->sessionService->current();
         if($this->user == null){
             $html = $this->view->renderView('home/index');
             $this->response->setContent($html);
@@ -31,6 +13,7 @@ class HomeController extends Controller {
             $this->dashboard();            
         }        
     }
+
     private function dashboard() {
         $html = $this->view->renderView('home/dashboard', [
             "title" => "Dashboard",
@@ -39,18 +22,6 @@ class HomeController extends Controller {
             ]
         ]);
         $this->response->setContent($html);
-    }
-
-
-    private function saveDataToDatabase($name) {
-        $db = Database::getConnection();
-        $name = $db->escape($name);
-    
-        // Menggunakan prepared statement untuk menghindari SQL Injection
-        $sql = "INSERT INTO users (name) VALUES (:name)";
-        $params = array(':name' => $name);
-    
-        return $db->query($sql, $params);
     }
     
 }

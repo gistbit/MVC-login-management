@@ -4,6 +4,10 @@ namespace App\Core\MVC;
 
 use App\Core\Http\Request;
 use App\Core\Http\Response;
+use App\Domain\User;
+use App\Core\Database\Database;
+use App\Repository\{SessionRepository, UserRepository};
+use App\Service\{sessionService};
 
 class Controller
 {
@@ -11,11 +15,23 @@ class Controller
     protected Response $response;
     protected View $view;
 
+    protected ?User $user;
+
     public function __construct()
     {
         $this->view = new View();
         $this->request = $GLOBALS['request'];
         $this->response = $GLOBALS['response'];
+        $this->user = $this->userCurrent();
+    }
+
+    private function userCurrent(): ?User
+    {
+        $connection = Database::getConnection();
+        $sessionRepository = new SessionRepository($connection);
+        $userRepository = new UserRepository($connection);
+        $sessionService = new SessionService($sessionRepository, $userRepository);
+        return $sessionService->current();
     }
 
     public function model(string $modelName)

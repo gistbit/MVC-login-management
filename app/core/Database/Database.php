@@ -10,10 +10,10 @@ class Database
     {
         if (self::$pdo === null) {
             $dbConfig = self::loadDatabaseConfig($env);
-            $url = "mysql:host={$dbConfig['host']};port={$dbConfig['port']};dbname={$dbConfig['dbname']}";
+            $dsn = "mysql:host={$dbConfig['host']};port={$dbConfig['port']};dbname={$dbConfig['dbname']}";
 
             try {
-                self::$pdo = new \PDO($url, $dbConfig['dbuser'], $dbConfig['dbpass']);
+                self::$pdo = new \PDO($dsn, $dbConfig['dbuser'], $dbConfig['dbpass']);
             } catch (\PDOException $e) {
                 throw new \Exception('Koneksi ke basis data gagal: ' . $e->getMessage());
             }

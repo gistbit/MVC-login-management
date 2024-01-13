@@ -74,17 +74,17 @@ class Router
         if ($controller == null) {
             call_user_func($action, $params);
         } else {
-            $this->runController($controller, $action, $params);
+            $this->runController($controller, $action);
         }
     }
 
-    private function runController($controller, $method, $params)
+    private function runController($controller, $method)
     {
         $controllerFile = ROOT . str_replace('\\', '/', $controller) . '.php';    
         if (file_exists($controllerFile) && class_exists($controller)) {
             $controller = new $controller();
             if (method_exists($controller, $method)) {
-                $controller->$method($params);
+                $controller->$method();
             } else {
                 $this->response->setContent("Method tidak ada");
             }

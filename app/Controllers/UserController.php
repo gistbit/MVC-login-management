@@ -6,7 +6,6 @@ use App\Core\MVC\{Controller, View};
 use App\Repository\{SessionRepository, UserRepository};
 use App\Service\{SessionService, UserService};
 use App\Exception\ValidationException;
-use App\Domain\{User, Session};
 use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
 
 class UserController extends Controller{
@@ -28,7 +27,7 @@ class UserController extends Controller{
     {
         
         // $this->response->setHeader('Content-Type: application/json; charset=UTF-8');
-        $html = $this->view->renderView('user/register', ['title'=> 'Register New User']);
+        $html = View::renderView('user/register', ['title'=> 'Register New User']);
         $this->response->setContent($html);
     }
 
@@ -45,7 +44,7 @@ class UserController extends Controller{
             $this->response->redirect('/user/login');
         } catch (ValidationException $exception) {
            
-            $html = $this->view->renderView('user/register', [
+            $html = View::renderView('user/register', [
                 'title' => 'Register new User',
                 'error' => $exception->getMessage()
             ]);
@@ -56,7 +55,7 @@ class UserController extends Controller{
     public function login()
     {
         // $this->response->setHeader('Content-Type: application/json; charset=UTF-8');
-        $html = $this->view->renderView('user/login', ['title'=> 'Login User']);
+        $html = View::renderView('user/login', ['title'=> 'Login User']);
         $this->response->setContent($html);
     }
 
@@ -73,7 +72,7 @@ class UserController extends Controller{
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
            
-            $html = $this->view->renderView('user/login', [
+            $html = View::renderView('user/login', [
                 'title' => 'Login User',
                 'error' => $exception->getMessage()
             ]);
@@ -92,7 +91,7 @@ class UserController extends Controller{
     {
         $user = $this->sessionService->current();
 
-        $html = $this->view->renderView('user/profile', [
+        $html = View::renderView('user/profile', [
             "title" => "Update user profile",
             "user" => [
                 "id" => $user->id,
@@ -115,7 +114,7 @@ class UserController extends Controller{
             $this->userService->updateProfile($request);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-             $html = $this->view->renderView('user/profile', [
+             $html = View::renderView('user/profile', [
                 "title" => "Update user profile",
                 "error" => $exception->getMessage(),
                 "user" => [
@@ -130,7 +129,7 @@ class UserController extends Controller{
     public function updatePassword()
     {
         $user = $this->sessionService->current();
-        $html = $this->view->renderView('user/password', [
+        $html = View::renderView('user/password', [
             "title" => "Update user password",
             "user" => [
                 "id" => $user->id
@@ -152,7 +151,7 @@ class UserController extends Controller{
             $this->userService->updatePassword($request);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-            $html = $this->view->renderView('User/password', [
+            $html = View::renderView('User/password', [
                 "title" => "Update user password",
                 "error" => $exception->getMessage(),
                 "user" => [

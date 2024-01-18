@@ -8,5 +8,6 @@ define('MODELS', ROOT . 'app/Models/');
 define('VIEWS', ROOT . 'app/views/');
 define('UPLOAD', ROOT . 'public/upload/');
 define('CONFIG', ROOT . 'config/');
+define('ROUTER', ROOT . 'router/');
 
 define('BASE_URL', "https://localhost:8080/");

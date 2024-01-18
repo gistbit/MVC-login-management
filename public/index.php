@@ -21,7 +21,7 @@ $response->setHeader('Content-Type: text/html; charset=UTF-8');
 $router = new Router($request->getPath(), $request->getMethod(), $response);
 
 // include routes
-require_once ROOT . 'router/router.php';
+require_once ROUTER . 'router.php';
 
 // Router Run Request
 $router->run();

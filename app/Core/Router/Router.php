@@ -23,27 +23,22 @@ class Router
 
     public function get($pattern, $callback, $options = [])
     {
-        $this->addRoute('GET', $pattern, $callback, $options);
+        $this->router[] = (new AddRoute('GET', $pattern, $callback, $options))->add();
     }
 
     public function post($pattern, $callback, $options = [])
     {
-        $this->addRoute('POST', $pattern, $callback, $options);
+        $this->router[] = (new AddRoute('POST', $pattern, $callback, $options))->add();
     }
 
     public function put($pattern, $callback, $options = [])
     {
-        $this->addRoute('PUT', $pattern, $callback, $options);
+        $this->router[] = (new AddRoute('PUT', $pattern, $callback, $options))->add();    
     }
 
     public function delete($pattern, $callback, $options = [])
     {
-        $this->addRoute('DELETE', $pattern, $callback, $options);
-    }
-
-    public function addRoute($method, $pattern, $callback, $options = [])
-    {
-        $this->router[] = (new AddRoute($method, $pattern, $callback, $options))->add();
+        $this->router[] = (new AddRoute('DELETE', $pattern, $callback, $options))->add();
     }
 
 

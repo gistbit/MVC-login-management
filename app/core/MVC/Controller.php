@@ -7,7 +7,7 @@ use App\Core\Http\Response;
 use App\Domain\User;
 use App\Core\Database\Database;
 use App\Repository\{SessionRepository, UserRepository};
-use App\Service\{sessionService};
+use App\Service\sessionService;
 
 class Controller
 {

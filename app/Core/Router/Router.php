@@ -48,9 +48,7 @@ class Router
 
         $routeMatcher = new RouteMatcher($this->method, $this->url, $this->router);
         $matchRouter = $routeMatcher->getMatchingRoutes();
-        // echo '<pre>';
-        // print_r($matchRouter);die;
-        // echo '</pre>';
+
         if ($matchRouter==null) {
             // $this->response->setContent("Route tidak ditemukan !");
             $this->response->redirect('/');

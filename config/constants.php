@@ -1,4 +1,5 @@
 <?php
+define('ORIGIN', "https://localhost:8080");
 
 // Define Path app
 define('ROOT', str_replace('\\', '/', rtrim(__DIR__, '/')) . '/../');

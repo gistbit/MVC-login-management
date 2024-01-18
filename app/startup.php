@@ -8,3 +8,5 @@ spl_autoload_register( function($class) {
         throw new Exception(sprintf('Class { %s } tidak ditemukan', $class));
     }
 });
+
+require_once APP . "helper/public.php";

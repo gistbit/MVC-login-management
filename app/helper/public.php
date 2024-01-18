@@ -2,6 +2,6 @@
 
 function cetak($arr){
     echo '<pre>';
-        print_r($arr);die;
+        print_r($arr);
     echo '</pre>';
 }

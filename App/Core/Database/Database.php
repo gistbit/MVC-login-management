@@ -6,7 +6,7 @@ class Database
 {
     private static ?\PDO $pdo = null;
 
-    private static function initialize(String $env = 'prod'): void
+    private static function initialize(String $env): void
     {
         if (self::$pdo === null) {
             $dbConfig = self::loadDatabaseConfig($env);
@@ -37,7 +37,7 @@ class Database
         return $dbConfig[$env];
     }
 
-    public static function getConnection(String $env = 'test'): \PDO
+    public static function getConnection(String $env = 'prod'): \PDO
     {
         self::initialize($env);
         return self::$pdo;

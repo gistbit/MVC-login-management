@@ -14,7 +14,7 @@ final class Route {
 
     private $middleware;
 
-    public function __construct(AddRoute $route) {
+    public function __construct(RouteDefinition $route) {
         $this->method = $route->method;
         $this->pattern = $route->pattern;
         $this->controller = $route->controller;

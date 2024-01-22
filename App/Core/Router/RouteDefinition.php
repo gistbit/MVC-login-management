@@ -2,7 +2,7 @@
 
 namespace App\Core\Router;
 
-final class AddRoute {
+final class RouteDefinition {
     
     public $method;
 

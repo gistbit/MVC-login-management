@@ -5,7 +5,7 @@ define('BASE_URL', "http://www.localhost:8080/");
 
 // Define Path app
 define('ROOT', str_replace('\\', '/', rtrim(__DIR__, '/')) . '/../');
-define('APP', ROOT . 'app/');
+define('APP', ROOT . 'App/');
 define('CONTROLLERS', APP . 'Controllers/');
 define('MODELS', APP . 'Models/');
 define('VIEWS', APP . 'views/');

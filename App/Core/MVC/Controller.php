@@ -9,7 +9,7 @@ use App\Core\Database\Database;
 use App\Repository\{SessionRepository, UserRepository};
 use App\Service\sessionService;
 
-class Controller
+abstract class Controller
 {
     protected Request $request;
     protected Response $response;

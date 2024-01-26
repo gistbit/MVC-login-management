@@ -2,7 +2,7 @@
 
 namespace App\Core\MVC;
 
-class View
+final class View
 {
     public static function renderView(string $view, $model = [])
     {

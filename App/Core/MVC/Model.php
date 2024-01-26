@@ -3,7 +3,7 @@
 namespace App\Core\MVC;
 use App\Core\Database\Database;
 
-class Model {
+abstract class Model {
 
     protected $connection;
 

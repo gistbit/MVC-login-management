@@ -3,7 +3,6 @@
 namespace App\Core\Router;
 
 use App\Core\Http\{Response, Request};
-use ReflectionMethod;
 
 class Router
 {

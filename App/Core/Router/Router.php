@@ -2,7 +2,8 @@
 
 namespace App\Core\Router;
 
-use App\Core\Http\Response;
+use App\Core\Http\{Response, Request};
+use ReflectionMethod;
 
 class Router
 {
@@ -10,12 +11,13 @@ class Router
     private string $url;
     private string $method;
 
+    private Request $request;
     private Response $response;
 
-    public function __construct(string $url, string $method, Response $response)
+    public function __construct(Request $request, Response $response)
     {
-        $this->url = $this->cleanUrl(rtrim($url, '/'));
-        $this->method = strtoupper($method);
+        $this->url = $this->cleanUrl(rtrim($request->getPath(), '/'));
+        $this->method = strtoupper($request->getMethod());
         $this->response = $response;
     }
     
@@ -82,7 +84,12 @@ class Router
         if (file_exists($controllerFile) && class_exists($controller)) {
             $controller = new $controller();
             if (method_exists($controller, $method)) {
-                $content = $controller->$method();
+                $reflectionMethod = new ReflectionMethod($controller, $method);
+                if($reflectionMethod->getNumberOfParameters() > 0){
+                    $content = $controller->$method($this->request);
+                }else{
+                    $content = $controller->$method();
+                }
                 $this->response->setContent($content);
             } else {
                 // $this->response->setContent("Method tidak ada");

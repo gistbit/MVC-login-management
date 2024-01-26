@@ -27,8 +27,7 @@ class UserController extends Controller{
     {
         
         // $this->response->setHeader('Content-Type: application/json; charset=UTF-8');
-        $html = View::renderView('user/register', ['title'=> 'Register New User']);
-        $this->response->setContent($html);
+        return View::renderView('user/register', ['title'=> 'Register New User']);
     }
 
     public function postRegister()
@@ -44,19 +43,17 @@ class UserController extends Controller{
             $this->response->redirect('/user/login');
         } catch (ValidationException $exception) {
            
-            $html = View::renderView('user/register', [
+            return View::renderView('user/register', [
                 'title' => 'Register new User',
                 'error' => $exception->getMessage()
             ]);
-        $this->response->setContent($html);
         }
     }
 
     public function login()
     {
         // $this->response->setHeader('Content-Type: application/json; charset=UTF-8');
-        $html = View::renderView('user/login', ['title'=> 'Login User']);
-        $this->response->setContent($html);
+        return View::renderView('user/login', ['title'=> 'Login User']);
     }
 
     public function postLogin()
@@ -72,11 +69,10 @@ class UserController extends Controller{
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
            
-            $html = View::renderView('user/login', [
+            return View::renderView('user/login', [
                 'title' => 'Login User',
                 'error' => $exception->getMessage()
             ]);
-        $this->response->setContent($html);
         }
     }
 
@@ -91,15 +87,13 @@ class UserController extends Controller{
     {
         $user = $this->sessionService->current();
 
-        $html = View::renderView('user/profile', [
+        return View::renderView('user/profile', [
             "title" => "Update user profile",
             "user" => [
                 "id" => $user->id,
                 "name" => $user->name
             ]
         ]);
-
-        $this->response->setContent($html);
     }
 
     public function postUpdateProfile()
@@ -114,7 +108,7 @@ class UserController extends Controller{
             $this->userService->updateProfile($request);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-             $html = View::renderView('user/profile', [
+             return View::renderView('user/profile', [
                 "title" => "Update user profile",
                 "error" => $exception->getMessage(),
                 "user" => [
@@ -122,21 +116,18 @@ class UserController extends Controller{
                     "name" => $_POST['name']
                 ]
             ]);
-            $this->response->setContent($html);
         }
     }
 
     public function updatePassword()
     {
         $user = $this->sessionService->current();
-        $html = View::renderView('user/password', [
+        return View::renderView('user/password', [
             "title" => "Update user password",
             "user" => [
                 "id" => $user->id
             ]
         ]);
-        
-        $this->response->setContent($html);
     }
 
     public function postUpdatePassword()
@@ -151,15 +142,13 @@ class UserController extends Controller{
             $this->userService->updatePassword($request);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-            $html = View::renderView('User/password', [
+            return View::renderView('User/password', [
                 "title" => "Update user password",
                 "error" => $exception->getMessage(),
                 "user" => [
                     "id" => $user->id
                 ]
             ]);
-            
-            $this->response->setContent($html);
         }
     }
 

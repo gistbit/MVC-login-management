@@ -7,21 +7,15 @@ class HomeController extends Controller {
 
     public function index() {
         if($this->user == null){
-            $html = $this->view->renderView('home/index');
-            $this->response->setContent($html);
+            return $this->view->renderView('home/index');
         }else{
-            $this->dashboard();            
+            return $this->view->renderView('home/dashboard', [
+                "title" => "Dashboard",
+                "user" => [
+                    "name" => $this->user->name
+                ]
+            ]);
         }        
-    }
-
-    private function dashboard() {
-        $html = $this->view->renderView('home/dashboard', [
-            "title" => "Dashboard",
-            "user" => [
-                "name" => $this->user->name
-            ]
-        ]);
-        $this->response->setContent($html);
     }
     
 }

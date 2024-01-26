@@ -82,7 +82,8 @@ class Router
         if (file_exists($controllerFile) && class_exists($controller)) {
             $controller = new $controller();
             if (method_exists($controller, $method)) {
-                $controller->$method();
+                $content = $controller->$method();
+                $this->response->setContent($content);
             } else {
                 // $this->response->setContent("Method tidak ada");
                 $this->response->redirect('/');

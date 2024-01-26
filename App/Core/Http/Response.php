@@ -120,7 +120,7 @@ class Response {
         return $statusCode < 100 || $statusCode >= 600;
     }
 
-    public function sendStatus($code) {
+    public function sendStatus(int $code) {
         if (!$this->isInvalid($code)) {
             $this->setHeader(sprintf('HTTP/1.1 ' . $code . ' %s' , $this->getStatusCodeText($code)));
         }

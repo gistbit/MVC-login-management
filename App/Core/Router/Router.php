@@ -18,6 +18,7 @@ class Router
     {
         $this->url = $this->cleanUrl(rtrim($request->getPath(), '/'));
         $this->method = strtoupper($request->getMethod());
+        $this->request = $request;
         $this->response = $response;
     }
     
@@ -72,7 +73,8 @@ class Router
         $action = $route->getAction();
 
         if ($controller == null) {
-            call_user_func($action, $params);
+            $content = call_user_func($action, $params);
+            $this->response->setContent($content);
         } else {
             $this->runController($controller, $action);
         }
@@ -84,12 +86,7 @@ class Router
         if (file_exists($controllerFile) && class_exists($controller)) {
             $controller = new $controller();
             if (method_exists($controller, $method)) {
-                $reflectionMethod = new ReflectionMethod($controller, $method);
-                if($reflectionMethod->getNumberOfParameters() > 0){
-                    $content = $controller->$method($this->request);
-                }else{
-                    $content = $controller->$method();
-                }
+                $content = $controller->$method($this->request);
                 $this->response->setContent($content);
             } else {
                 // $this->response->setContent("Method tidak ada");

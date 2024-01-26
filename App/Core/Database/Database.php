@@ -22,13 +22,13 @@ class Database
 
     private static function loadDatabaseConfig(String $env): array
     {
-        $dbConfigFile = CONFIG . "database.json";
+        $dbConfigFile = CONFIG . "database.php";
 
         if (!file_exists($dbConfigFile)) {
             throw new \Exception('File konfigurasi basis data tidak ditemukan.');
         }
 
-        $dbConfig = json_decode(file_get_contents($dbConfigFile), true);
+        $dbConfig = require_once($dbConfigFile);
 
         if (!isset($dbConfig[$env])) {
             throw new \Exception("Konfigurasi basis data untuk env '{$env}' tidak ditemukan.");

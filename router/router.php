@@ -22,6 +22,6 @@ $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddle
 $router->post("/user/password", "UserController@postupdatePassword", [MustLoginMiddleware::class]);
 
 $router->get('/:path', function($param) {
-    response()->sendStatus(404);
+    response()->setStatus(404);
     return View::renderViewOnly(404, ['path' => $param['path'], 'title' => 'error']);
 });

@@ -13,7 +13,7 @@
     <div class="container col-xl-12 mx-auto my-auto">
         <div class="row align-items-center mt-4">
             <div class="col-md-10 mx-auto my-auto col-lg-4">
-                <h1 class="fw-bold mt-5 mb-3 text-center"><?= http_response_code() . ' - ' . response()->getStatusCodeText(response()->getStatusCode()) ?></h1>
+                <h1 class="fw-bold mt-5 mb-3 text-center"><?= response()->getStatusCode() . ' - ' . response()->getStatusCodeText(response()->getStatusCode()) ?></h1>
                 <p class="lh-5 text-center">Halaman <strong><?= $data['path'] ?></strong> tidak ditemukan</p>
             </div>
         </div>

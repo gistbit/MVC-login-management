@@ -5,7 +5,7 @@ namespace App\Core\Http;
 class Response {
     private $headers = [];
 
-    private $statusTexts = [
+    private const STATUS_TEXTS = [
         // INFORMATIONAL CODES
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -73,6 +73,7 @@ class Response {
 
     private $version;
     private $content;
+    private int $statusCode = 0;
 
     public function __construct () {
         $this->setVersion('1.1');
@@ -86,8 +87,9 @@ class Response {
         return $this->version;
     }
 
-    public function getStatusCodeText(int $code) : string {
-        return (string) isset($this->statusTexts[$code]) ? $this->statusTexts[$code] : 'unknown status';
+    public function getStatusCodeText(int $code): string
+    {
+        return (string) (self::STATUS_TEXTS[$code] ?? 'unknown status');
     }
 
     public function setHeader(string $header) {
@@ -103,32 +105,31 @@ class Response {
     }
 
     public function getStatusCode(){
-        return http_response_code();
+        return $this->statusCode;
     }
 
     public function getContent() {
         return $this->content;
     }
 
-    public function redirect($url) {
+    public function redirect(string $url): void
+    {
         if (empty($url)) {
-            $this->sendStatus(400);
-            exit;
+            throw new \InvalidArgumentException('Invalid URL provided for redirect.');
         }
 
-        header('Location: ' . str_replace(['&amp;', "\n", "\r"], ['&', '', ''], $url), true, 302);
-        exit();
+        header('Location: ' . str_replace(['&amp;', "\n", "\r"], ['&', '', ''], $url), true);
+        exit;
     }
 
     private function isInvalid(int $statusCode) : bool {
         return $statusCode < 100 || $statusCode >= 600;
     }
 
-    public function sendStatus(int $code): void
+    public function setStatus(int $code): void
     {
         if (!$this->isInvalid($code)) {
-            http_response_code($code);
-            $this->setHeader(sprintf("HTTP/1.1 %d %s", $code, $this->getStatusCodeText($code)));
+            $this->statusCode = $code;
         }
     }
 
@@ -137,7 +138,8 @@ class Response {
         if ($this->content) {
             $output = $this->content;
 
-            // Headers
+            http_response_code($this->statusCode);
+            
             if (!headers_sent()) {
                 foreach ($this->headers as $header) {
                     header($header, true);

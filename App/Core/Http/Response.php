@@ -5,7 +5,7 @@ namespace App\Core\Http;
 class Response {
     private $headers = [];
 
-    private const STATUS_TEXTS = [
+    public const STATUS_TEXTS = [
         // INFORMATIONAL CODES
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -87,9 +87,9 @@ class Response {
         return $this->version;
     }
 
-    public function getStatusCodeText(int $code): string
+    public function getStatusCodeText(): string
     {
-        return (string) (self::STATUS_TEXTS[$code] ?? 'unknown status');
+        return (string) (self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status');
     }
 
     public function setHeader(string $header) {
@@ -136,17 +136,13 @@ class Response {
 
     public function render() {
         if ($this->content) {
-            $output = $this->content;
-
             http_response_code($this->statusCode);
-            
             if (!headers_sent()) {
                 foreach ($this->headers as $header) {
                     header($header, true);
                 }
             }
-            
-            echo $output;
+            echo $this->content;
         }
     }
 }

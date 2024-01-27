@@ -4,6 +4,7 @@ use App\Core\MVC\View;
 use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Role};
 
 use function App\helper\response;
+use App\Core\Http\Response;
 
 $router->get('/', 'homeController@index');
 
@@ -23,5 +24,12 @@ $router->post("/user/password", "UserController@postupdatePassword", [MustLoginM
 
 $router->get('/:path', function($param) {
     response()->setStatus(404);
-    return View::renderViewOnly(404, ['path' => $param['path'], 'title' => 'error']);
+    return View::renderViewOnly(404, [
+        'path' => $param['path'], 
+        'title' => 'error',
+        'status' => [
+            'code' => 404,
+            'text' => Response::STATUS_TEXTS[404]
+        ]
+    ]);
 });

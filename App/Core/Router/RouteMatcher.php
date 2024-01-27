@@ -48,7 +48,7 @@ class RouteMatcher{
         // check match request url
         if (preg_match($patternAsRegex, $url, $paramsValue)) {
             array_shift($paramsValue);
-            foreach ($params[0] as $key => $value) {
+            foreach ($params[0] as $value) {
                 $val = substr($value, 1);
                 if ($paramsValue[$val]) {
                     $this->setParams($val, urlencode($paramsValue[$val]));

@@ -14,7 +14,7 @@ $response = new Response();
 
 // set common headers
 $response->setHeader('Access-Control-Allow-Origin: *');
-$response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+// $response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 $response->setHeader('Content-Type: text/html; charset=UTF-8');
 
 $router = new Router($request, $response);

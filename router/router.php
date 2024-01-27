@@ -16,7 +16,7 @@ $router->post("/user/login", "UserController@postLogin", [MustNotLoginMiddleware
 
 $router->get("/user/logout", "UserController@logout", [MustLoginMiddleware::class]);
 
-$router->get("/user/profile", "UserController@updateProfile", [MustLoginMiddleware::class, Role::ADMIN]);
+$router->get("/user/profile", "UserController@updateProfile", [MustLoginMiddleware::class]);
 $router->post("/user/profile", "UserController@postUpdateProfile", [MustLoginMiddleware::class]);
 
 $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddleware::class]);

@@ -15,6 +15,6 @@ class HomeController extends Controller {
                     "name" => $this->user->name
                 ]
             ]);
-        }  
+        }
     }
 }

@@ -30,7 +30,7 @@ class SessionService
 
         $payload = [
             'id' => $session->id,
-            'username' => $user->id,
+            'name' => $user->name,
             'role' => $user->role
         ];
 
@@ -64,7 +64,7 @@ class SessionService
             return null;
         }
     
-        return $this->userRepository->findById($payload['username']);
-    }    
+        return $this->userRepository->findById($session->userId);
+    }  
 
 }

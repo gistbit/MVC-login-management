@@ -63,8 +63,14 @@ class SessionService
         if ($session === null) {
             return null;
         }
-    
-        return $this->userRepository->findById($session->userId);
+
+        $user = new User();
+        $user->id = $session->userId;
+        $user->name = $payload['name'];
+        $user->role = $payload['role'];
+
+        return $user;
+        // return $this->userRepository->findById($session->userId);
     }  
 
 }

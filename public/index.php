@@ -5,13 +5,14 @@ require_once __DIR__ . '/../config/constants.php';
 require_once APP . 'startup.php';
 require_once VENDOR . 'autoload.php';
 
-use App\Core\Http\Request;
-use App\Core\Http\Response;
 use App\Core\Router\Router;
 
+use function App\helper\request;
+use function App\helper\response;
+
 // create objects of request and response classes
-$request = new Request();
-$response = new Response();
+$request = request();
+$response = response();
 
 // set common headers
 $response->setHeader('Access-Control-Allow-Origin: *');

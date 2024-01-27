@@ -15,12 +15,20 @@ function cetak($arr){
 
 function response() : Response
 {
-  return $GLOBALS['response'];
+    static $instance = null;
+    if($instance === null){
+      return new Response();
+    }
+    return $instance;
 }
 
 function request() : Request
 {
-  return $GLOBALS['request'];
+    static $instance = null;
+    if($instance === null){
+      return new Request();
+    }
+    return $instance;
 }
 
 function userCurrent(): ?User

@@ -5,6 +5,9 @@ namespace App\Core\MVC;
 use App\Core\Http\Request;
 use App\Core\Http\Response;
 
+use function App\helper\request;
+use function App\helper\response;
+
 abstract class Controller
 {
     protected Request $request;
@@ -14,8 +17,8 @@ abstract class Controller
     public function __construct()
     {
         $this->view = new View();
-        $this->request = $GLOBALS['request'];
-        $this->response = $GLOBALS['response'];
+        $this->request = request();
+        $this->response = response();
     }
 
     public function model(string $modelName)

@@ -3,6 +3,8 @@
 use App\Core\MVC\View;
 use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Role};
 
+use function App\helper\response;
+
 $router->get('/', 'homeController@index');
 
 $router->get("/user/register", "UserController@register", [MustNotLoginMiddleware::class]);
@@ -20,6 +22,6 @@ $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddle
 $router->post("/user/password", "UserController@postupdatePassword", [MustLoginMiddleware::class]);
 
 $router->get('/:path', function($param) {
-    http_response_code(404);
+    response()->sendStatus(404);
     return View::renderViewOnly(404, ['path' => $param['path'], 'title' => 'error']);
 });

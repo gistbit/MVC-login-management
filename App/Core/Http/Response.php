@@ -112,7 +112,7 @@ class Response {
 
     public function redirect($url) {
         if (empty($url)) {
-            http_response_code(400); // Bad Request
+            $this->sendStatus(400);
             exit;
         }
 
@@ -124,11 +124,14 @@ class Response {
         return $statusCode < 100 || $statusCode >= 600;
     }
 
-    public function sendStatus(int $code) {
+    public function sendStatus(int $code): void
+    {
         if (!$this->isInvalid($code)) {
-            $this->setHeader(sprintf('HTTP/1.1 ' . $code . ' %s' , $this->getStatusCodeText($code)));
+            http_response_code($code);
+            $this->setHeader(sprintf("HTTP/1.1 %d %s", $code, $this->getStatusCodeText($code)));
         }
     }
+
 
     public function render() {
         if ($this->content) {

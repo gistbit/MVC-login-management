@@ -61,6 +61,7 @@ class SessionService
         $session = $this->sessionRepository->findById($payload['id']);
     
         if ($session === null) {
+            $this->destroy();
             return null;
         }
 

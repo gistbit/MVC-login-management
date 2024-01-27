@@ -9,14 +9,14 @@ use function App\helper\userCurrent;
 
 class HomeController extends Controller {
 
-    public function index(Request $request) {
+    public function index() {
         if(userCurrent() == null){
             return $this->view->renderView('home/index');
         }else{
             return View::renderView('home/dashboard', [
                 "title" => "Dashboard",
                 "user" => [
-                    "name" => $request->currentSession()['name']
+                    "name" => userCurrent()->name
                 ]
             ]);
         }

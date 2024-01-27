@@ -3,7 +3,9 @@
 namespace App\Core\Http;
 
 class Response {
-    private $headers = [];
+    private array $headers = [];
+    private $content;
+    private int $statusCode = 0;
 
     public const STATUS_TEXTS = [
         // INFORMATIONAL CODES
@@ -69,23 +71,6 @@ class Response {
         508 => 'Loop Detected',
         511 => 'Network Authentication Required',
     ];
-
-
-    private $version;
-    private $content;
-    private int $statusCode = 0;
-
-    public function __construct () {
-        $this->setVersion('1.1');
-    }
-
-    public function setVersion(string $version) {
-        $this->version = $version;
-    }
-
-    public function getVersion(): string {
-        return $this->version;
-    }
 
     public function getStatusCodeText(): string
     {

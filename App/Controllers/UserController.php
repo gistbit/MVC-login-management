@@ -105,7 +105,8 @@ class UserController extends Controller{
         $request->name = $this->request->post('name');
 
         try {
-            $this->userService->updateProfile($request);
+            $response = $this->userService->updateProfile($request);
+            $this->sessionService->create($response->user); //update cookie session setelah update profile
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
              return View::renderView('user/profile', [

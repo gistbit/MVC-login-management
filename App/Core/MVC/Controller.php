@@ -17,8 +17,8 @@ abstract class Controller
     public function __construct()
     {
         $this->view = new View();
-        $this->request = request();
-        $this->response = response();
+        $this->request = $GLOBALS['request'];
+        $this->response = $GLOBALS['response'];
     }
 
     public function model(string $modelName)

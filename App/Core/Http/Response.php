@@ -72,7 +72,7 @@ class Response {
         511 => 'Network Authentication Required',
     ];
 
-    public function getStatusCodeText(): string
+    public function getStatusText(): string
     {
         return (string) (self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status');
     }

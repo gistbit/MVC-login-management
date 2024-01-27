@@ -97,7 +97,7 @@ class Response {
         return $this->content;
     }
 
-    public function redirect(string $url): void
+    public static function redirect(string $url): void
     {
         if (empty($url)) {
             throw new \InvalidArgumentException('Invalid URL provided for redirect.');

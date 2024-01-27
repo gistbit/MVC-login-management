@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Service;
+
+use App\Core\Http\Request;
 use App\Repository\{SessionRepository, UserRepository};
 use App\Domain\{User, Session};
-use Firebase\JWT\{JWT, Key};
+use Firebase\JWT\JWT;
 
 
 class SessionService
 {
-
     public CONST COOKIE_NAME = "PHP-MVC";
-    private CONST KEY = "gAGHkijjJDJYWWU028910JFKFCNJKAIIOIHIAOOI938SAFksdadaskjjvuv829058229nskjfahala,zmxmkcfi1682930nfhf";
+    public CONST KEY = 'WjBGSFNHdHBhbXBLUkVwWlYxZFZNREk0T1RFd1NrWkxSa05PU2t0QlNVbFBTVWhKUVU5UFNUa3pPRk5CUm10elpHRmtZWE5yYW1wMmRYWTRNamt3TlRneU1qbHVjMnRxWm1Gb1lXeGhMSHB0ZUcxclkyWnBNVFk0TWprek1HNW1hR1k';
 
     private SessionRepository $sessionRepository;
     private UserRepository $userRepository;
@@ -44,37 +45,26 @@ class SessionService
 
     public function destroy()
     {
-        $JWT = $_COOKIE[self::COOKIE_NAME] ?? '';
-        
-        $decoded = JWT::decode($JWT, new Key(self::KEY, 'HS256'));
-
-        $this->sessionRepository->deleteById($decoded->id);
-
+        $decoded = Request::currentSession();
+        $this->sessionRepository->deleteById($decoded['id']);
         setcookie(self::COOKIE_NAME, '', 1, "/");
     }
 
     public function current(): ?User
     {
-        $JWT = $_COOKIE[self::COOKIE_NAME] ?? '';
-        
-        if(empty($JWT)) return null;
-
-        try {
-            $payload = JWT::decode($JWT, new Key(self::KEY, 'HS256'));
-            $session = $this->sessionRepository->findById($payload->id);
-            if($session == null) return null;
-
-            // $user = new User;
-            // $user->id = $payload->username;
-            // $user->name ='';
-            // $user->role = $payload->role;
-            // return $user;
-
-            return $this->userRepository->findById($payload->username);
-
-        } catch (\Exception $e) {
+        $payload = Request::currentSession();
+    
+        if ($payload === null) {
             return null;
         }
-    }
+    
+        $session = $this->sessionRepository->findById($payload['id']);
+    
+        if ($session === null) {
+            return null;
+        }
+    
+        return $this->userRepository->findById($payload['username']);
+    }    
 
 }

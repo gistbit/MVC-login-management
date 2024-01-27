@@ -12,10 +12,9 @@ class HomeController extends Controller {
             return $this->view->renderView('home/dashboard', [
                 "title" => "Dashboard",
                 "user" => [
-                    "name" => $this->user->id
+                    "name" => $this->user->name
                 ]
             ]);
-        }        
+        }  
     }
-    
 }

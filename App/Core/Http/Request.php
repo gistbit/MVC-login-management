@@ -1,19 +1,35 @@
 <?php
 
 namespace App\Core\Http;
+use App\Service\SessionService;
+use Firebase\JWT\{JWT, Key};
 
 class Request {
 
 
-    public $cookie;
+    public static $cookie;
 
     public $files;
 
    
     public function __construct() {
-        $this->cookie = $this->clean($_COOKIE);
+        self::$cookie = $this->clean($_COOKIE);
         $this->files = $this->clean($_FILES);
     }
+
+    public static function currentSession(): ?array
+    {
+        $JWT = self::$cookie[SessionService::COOKIE_NAME] ?? '';
+        if (empty($JWT)) return null;
+    
+        try {
+            $payload = JWT::decode($JWT, new Key(SessionService::KEY, 'HS256'));
+            return (array)$payload;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    
 
     public function get(String $key = '') {
         if ($key != '')

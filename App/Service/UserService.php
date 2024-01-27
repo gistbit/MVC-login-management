@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Core\Database\Database;
-use App\Repository\{SessionRepository, UserRepository};
+use App\Repository\UserRepository;
 use App\Exception\ValidationException;
 use App\Domain\User;
 use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};

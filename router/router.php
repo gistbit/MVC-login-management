@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\MVC\View;
 use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Role};
 
 $router->get('/', 'homeController@index');
@@ -18,15 +19,7 @@ $router->post("/user/profile", "UserController@postUpdateProfile", [MustLoginMid
 $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddleware::class]);
 $router->post("/user/password", "UserController@postupdatePassword", [MustLoginMiddleware::class]);
 
-
-$router->get('/:redirect', function() {
-    $GLOBALS['response']->redirect("/");
+$router->get('/:path', function($param) {
+    http_response_code(404);
+    return View::renderViewOnly(404, ['path' => $param['path'], 'title' => 'error']);
 });
-
-
-$router->get('/:name', function($param) {
-    echo 'aku '. $param['name'];
-});
-
-
-

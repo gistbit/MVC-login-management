@@ -102,6 +102,10 @@ class Response {
         $this->content = $content;
     }
 
+    public function getStatusCode(){
+        return http_response_code();
+    }
+
     public function getContent() {
         return $this->content;
     }

@@ -3,6 +3,7 @@
 // load config and startup file
 require_once __DIR__ . '/../config/constants.php';
 require_once APP . 'startup.php';
+require_once VENDOR . 'autoload.php';
 
 use App\Core\Http\Request;
 use App\Core\Http\Response;

@@ -65,7 +65,7 @@ class UserController extends Controller{
 
         try {
             $response = $this->userService->login($request);
-            $this->sessionService->create($response->user->id);
+            $this->sessionService->create($response->user);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
            

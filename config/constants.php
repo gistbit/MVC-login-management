@@ -13,6 +13,7 @@ define('UPLOAD', ROOT . 'public/upload/');
 define('CONFIG', ROOT . 'config/');
 define('PUBLIK', ROOT . 'public/');
 define('ROUTER', ROOT . 'router/');
+define('VENDOR', ROOT . 'vendor/');
 
 // Define source URLs using the base URL
 define('SRC_UPLOAD', BASE_URL . 'upload/');

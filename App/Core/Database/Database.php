@@ -1,45 +1,29 @@
 <?php
 
 namespace App\Core\Database;
+use App\Core\Config;
 
 class Database
 {
     private static ?\PDO $pdo = null;
 
-    private static function initialize(String $env): void
+    private static function initialize(): void
     {
         if (self::$pdo === null) {
-            $dbConfig = self::loadDatabaseConfig($env);
-            $dsn = "mysql:host={$dbConfig['host']};port={$dbConfig['port']};dbname={$dbConfig['dbname']}";
+
+            $dsn = "mysql:host=" . Config::get('db.host') . ";port=" . Config::get('db.port') . ";dbname=" . Config::get('db.name');
 
             try {
-                self::$pdo = new \PDO($dsn, $dbConfig['dbuser'], $dbConfig['dbpass']);
+                self::$pdo = new \PDO($dsn, Config::get('db.username'), Config::get('db.password'));
             } catch (\PDOException $e) {
                 throw new \Exception('Koneksi ke basis data gagal: ' . $e->getMessage());
             }
         }
     }
 
-    private static function loadDatabaseConfig(String $env): array
+    public static function getConnection(): \PDO
     {
-        $dbConfigFile = CONFIG . "database.php";
-
-        if (!file_exists($dbConfigFile)) {
-            throw new \Exception('File konfigurasi basis data tidak ditemukan.');
-        }
-
-        $dbConfig = require_once($dbConfigFile);
-
-        if (!isset($dbConfig[$env])) {
-            throw new \Exception("Konfigurasi basis data untuk env '{$env}' tidak ditemukan.");
-        }
-
-        return $dbConfig[$env];
-    }
-
-    public static function getConnection(String $env = 'prod'): \PDO
-    {
-        self::initialize($env);
+        self::initialize();
         return self::$pdo;
     }
 

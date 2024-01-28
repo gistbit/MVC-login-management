@@ -7,6 +7,7 @@ require_once VENDOR . 'autoload.php';
 
 use App\Core\Http\Request;
 use App\Core\Http\Response;
+use App\Core\Router\RouteMaker;
 use App\Core\Router\Router;
 
 // create objects of request and response classes
@@ -18,7 +19,7 @@ $response->setHeader('Access-Control-Allow-Origin: *');
 // $response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 $response->setHeader('Content-Type: text/html; charset=UTF-8');
 
-$router = new Router($request, $response);
+$router = new Router($request, $response, new RouteMaker);
 
 // include routes
 require_once ROUTER . 'router.php';

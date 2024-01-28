@@ -4,30 +4,54 @@ namespace App\Core\Router;
 
 final class Route {
     
-    private $method;
-
-    private $pattern; 
-
     private $controller; 
 
     private $action;
 
     private $middleware;
 
-    public function __construct(RouteDefinition $route) {
-        $this->method = $route->method;
-        $this->pattern = $route->pattern;
-        $this->controller = $route->controller;
-        $this->action = $route->action;
-        $this->middleware = $route->middleware;
+    public function __construct($callback, $options = []) {
+        $this->parseCallback($callback);
+        $this->parseoptions($options);
     }
 
-    public function getMethod() {
-        return $this->method;
+    private function parseCallback($callback)
+    {
+        if (is_string($callback)) {
+            [$this->controller, $this->action] = $this->parseControllerAction($callback);
+        } elseif (is_callable($callback)) {
+            $this->controller = null;
+            $this->action = $callback;
+        } else {
+            throw new \InvalidArgumentException(print('Invalid callback provided'));
+        }
     }
 
-    public function getPattern() {
-        return $this->pattern;
+    private function parseControllerAction($callback)
+    {
+        $segments = explode('@', $callback);
+        if (count($segments) !== 2) throw new \InvalidArgumentException(print('Invalid controller action format'));
+
+        $segments['0'] = "\App\Controllers\\".$segments['0'];
+
+        return $segments;
+    }
+
+    private function parseoptions($options = []){
+
+        if (empty($options)) {
+            $this->middleware = null;
+        } else if (count($options) == 1) {
+            $this->middleware = current($options);
+            $this->middleware = new $this->middleware;
+        } else if (count($options) == 2) {
+            [$this->middleware, $role] = $options;
+            if(method_exists($this->middleware, $role)){
+                $this->middleware = (new $this->middleware)->$role();
+            }else{
+                throw new \InvalidArgumentException(print('Invalid Class Method or Middleware format'));
+            }
+        }
     }
 
     public function getController()

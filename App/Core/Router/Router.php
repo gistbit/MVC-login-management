@@ -6,76 +6,58 @@ use App\Core\Http\{Response, Request};
 
 class Router
 {
-    private array $router = [];
-    private string $url;
+    private string $path;
     private string $method;
-
     private Request $request;
     private Response $response;
 
-    public function __construct(Request $request, Response $response)
+    private RouteMaker $routeMaker;
+
+    public function __construct(Request $request, Response $response, RouteMaker $routeMaker)
     {
-        $this->url = $this->cleanUrl(rtrim($request->getPath(), '/'));
+        $this->path = $this->cleanUrl(($request->getPath() !== '/') ? rtrim($request->getPath(), '/') : '/');
         $this->method = strtoupper($request->getMethod());
         $this->request = $request;
         $this->response = $response;
+        $this->routeMaker = $routeMaker;
     }
     
-
-    public function get($pattern, $callback, $options = [])
+    public function get($path, $callback, $options = [])
     {
-        $this->addRoute('GET', $pattern, $callback, $options);
+        $this->routeMaker->make('GET', $path, $callback, $options);
     }
-
-    public function post($pattern, $callback, $options = [])
+    
+    public function post($path, $callback, $options = [])
     {
-        $this->addRoute('POST', $pattern, $callback, $options);
+        $this->routeMaker->make('POST', $path, $callback, $options);
     }
-
-    public function put($pattern, $callback, $options = [])
+    
+    public function put($path, $callback, $options = [])
     {
-        $this->addRoute('PUT', $pattern, $callback, $options);
+        $this->routeMaker->make('PUT', $path, $callback, $options);
     }
-
-    public function delete($pattern, $callback, $options = [])
+    
+    public function delete($path, $callback, $options = [])
     {
-        $this->addRoute('DELETE', $pattern, $callback, $options);
+        $this->routeMaker->make('DELETE', $path, $callback, $options);
     }
-
-    private function addRoute($method, $pattern, $callback, $options)
-    {
-        $this->router[] = (new RouteDefinition($method, $pattern, $callback, $options))->add();
-    }
-
-
+    
     public function run()
     {
-        if (!is_array($this->router) || empty($this->router)) $this->response->setContent('Konfigurasi Ruote Non-Objek');
-
-        $routeMatcher = new RouteMatcher($this->method, $this->url, $this->router);
-        $matchRouter = $routeMatcher->getMatchingRoutes();
-        
-        if ($matchRouter==null) {
-            // $this->response->setContent("Route tidak ditemukan !");
-            $this->response->redirect('/');
-        } else {
-            $params = $routeMatcher->getParams();
-            $this->executeRoute($matchRouter, $params);
+        if ($this->routeMaker->getRoute($this->method, $this->path) === null){
+            $this->response->setContent('Route tidak ada');
+            return;
         }
-    }
 
-    private function executeRoute($route, $params=[])
-    {
+        $route = $this->routeMaker->getRoute($this->method, $this->path);
         $middleware = $route->getMiddleware();
         if(!is_null($middleware)) $middleware->before();
-        $controller = $route->getController();
-        $action = $route->getAction();
 
-        if ($controller == null) {
-            $content = call_user_func($action, $params);
+        if ($route->getController() == null) {
+            $content = call_user_func($route->getAction(), $this->request);
             $this->response->setContent($content);
         } else {
-            $this->runController($controller, $action);
+            $this->runController($route->getController(), $route->getAction());
         }
     }
 

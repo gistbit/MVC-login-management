@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Http\Request;
 use App\Core\MVC\View;
 use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Role};
 
@@ -22,10 +23,10 @@ $router->post("/user/profile", "UserController@postUpdateProfile", [MustLoginMid
 $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddleware::class]);
 $router->post("/user/password", "UserController@postupdatePassword", [MustLoginMiddleware::class]);
 
-$router->get('/:path', function($param) {
+$router->get($request->getPath(), function(Request $request) {
     response()->setStatus(404);
     return View::renderViewOnly(404, [
-        'path' => $param['path'], 
+        'path' => $request->getPath(), 
         'title' => 'error',
         'status' => [
             'code' => 404,

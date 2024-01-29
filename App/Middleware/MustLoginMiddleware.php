@@ -8,13 +8,11 @@ use function App\helper\userCurrent;
 class MustLoginMiddleware implements Middleware
 {
 
-    function before(Auth $auth = null): void
+    function before(): void
     {
         $user = userCurrent();
         if ($user == null) {
             Response::redirect('/user/login');
-        }elseif($auth->isAdmin()){
-            if($user->role !== 1) Response::redirect('/');
         }
     }
 }

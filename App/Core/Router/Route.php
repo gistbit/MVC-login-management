@@ -2,21 +2,17 @@
 
 namespace App\Core\Router;
 
-use App\Middleware\Auth;
-
 final class Route {
     
-    private $controller; 
+    private ?string $controller; 
 
-    private $action;
+    private mixed $action;
 
-    private $middleware;
+    private array $middlewares;
 
-    private ?Auth $auth = null;
-
-    public function __construct($callback, $options = []) {
+    public function __construct($callback, $middlewares) {
         $this->parseCallback($callback);
-        $this->parseOptions($options);
+        $this->middlewares = $middlewares;
     }
 
     private function parseCallback($callback)
@@ -41,21 +37,6 @@ final class Route {
         return $segments;
     }
 
-    private function parseOptions($options = []){
-
-        if (empty($options)) {
-            $this->middleware = null;
-        } else if (count($options) == 1) {
-            $this->middleware = current($options);
-            $this->middleware = new $this->middleware;
-            $this->auth = new Auth;
-        } else if (count($options) == 2) {
-            [$this->middleware, $auth] = $options;
-            $this->middleware = new $this->middleware;
-            $this->auth = $auth;
-        }
-    }
-
     public function getController()
     {
         return $this->controller;
@@ -68,11 +49,6 @@ final class Route {
 
     public function getMiddleware()
     {
-        return $this->middleware;
-    }
-
-    public function getAuth()
-    {
-        return $this->auth;
+        return $this->middlewares;
     }
 }

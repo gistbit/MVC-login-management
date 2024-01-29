@@ -1,15 +1,19 @@
 <?php
+
 namespace App\Middleware;
 use App\Core\Http\Response;
 
 use function App\helper\userCurrent;
 
-class MustNotLoginMiddleware implements Middleware
+class MustLoginAdminMiddleware implements Middleware
 {
+
     function before(): void
     {
         $user = userCurrent();
-        if ($user != null) {
+        if ($user == null) {
+            Response::redirect('/user/login');
+        }else{
             Response::redirect('/');
         }
     }

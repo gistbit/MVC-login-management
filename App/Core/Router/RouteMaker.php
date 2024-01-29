@@ -6,10 +6,10 @@ final class RouteMaker
 {
     private array $routes = [];
 
-    public function make($method, $path, $callback, $option)
+    public function make($method, $path, $callback, $middlewares)
     {
         if (!isset($this->routes[$method][$path])) {
-            $this->routes[$method][$path] = new Route($callback, $option);
+            $this->routes[$method][$path] = new Route($callback, $middlewares);
         }
 
         return $this->routes[$method][$path] ;

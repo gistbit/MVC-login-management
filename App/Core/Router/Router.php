@@ -21,24 +21,24 @@ class Router
         $this->routeMaker = $routeMaker;
     }
     
-    public function get($path, $callback, $options = [])
+    public function get($path, $callback, $middlewares = [])
     {
-        $this->routeMaker->make('GET', $path, $callback, $options);
+        $this->routeMaker->make('GET', $path, $callback, $middlewares);
     }
     
-    public function post($path, $callback, $options = [])
+    public function post($path, $callback, $middlewares = [])
     {
-        $this->routeMaker->make('POST', $path, $callback, $options);
+        $this->routeMaker->make('POST', $path, $callback, $middlewares);
     }
     
-    public function put($path, $callback, $options = [])
+    public function put($path, $callback, $middlewares = [])
     {
-        $this->routeMaker->make('PUT', $path, $callback, $options);
+        $this->routeMaker->make('PUT', $path, $callback, $middlewares);
     }
     
-    public function delete($path, $callback, $options = [])
+    public function delete($path, $callback, $middlewares = [])
     {
-        $this->routeMaker->make('DELETE', $path, $callback, $options);
+        $this->routeMaker->make('DELETE', $path, $callback, $middlewares);
     }
     
     public function run()
@@ -47,16 +47,23 @@ class Router
             $this->response->setContent('Route tidak ada');
             return;
         }
-
+        
         $route = $this->routeMaker->getRoute($this->method, $this->path);
-        $middleware = $route->getMiddleware();
-        if(!is_null($middleware)) $middleware->before($route->getAuth());
+        $this->runMiddlewares($route->getMiddleware());
 
         if ($route->getController() == null) {
             $content = call_user_func($route->getAction(), $this->request);
             $this->response->setContent($content);
         } else {
             $this->runController($route->getController(), $route->getAction());
+        }
+    }
+
+    private function runMiddlewares($middlewares){
+        if(empty($middlewares)) return;
+        foreach($middlewares as $middleware){
+            $middleware = new $middleware;
+            $middleware->before();
         }
     }
 

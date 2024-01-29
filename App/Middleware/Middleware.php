@@ -4,6 +4,6 @@ namespace App\Middleware;
 interface Middleware
 {
 
-    function before(Auth $auth): void;
+    function before(): void;
 
 }

@@ -13,7 +13,7 @@ class MustLoginAdminMiddleware implements Middleware
         $user = userCurrent();
         if ($user == null) {
             Response::redirect('/user/login');
-        }else{
+        }elseif($user->role !== 1){
             Response::redirect('/');
         }
     }

@@ -47,7 +47,7 @@ final class Route {
         return $this->action;
     }
 
-    public function getMiddleware()
+    public function getMiddlewares()
     {
         return $this->middlewares;
     }

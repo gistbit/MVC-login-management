@@ -49,7 +49,7 @@ class Router
         }
         
         $route = $this->routeMaker->getRoute($this->method, $this->path);
-        $this->runMiddlewares($route->getMiddleware());
+        $this->runMiddlewares($route->getMiddlewares());
 
         if ($route->getController() == null) {
             $content = call_user_func($route->getAction(), $this->request);

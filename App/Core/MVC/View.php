@@ -27,7 +27,7 @@ final class View
 
     private static function loadViewContent(string $view, $data = [])
     {
-        $viewFilePath = VIEWS . $view . '.php';
+        $viewFilePath = VIEWS .'/'. $view . '.php';
         self::checkViewFile($viewFilePath);
 
         ob_start();
@@ -37,7 +37,7 @@ final class View
 
     private static function loadViewTemplate(string $view, $data = [])
     {
-        $templateFilePath = VIEWS . "templates/" . self::getTemplate($view) . '.php';
+        $templateFilePath = VIEWS . "/templates/" . self::getTemplate($view) . '.php';
         self::checkViewFile($templateFilePath);
 
         ob_start();

@@ -19,7 +19,7 @@ return [
     'session' => [
         'name' => 'PHP-MVC',
         'key' => "WjBGSFNHdHBhbXBLUkVwWlYxZFZNREk0T1RFd1NrWkxSa05PU2t0QlNVbFBTVWhKUVU5UFNUa3pPRk5CUm10elpHRmtZWE5yYW1wMmRYWTRNamt3TlRneU1qbHVjMnRxWm1Gb1lXeGhMSHB0ZUcxclkyWnBNVFk0TWprek1HNW1hR1k",
-        'exp' => time() + ( 60 * 60 * 3) // 3 hari
+        'exp' => time() + ( 60 * 60 * 3) // 3 JAM
     ]
     
 ];

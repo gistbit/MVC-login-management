@@ -1,7 +1,7 @@
 <?php
 // load config and startup file
-require_once __DIR__ . '/../config/constants.php';
-require_once APP . 'startup.php';
+require_once dirname(__DIR__) . '/config/constants.php';
+require_once APP . '/startup.php';
 
 use App\Core\Http\Request;
 use App\Core\Http\Response;
@@ -12,7 +12,7 @@ use App\Core\Config;
 use function App\helper\cetak;
 
 Config::load();
-// cetak(Config::get('session.key')); die;
+cetak(APP);
 // create objects of request and response classes
 $request = new Request();
 $response = new Response();
@@ -25,7 +25,7 @@ $response->setHeader('Content-Type: text/html; charset=UTF-8');
 $router = new Router($request, $response, $routeMaker);
 
 // include routes
-require_once ROUTER . 'router.php';
+require_once ROUTER . '/router.php';
 
 // Router Run Request
 $router->run();

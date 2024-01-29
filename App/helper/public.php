@@ -9,7 +9,7 @@ use App\Service\SessionService;
 
 function cetak($arr){
     echo '<pre>';
-        print_r($arr);
+        print_r($arr);die;
     echo '</pre>';
 }
 

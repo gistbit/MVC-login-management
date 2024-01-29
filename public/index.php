@@ -22,7 +22,7 @@ $response->setHeader('Content-Type: text/html; charset=UTF-8');
 $router = new Router($request, $response, new RouteMaker());
 
 // include routes
-require_once ROUTER . '/router.php';
+require_once CONFIG . '/router.php';
 
 // Router Run Request
 $router->run();

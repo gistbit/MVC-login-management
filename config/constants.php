@@ -8,7 +8,6 @@ define('VIEWS', APP . '/views');
 define('UPLOAD', ROOT . '/public/upload');
 define('CONFIG', ROOT . '/config');
 define('DOC_ROOT', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/')));
-define('ROUTER', ROOT . '/router');
 define('VENDOR', ROOT . '/vendor');
 
 // base URL

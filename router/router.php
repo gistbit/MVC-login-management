@@ -2,7 +2,7 @@
 
 use App\Core\Http\Request;
 use App\Core\MVC\View;
-use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Role};
+use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, Auth};
 
 use function App\helper\response;
 use App\Core\Http\Response;
@@ -17,7 +17,7 @@ $router->post("/user/login", "UserController@postLogin", [MustNotLoginMiddleware
 
 $router->get("/user/logout", "UserController@logout", [MustLoginMiddleware::class]);
 
-$router->get("/user/profile", "UserController@updateProfile", [MustLoginMiddleware::class, Role::ADMIN]);
+$router->get("/user/profile", "UserController@updateProfile", [MustLoginMiddleware::class, Auth::admin()]);
 $router->post("/user/profile", "UserController@postUpdateProfile", [MustLoginMiddleware::class]);
 
 $router->get("/user/password", "UserController@updatePassword", [MustLoginMiddleware::class]);
@@ -26,7 +26,7 @@ $router->post("/user/password", "UserController@postupdatePassword", [MustLoginM
 $router->get($request->getPath(), function(Request $request) {
     response()->setStatus(404);
     return View::renderViewOnly(404, [
-        'path' => $request->getPath(), 
+        'path' => $request->getPath(),
         'title' => 'error',
         'status' => [
             'code' => 404,

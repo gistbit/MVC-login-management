@@ -2,6 +2,8 @@
 
 namespace App\Core\Router;
 
+use App\Middleware\Auth;
+
 final class Route {
     
     private $controller; 
@@ -9,6 +11,8 @@ final class Route {
     private $action;
 
     private $middleware;
+
+    private ?Auth $auth = null;
 
     public function __construct($callback, $options = []) {
         $this->parseCallback($callback);
@@ -44,13 +48,11 @@ final class Route {
         } else if (count($options) == 1) {
             $this->middleware = current($options);
             $this->middleware = new $this->middleware;
+            $this->auth = new Auth;
         } else if (count($options) == 2) {
-            [$this->middleware, $role] = $options;
-            if(method_exists($this->middleware, $role)){
-                $this->middleware = (new $this->middleware)->$role();
-            }else{
-                throw new \InvalidArgumentException(print('Invalid Class Method or Middleware format'));
-            }
+            [$this->middleware, $auth] = $options;
+            $this->middleware = new $this->middleware;
+            $this->auth = $auth;
         }
     }
 
@@ -67,5 +69,10 @@ final class Route {
     public function getMiddleware()
     {
         return $this->middleware;
+    }
+
+    public function getAuth()
+    {
+        return $this->auth;
     }
 }

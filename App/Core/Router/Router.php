@@ -50,7 +50,7 @@ class Router
 
         $route = $this->routeMaker->getRoute($this->method, $this->path);
         $middleware = $route->getMiddleware();
-        if(!is_null($middleware)) $middleware->before();
+        if(!is_null($middleware)) $middleware->before($route->getAuth());
 
         if ($route->getController() == null) {
             $content = call_user_func($route->getAction(), $this->request);

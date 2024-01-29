@@ -9,20 +9,17 @@ use App\Core\Router\RouteMaker;
 use App\Core\Router\Router;
 use App\Core\Config;
 
-use function App\helper\cetak;
-
 Config::load();
-cetak(APP);
 // create objects of request and response classes
 $request = new Request();
 $response = new Response();
-$routeMaker = new RouteMaker();
+
 // set common headers
 $response->setHeader('Access-Control-Allow-Origin: *');
 // $response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 $response->setHeader('Content-Type: text/html; charset=UTF-8');
 
-$router = new Router($request, $response, $routeMaker);
+$router = new Router($request, $response, new RouteMaker());
 
 // include routes
 require_once ROUTER . '/router.php';

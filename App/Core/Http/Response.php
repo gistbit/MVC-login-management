@@ -118,7 +118,6 @@ class Response {
         }
     }
 
-
     public function render() {
         if ($this->content) {
             http_response_code($this->statusCode);

@@ -12,7 +12,7 @@ final class Route {
 
     public function __construct($callback, $options = []) {
         $this->parseCallback($callback);
-        $this->parseoptions($options);
+        $this->parseOptions($options);
     }
 
     private function parseCallback($callback)
@@ -37,7 +37,7 @@ final class Route {
         return $segments;
     }
 
-    private function parseoptions($options = []){
+    private function parseOptions($options = []){
 
         if (empty($options)) {
             $this->middleware = null;

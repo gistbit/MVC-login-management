@@ -1,16 +1,12 @@
 <?php
 
 namespace App\Core\Http;
-use App\Service\SessionService;
 use Firebase\JWT\{JWT, Key};
+use App\Core\Config;
 
 class Request {
-
-
     public static $cookie;
-
     public $files;
-
    
     public function __construct() {
         self::$cookie = $this->clean($_COOKIE);
@@ -19,18 +15,17 @@ class Request {
 
     public static function currentSession(): ?array
     {
-        $JWT = self::$cookie[SessionService::COOKIE_NAME] ?? '';
+        $JWT = self::$cookie[Config::get('session.name')] ?? '';
         if (empty($JWT)) return null;
     
         try {
-            $payload = JWT::decode($JWT, new Key(SessionService::KEY, 'HS256'));
+            $payload = JWT::decode($JWT, new Key(Config::get('session.key'), 'HS256'));
             return (array)$payload;
         } catch (\Exception $e) {
             return null;
         }
     }
     
-
     public function get(String $key = '') {
         if ($key != '')
             return isset($_GET[$key]) ? $this->clean($_GET[$key]) : null;
@@ -38,14 +33,12 @@ class Request {
         return $this->clean($_GET);
     }
 
-  
     public function post(String $key = '') {
         if ($key != '')
             return isset($_POST[$key]) ? $this->clean($_POST[$key]) : null;
 
         return $this->clean($_POST);
     }
-
   
     public function input(String $key = '') {
         $postdata = file_get_contents("php://input");
@@ -69,10 +62,8 @@ class Request {
     private function clean($data) {
         if (is_array($data)) {
             foreach ($data as $key => $value) {
-
                 // Delete key
                 unset($data[$key]);
-
                 // Set new clean key
                 $data[$this->clean($key)] = $this->clean($value);
             }

@@ -10,7 +10,6 @@ class Router
     private string $method;
     private Request $request;
     private Response $response;
-
     private RouteMaker $routeMaker;
 
     public function __construct(Request $request, Response $response, RouteMaker $routeMaker)
@@ -62,20 +61,19 @@ class Router
     }
 
     private function runController($controller, $method)
-    {
-        $controllerFile = ROOT . str_replace('\\', '/', $controller) . '.php';    
-        if (file_exists($controllerFile) && class_exists($controller)) {
+    { 
+        if (class_exists($controller)) {
             $controller = new $controller();
             if (method_exists($controller, $method)) {
                 $content = $controller->$method($this->request);
                 $this->response->setContent($content);
             } else {
-                // $this->response->setContent("Method tidak ada");
-                $this->response->redirect('/');
+                $this->response->setContent("Method tidak ada");
+                // $this->response->redirect('/');
             }
         } else {
-            // $this->response->setContent("File atau Controller Class tidak ada");
-            $this->response->redirect('/');
+            $this->response->setContent("File atau Controller Class tidak ada");
+            // $this->response->redirect('/');
         }
     }
 

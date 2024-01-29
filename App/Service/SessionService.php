@@ -6,13 +6,11 @@ use App\Core\Http\Request;
 use App\Repository\{SessionRepository, UserRepository};
 use App\Domain\{User, Session};
 use Firebase\JWT\JWT;
+use App\Core\Config;
 
 
 class SessionService
 {
-    public CONST COOKIE_NAME = "PHP-MVC";
-    public CONST KEY = 'WjBGSFNHdHBhbXBLUkVwWlYxZFZNREk0T1RFd1NrWkxSa05PU2t0QlNVbFBTVWhKUVU5UFNUa3pPRk5CUm10elpHRmtZWE5yYW1wMmRYWTRNamt3TlRneU1qbHVjMnRxWm1Gb1lXeGhMSHB0ZUcxclkyWnBNVFk0TWprek1HNW1hR1k';
-
     private SessionRepository $sessionRepository;
     private UserRepository $userRepository;
 
@@ -34,11 +32,11 @@ class SessionService
             'role' => $user->role
         ];
 
-        $JWT = JWT::encode($payload, self::KEY, 'HS256');
+        $JWT = JWT::encode($payload, Config::get('session.key'), 'HS256');
 
         $this->sessionRepository->save($session);
 
-        setcookie(self::COOKIE_NAME, $JWT, time() + (60 * 60 * 3), "/", "", false, true);
+        setcookie(Config::get('session.name'), $JWT, Config::get('session.exp'), "/", "", false, true);
 
         return $session;
     }
@@ -47,7 +45,7 @@ class SessionService
     {
         $decoded = Request::currentSession();
         $this->sessionRepository->deleteById($decoded['id']);
-        setcookie(self::COOKIE_NAME, '', 1, "/");
+        setcookie(Config::get('session.name'), '', 1, "/");
     }
 
     public function current(): ?User

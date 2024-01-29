@@ -9,7 +9,7 @@ class Config{
 
     public static function load()
     {
-        self::$config = include(CONFIG . 'config.php');
+        self::$config = require(CONFIG . 'config.php');
     }
 
     public static function get($key, $default = null)

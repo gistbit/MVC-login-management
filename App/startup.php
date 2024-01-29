@@ -8,4 +8,6 @@ spl_autoload_register( function($class) {
     }
 });
 
-require_once APP . "helper/public.php";
+require_once APP . 'helper/public.php';
+
+require_once VENDOR . 'autoload.php';

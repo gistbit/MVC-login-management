@@ -21,38 +21,43 @@ class Router
         $this->response = $response;
         $this->routeMaker = $routeMaker;
     }
-    
+
     public function get($path, $callback, $middlewares = [])
     {
         $this->routeMaker->make('GET', $path, $callback, $middlewares);
     }
-    
+
     public function post($path, $callback, $middlewares = [])
     {
         $this->routeMaker->make('POST', $path, $callback, $middlewares);
     }
-    
+
     public function put($path, $callback, $middlewares = [])
     {
         $this->routeMaker->make('PUT', $path, $callback, $middlewares);
     }
-    
+
     public function delete($path, $callback, $middlewares = [])
     {
         $this->routeMaker->make('DELETE', $path, $callback, $middlewares);
     }
-    
+
     public function run()
     {
-        if ($this->routeMaker->getRoute($this->method, $this->path) === null){
+        $route = $this->routeMaker->getRoute($this->method, $this->path);
+
+        if ($route === null) {
             $this->response->setContent('Route tidak ada');
             return;
         }
-        
-        $route = $this->routeMaker->getRoute($this->method, $this->path);
-        
+
+        $this->processRoute($route);
+    }
+
+    private function processRoute(Route $route)
+    {
         $this->runMiddlewares($route->getMiddlewares(), function() use($route) {
-            if ($route->getController() == null) {
+            if ($route->getController() === null) {
                 $content = call_user_func($route->getAction(), $this->request);
                 $this->response->setContent($content);
             } else {
@@ -63,33 +68,45 @@ class Router
 
     private function runMiddlewares($middlewares, callable $next)
     {
-        if(empty($middlewares)){
+        if (empty($middlewares)) {
             $next(); return;
         }
 
         $middlewareChain = new MiddlewareChain;
-        foreach($middlewares as $middlewareClass){
+        foreach ($middlewares as $middlewareClass) {
             $middlewareChain->addMiddleware(new $middlewareClass);
         }
 
-        if($middlewareChain->processRequest($this->request)) $next();
+        if ($middlewareChain->processRequest($this->request)) {
+            $next();
+        }
     }
 
-    private function runController($controller, $method)
-    { 
+    private function runController(string $controller, string $method)
+    {
         if (class_exists($controller)) {
-            $controller = new $controller();
-            if (method_exists($controller, $method)) {
-                $content = $controller->$method($this->request);
+            $controllerInstance = new $controller();
+            if (method_exists($controllerInstance, $method)) {
+                $content = $controllerInstance->$method($this->request);
                 $this->response->setContent($content);
             } else {
-                $this->response->setContent("Method [ $method ] tidak ada");
-                // $this->response->redirect('/');
+                $this->handleMethodNotFound($method);
             }
         } else {
-            $this->response->setContent("Controller Class [ $controller ] tidak ada");
-            // $this->response->redirect('/');
+            $this->handleControllerNotFound($controller);
         }
+    }
+
+    private function handleMethodNotFound(string $method)
+    {
+        $this->response->setContent("Method [ $method ] tidak ada");
+        // $this->response->redirect('/');
+    }
+
+    private function handleControllerNotFound(string $controller)
+    {
+        $this->response->setContent("Controller Class [ $controller ] tidak ada");
+        // $this->response->redirect('/');
     }
 
     public function cleanUrl($url)

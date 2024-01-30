@@ -66,7 +66,7 @@ class Router
         if(empty($middlewares)){
             $next(); return;
         }
-        
+
         $middlewareChain = new MiddlewareChain;
         foreach($middlewares as $middlewareClass){
             $middlewareChain->addMiddleware(new $middlewareClass);
@@ -87,7 +87,7 @@ class Router
                 // $this->response->redirect('/');
             }
         } else {
-            $this->response->setContent("File atau Controller Class tidak ada");
+            $this->response->setContent("File atau Controller Class [ $controller ] tidak ada");
             // $this->response->redirect('/');
         }
     }

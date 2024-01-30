@@ -83,7 +83,7 @@ class Router
                 $content = $controller->$method($this->request);
                 $this->response->setContent($content);
             } else {
-                $this->response->setContent("Method tidak ada");
+                $this->response->setContent("Method [ $method ] tidak ada");
                 // $this->response->redirect('/');
             }
         } else {

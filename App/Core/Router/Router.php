@@ -3,7 +3,7 @@
 namespace App\Core\Router;
 
 use App\Core\Http\{Response, Request};
-use App\Middleware\MiddlewareChain;
+use App\Middlewares\MiddlewareChain;
 
 class Router
 {

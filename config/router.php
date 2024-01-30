@@ -1,7 +1,7 @@
 <?php
 
 use App\Core\MVC\View;
-use App\Middleware\{MustLoginMiddleware, MustNotLoginMiddleware, MustLoginAdmin};
+use App\Middlewares\{MustLoginMiddleware, MustNotLoginMiddleware, MustLoginAdmin};
 
 use function App\helper\response;
 use App\Core\Http\Response;

@@ -23,8 +23,7 @@ class MustLoginAdmin implements Middleware
             'status' => [
                 'code' => 403,
                 'text' => Response::STATUS_TEXTS[403]
-            ],
-            'message' => 'harus admin yang login'
+            ]
         ]));
         return false;
     }

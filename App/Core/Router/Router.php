@@ -63,14 +63,16 @@ class Router
 
     private function runMiddlewares($middlewares, callable $next)
     {
-        if(empty($middlewares)) $next();
-        $middlewareChain = new MiddlewareChain;
-        foreach($middlewares as $middleware){
-            $middleware = new $middleware;
-            $middlewareChain->addMiddleware(new $middleware);
+        if(empty($middlewares)){
+            $next(); return;
         }
-        $result = $middlewareChain->processRequest($this->request);
-        if($result) $next();
+        
+        $middlewareChain = new MiddlewareChain;
+        foreach($middlewares as $middlewareClass){
+            $middlewareChain->addMiddleware(new $middlewareClass);
+        }
+
+        if($middlewareChain->processRequest($this->request)) $next();
     }
 
     private function runController($controller, $method)

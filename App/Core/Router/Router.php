@@ -109,7 +109,7 @@ class Router
         // $this->response->redirect('/');
     }
 
-    public function cleanUrl($url)
+    private function cleanUrl($url)
     {
         return str_replace(['%20', ' '], '-', $url);
     }

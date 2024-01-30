@@ -2,7 +2,10 @@
 
 namespace App\Core\Http;
 
-class Response {
+use App\Core\MVC\View;
+
+class Response
+{
     private array $headers = [];
     private $content;
     private int $statusCode = 0;
@@ -74,26 +77,31 @@ class Response {
 
     public function getStatusText(): string
     {
-        return (string) (self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status');
+        return (string)(self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status');
     }
 
-    public function setHeader(string $header) {
+    public function setHeader(string $header): void
+    {
         $this->headers[] = $header;
     }
 
-    public function getHeader() {
+    public function getHeaders(): array
+    {
         return $this->headers;
     }
 
-    public function setContent($content) {
+    public function setContent($content): void
+    {
         $this->content = $content;
     }
 
-    public function getStatusCode(){
+    public function getStatusCode(): int
+    {
         return $this->statusCode;
     }
 
-    public function getContent() {
+    public function getContent()
+    {
         return $this->content;
     }
 
@@ -107,10 +115,6 @@ class Response {
         exit;
     }
 
-    private function isInvalid(int $statusCode) : bool {
-        return $statusCode < 100 || $statusCode >= 600;
-    }
-
     public function setStatus(int $code): void
     {
         if (!$this->isInvalid($code)) {
@@ -118,7 +122,8 @@ class Response {
         }
     }
 
-    public function render() {
+    public function render(): void
+    {
         if ($this->content) {
             http_response_code($this->statusCode);
             if (!headers_sent()) {
@@ -128,5 +133,105 @@ class Response {
             }
             echo $this->content;
         }
+    }
+
+    // Fungsi-fungsi tambahan:
+
+    public function setJson(array $data): void
+    {
+        $this->setHeader('Content-Type: application/json; charset=UTF-8');
+        $this->setContent(json_encode($data));
+    }
+
+    public function setHtml(string $html): void
+    {
+        $this->setHeader('Content-Type: text/html; charset=UTF-8');
+        $this->setContent($html);
+    }
+
+    public function setPlainText(string $text): void
+    {
+        $this->setHeader('Content-Type: text/plain');
+        $this->setContent($text);
+    }
+
+
+    public function setStatusCodeText(string $statusText): void
+    {
+        $statusCode = array_search($statusText, self::STATUS_TEXTS, true);
+        if ($statusCode !== false) {
+            $this->setStatus($statusCode);
+        }
+    }
+
+    public function setContentFromFile(string $filePath): void
+    {
+        if (file_exists($filePath)) {
+            $this->setContent(file_get_contents($filePath));
+        }
+    }
+
+    public function setCookie(string $name, string $value, int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false): void
+    {
+        $cookieString = sprintf(
+            '%s=%s; expires=%s; path=%s; domain=%s; secure=%s; httponly=%s',
+            $name,
+            urlencode($value),
+            ($expire > 0) ? gmdate('D, d M Y H:i:s T', $expire) : 0,
+            $path,
+            $domain,
+            $secure ? 'true' : 'false',
+            $httponly ? 'true' : 'false'
+        );
+
+        $this->setHeader("Set-Cookie: $cookieString");
+    }
+
+    public function setDownload(string $filePath, string $fileName): void
+    {
+        $this->setHeader('Content-Type: application/octet-stream');
+        $this->setHeader("Content-Disposition: attachment; filename=\"$fileName\"");
+        $this->setContentFromFile($filePath);
+    }
+
+    public function setNotFound(): void
+    {
+        $this->setStatus(404);
+        $this->setContent(View::renderViewOnly('404', [
+            'title' => 'Not Found',
+            'status' => [
+                'code' => '404',
+                'text' => 'Not Found'
+            ]
+        ]));
+    }
+
+    public function setNoCache(): void
+    {
+        $this->setHeader('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        $this->setHeader('Pragma: no-cache');
+        $this->setHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+    }
+
+    public function setCorsHeaders(array $allowedOrigins = [], array $allowedMethods = ['GET', 'POST'], array $allowedHeaders = []): void
+    {
+        if (!empty($allowedOrigins)) {
+            $this->setHeader('Access-Control-Allow-Origin: ' . implode(', ', $allowedOrigins));
+        }
+        $this->setHeader('Access-Control-Allow-Methods: ' . implode(', ', $allowedMethods));
+        if (!empty($allowedHeaders)) {
+            $this->setHeader('Access-Control-Allow-Headers: ' . implode(', ', $allowedHeaders));
+        }
+    }
+
+    public function setCacheHeaders(int $maxAgeInSeconds = 3600): void
+    {
+        $this->setHeader('Cache-Control: public, max-age=' . $maxAgeInSeconds);
+        $this->setHeader('Expires: ' . gmdate('D, d M Y H:i:s T', time() + $maxAgeInSeconds));
+    }
+
+    private function isInvalid(int $statusCode): bool
+    {
+        return $statusCode < 100 || $statusCode >= 600;
     }
 }

@@ -9,14 +9,21 @@ use App\Core\Router\RouteMaker;
 use App\Core\Router\Router;
 use App\Core\Config;
 
+use function App\helper\cetak;
+
 Config::load();
 // create objects of request and response classes
 $request = new Request();
 $response = new Response();
+// cetak();
+$response->setStatusCodeText('Created');
+$response->setHtml('aku');
 
+$response->render();die;
 // set common headers
-$response->setHeader('Access-Control-Allow-Origin: *');
-// $response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+$response->setHeader('Access-Control-Allow-Origin: '.Config::get('app.url'));
+$response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+$response->setHeader("Access-Control-Allow-Headers: Content-Type");
 $response->setHeader('Content-Type: text/html; charset=UTF-8');
 
 $router = new Router($request, $response, new RouteMaker());

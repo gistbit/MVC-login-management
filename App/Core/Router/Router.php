@@ -50,29 +50,26 @@ class Router
         }
         
         $route = $this->routeMaker->getRoute($this->method, $this->path);
-        $result = $this->runMiddlewares($route->getMiddlewares());
         
-        if(!$result){
-            $this->response->render();
-            exit;
-        }
-
-        if ($route->getController() == null) {
-            $content = call_user_func($route->getAction(), $this->request);
-            $this->response->setContent($content);
-        } else {
-            $this->runController($route->getController(), $route->getAction());
-        }
+        $this->runMiddlewares($route->getMiddlewares(), function() use($route) {
+            if ($route->getController() == null) {
+                $content = call_user_func($route->getAction(), $this->request);
+                $this->response->setContent($content);
+            } else {
+                $this->runController($route->getController(), $route->getAction());
+            }
+        });
     }
 
-    private function runMiddlewares($middlewares){
-        if(empty($middlewares)) return true;
+    private function runMiddlewares($middlewares, callable $next){
+        if(empty($middlewares)) $next();
         $middlewareChain = new MiddlewareChain;
         foreach($middlewares as $middleware){
             $middleware = new $middleware;
             $middlewareChain->addMiddleware(new $middleware);
         }
-        return $middlewareChain->processRequest($this->request);
+        $result = $middlewareChain->processRequest($this->request);
+        if($result) $next();
     }
 
     private function runController($controller, $method)

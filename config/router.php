@@ -6,7 +6,7 @@ use App\Middlewares\{MustLoginMiddleware, MustNotLoginMiddleware, MustLoginAdmin
 use function App\helper\response;
 use App\Core\Http\Response;
 
-$router->get('/', 'homeController@index');
+$router->get('/', 'HomeController@index');
 
 $router->get("/user/register", "UserController@register", [MustNotLoginMiddleware::class]);
 $router->post("/user/register", "UserController@postRegister", [MustNotLoginMiddleware::class]);

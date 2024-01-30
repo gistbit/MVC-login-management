@@ -87,7 +87,7 @@ class Router
                 // $this->response->redirect('/');
             }
         } else {
-            $this->response->setContent("File atau Controller Class [ $controller ] tidak ada");
+            $this->response->setContent("Controller Class [ $controller ] tidak ada");
             // $this->response->redirect('/');
         }
     }

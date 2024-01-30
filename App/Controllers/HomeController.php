@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers;
 
-use App\Core\Http\Request;
 use App\Core\MVC\Controller;
 use App\Core\MVC\View;
 

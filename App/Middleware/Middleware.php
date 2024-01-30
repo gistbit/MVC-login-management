@@ -1,9 +1,8 @@
 <?php
 namespace App\Middleware;
 
-interface Middleware
-{
+use App\Core\Http\Request;
 
-    function before(): void;
-
+interface Middleware {
+    public function process(Request $request): bool;
 }

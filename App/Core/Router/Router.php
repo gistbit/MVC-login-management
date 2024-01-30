@@ -3,6 +3,7 @@
 namespace App\Core\Router;
 
 use App\Core\Http\{Response, Request};
+use App\Middleware\MiddlewareChain;
 
 class Router
 {
@@ -49,7 +50,12 @@ class Router
         }
         
         $route = $this->routeMaker->getRoute($this->method, $this->path);
-        $this->runMiddlewares($route->getMiddlewares());
+        $result = $this->runMiddlewares($route->getMiddlewares());
+        
+        if(!$result){
+            $this->response->render();
+            exit;
+        }
 
         if ($route->getController() == null) {
             $content = call_user_func($route->getAction(), $this->request);
@@ -60,11 +66,13 @@ class Router
     }
 
     private function runMiddlewares($middlewares){
-        if(empty($middlewares)) return;
+        if(empty($middlewares)) return true;
+        $middlewareChain = new MiddlewareChain;
         foreach($middlewares as $middleware){
             $middleware = new $middleware;
-            $middleware->before();
+            $middlewareChain->addMiddleware(new $middleware);
         }
+        return $middlewareChain->processRequest($this->request);
     }
 
     private function runController($controller, $method)

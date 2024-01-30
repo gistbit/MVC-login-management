@@ -1,16 +1,17 @@
 <?php
 namespace App\Middleware;
-use App\Core\Http\Response;
 
-use function App\helper\userCurrent;
+use App\Core\Http\Request;
+use App\Core\Http\Response;
 
 class MustNotLoginMiddleware implements Middleware
 {
-    function before(): void
+    function process(Request $request): bool
     {
-        $user = userCurrent();
+        $user = $request->currentSession();
         if ($user != null) {
             Response::redirect('/');
         }
+        return true;
     }
 }

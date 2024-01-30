@@ -13,7 +13,7 @@
         <div class="row align-items-center mt-4">
             <div class="col-md-10 mx-auto my-auto col-lg-4">
                 <h1 class="fw-bold mt-5 mb-3 text-center"><?= $data['status']['code'] . ' - ' . $data['status']['text'] ?></h1>
-                <p class="lh-5 text-center">Halaman <strong><?= $data['path'] ?></strong> tidak ditemukan</p>
+                <p class="lh-5 text-center"><?= $data['message']?? null ?></p>
             </div>
         </div>
         <div class="row align-items-center">

@@ -17,7 +17,7 @@ class MustLoginAdmin implements Middleware
         if($session !== null && $session->role == 1){
             return true;
         }
-        response()->setStatus(403);
+        response()->setStatus(404);
         response()->setContent(View::renderViewOnly(404, [
             'title' => Response::STATUS_TEXTS[403],
             'status' => [

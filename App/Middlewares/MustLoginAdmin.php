@@ -19,7 +19,7 @@ class MustLoginAdmin implements Middleware
         }
         response()->setStatus(403);
         response()->setContent(View::renderViewOnly(404, [
-            'title' => 'error',
+            'title' => Response::STATUS_TEXTS[403],
             'status' => [
                 'code' => 403,
                 'text' => Response::STATUS_TEXTS[403]

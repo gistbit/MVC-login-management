@@ -15,7 +15,7 @@ final class Route {
         $this->middlewares = $middlewares;
     }
 
-    private function parseCallback($callback)
+    private function parseCallback($callback): void
     {
         if (is_string($callback)) {
             [$this->controller, $this->action] = $this->parseControllerAction($callback);
@@ -30,24 +30,26 @@ final class Route {
     private function parseControllerAction($callback)
     {
         $segments = explode('@', $callback);
-        if (count($segments) !== 2) throw new \InvalidArgumentException(print('Invalid controller action format'));
+        if (count($segments) !== 2){
+            throw new \InvalidArgumentException(print('Invalid controller action format'));
+        }
 
         $segments['0'] = "\App\Controllers\\".$segments['0'];
 
         return $segments;
     }
 
-    public function getController()
+    public function getController(): ?string
     {
         return $this->controller;
     }
     
-    public function getAction()
+    public function getAction(): mixed
     {
         return $this->action;
     }
 
-    public function getMiddlewares()
+    public function getMiddlewares(): array
     {
         return $this->middlewares;
     }

@@ -61,7 +61,8 @@ class Router
         });
     }
 
-    private function runMiddlewares($middlewares, callable $next){
+    private function runMiddlewares($middlewares, callable $next)
+    {
         if(empty($middlewares)) $next();
         $middlewareChain = new MiddlewareChain;
         foreach($middlewares as $middleware){

@@ -224,9 +224,9 @@ class Response
         }
     }
 
-    public function setCacheHeaders(int $maxAgeInSeconds = 3600): void
+    public function setCacheHeaders(int $maxAgeInSeconds = 3600, string $cacheControl = 'public'): void
     {
-        $this->setHeader('Cache-Control: public, max-age=' . $maxAgeInSeconds);
+        $this->setHeader('Cache-Control: ' . $cacheControl . ', max-age=' . $maxAgeInSeconds);
         $this->setHeader('Expires: ' . gmdate('D, d M Y H:i:s T', time() + $maxAgeInSeconds));
     }
 

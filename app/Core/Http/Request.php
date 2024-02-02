@@ -18,9 +18,7 @@ class Request
     public function getSession(string $name, string $key = 'key'): ? \stdClass
     {
         $JWT = self::$cookie[$name] ?? '';
-        if (empty($JWT)) {
-            return null;
-        }
+        if (empty($JWT)) return null;
         return TokenHandler::verifyToken($JWT, $key);
     }
 

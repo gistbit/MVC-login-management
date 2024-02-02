@@ -5,9 +5,6 @@ namespace App\Core\MVC;
 use App\Core\Http\Request;
 use App\Core\Http\Response;
 
-use function App\helper\request;
-use function App\helper\response;
-
 abstract class Controller
 {
     protected Request $request;
@@ -25,20 +22,11 @@ abstract class Controller
     {
         $modelFilePath = MODELS . $modelName . ".php";
 
-        $this->checkModelFile($modelFilePath);
-
         $modelClass = "\App\Models\\" . $modelName;
 
         $this->checkModelClass($modelClass);
 
         return new $modelClass;
-    }
-
-    private function checkModelFile(string $modelFilePath)
-    {
-        if (!file_exists($modelFilePath)) {
-            throw new \Exception(sprintf('{ %s } this model file not found', $modelFilePath));
-        }
     }
 
     private function checkModelClass(string $modelClass)

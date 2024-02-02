@@ -27,7 +27,6 @@ function userCurrent(): ?User
 {
     $connection = Database::getConnection();
     $sessionRepository = new SessionRepository($connection);
-    $userRepository = new UserRepository($connection);
-    $sessionService = new SessionService($sessionRepository, $userRepository);
+    $sessionService = new SessionService($sessionRepository);
     return $sessionService->current();
 }

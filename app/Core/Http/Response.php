@@ -176,9 +176,9 @@ class Response
         $this->setHeader("Set-Cookie: $cookieString");
     }
 
-    public function setSession(string $name, array $payload, string $key = 'key', int $exp = 0){
+    public function setSession(string $name, array $payload, string $key = 'key', int $exp = 0, string $path = '/'){
         $JWT = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
-        $this->setCookie($name, $JWT, $exp, '/');
+        $this->setCookie($name, $JWT, $exp, $path);
     }
 
     public function setDownload(string $filePath, string $fileName): void

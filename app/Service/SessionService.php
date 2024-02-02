@@ -5,8 +5,9 @@ namespace App\Service;
 use App\Repository\SessionRepository;
 use App\Domain\{User, Session};
 use App\Core\Config;
-use App\Core\Features\TokenHandler;
-use stdClass;
+
+use function App\Helper\request;
+use function App\helper\response;
 
 class SessionService
 {
@@ -31,22 +32,26 @@ class SessionService
 
         $this->sessionRepository->save($session);
 
-        $value = TokenHandler::generateToken($payload, Config::get('session.key'));
-        setcookie(Config::get('session.name'), $value, Config::get('session.exp'), "/", "", false, true);
+        response()->setSession(
+            Config::get('session.name'), 
+            $payload, 
+            Config::get('session.key'), 
+            Config::get('session.exp'), 
+            '/', '', false, true);
 
         return $session;
     }
 
     public function destroy()
     {
-        $session = $this->payload();
+        $session = request()->getSession(Config::get('session.name'), Config::get('session.key'));
         $this->sessionRepository->deleteById($session->id);
         setcookie(Config::get('session.name'), '', 1, "/");
     }
 
     public function current(): ?User
     {
-        $payload = $this->payload();
+        $payload = request()->getSession(Config::get('session.name'), Config::get('session.key'));
     
         if ($payload === null) {
             return null;
@@ -65,15 +70,6 @@ class SessionService
         $user->role = $payload->role;
 
         return $user;
-    }  
-
-    private function payload(): ?stdClass
-    {
-        $JWT = $_COOKIE[Config::get('session.name')] ?? '';
-        if (empty($JWT)) {
-            return null;
-        }
-        return TokenHandler::verifyToken($JWT, Config::get('session.key'));
     }
 
 }

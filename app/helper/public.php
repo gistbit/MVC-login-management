@@ -1,10 +1,10 @@
 <?php
-namespace App\helper;
+namespace App\Helper;
 use App\Domain\User;
 use App\Core\Database\Database;
 use App\Core\Http\Request;
 use App\Core\Http\Response;
-use App\Repository\{SessionRepository, UserRepository};
+use App\Repository\SessionRepository;
 use App\Service\SessionService;
 
 function cetak($arr){

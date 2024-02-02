@@ -5,7 +5,7 @@ use Firebase\JWT\{JWT, Key};
 
 class TokenHandler{
 
-    const ALGORITHM = 'HS256';
+    private const ALGORITHM = 'HS256';
 
     public static function generateToken(array $payload, string $key): string
     {

@@ -161,9 +161,21 @@ class Response
             $this->setContent(file_get_contents($filePath));
         }
     }
-    
-    public function setSession(string $sessionName, array $payload, string $key = 'key', int $exp = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false){
-        setcookie($sessionName, TokenHandler::generateToken($payload, $key), $exp, $path, $domain, $secure, $httponly);
+
+    public function setCookie(string $name, string $value, int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false): void
+    {
+        $cookieString = sprintf(
+            '%s=%s; expires=%s; path=%s; domain=%s; secure=%s; httponly=%s',
+            $name,
+            urlencode($value),
+            ($expire > 0) ? gmdate('D, d M Y H:i:s T', $expire) : 0,
+            $path,
+            $domain,
+            $secure ? 'true' : 'false',
+            $httponly ? 'true' : 'false'
+        );
+
+        $this->setHeader("Set-Cookie: $cookieString");
     }
 
     public function setDownload(string $filePath, string $fileName): void

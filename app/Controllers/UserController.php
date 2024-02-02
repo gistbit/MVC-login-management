@@ -20,7 +20,7 @@ class UserController extends Controller{
         $userRepository = new UserRepository($connection);
         $this->userService = new UserService($userRepository);
         $sessionRepository = new SessionRepository($connection);
-        $this->sessionService = new SessionService($sessionRepository, $userRepository);
+        $this->sessionService = new SessionService($sessionRepository);
     }
 
     public function register()
@@ -52,13 +52,11 @@ class UserController extends Controller{
 
     public function login()
     {
-        // $this->response->setHeader('Content-Type: application/json; charset=UTF-8');
         return View::renderView('user/login', ['title'=> 'Login User']);
     }
 
     public function postLogin()
     {
-     
         $request = new UserLoginRequest();
         $request->id = $this->request->post('id');
         $request->password = $this->request->post('password');

@@ -2,22 +2,20 @@
 
 namespace App\Service;
 
-use App\Core\Http\Request;
-use App\Repository\{SessionRepository, UserRepository};
+use App\Repository\SessionRepository;
 use App\Domain\{User, Session};
 use Firebase\JWT\JWT;
 use App\Core\Config;
-
+use Firebase\JWT\Key;
+use stdClass;
 
 class SessionService
 {
     private SessionRepository $sessionRepository;
-    private UserRepository $userRepository;
 
-    public function __construct(SessionRepository $sessionRepository, UserRepository $userRepository)
+    public function __construct(SessionRepository $sessionRepository)
     {
         $this->sessionRepository = $sessionRepository;
-        $this->userRepository = $userRepository;
     }
 
     public function create(User $user): Session
@@ -43,14 +41,14 @@ class SessionService
 
     public function destroy()
     {
-        $session = Request::currentSession();
+        $session = $this->payload();
         $this->sessionRepository->deleteById($session->id);
         setcookie(Config::get('session.name'), '', 1, "/");
     }
 
     public function current(): ?User
     {
-        $payload = Request::currentSession();
+        $payload = $this->payload();
     
         if ($payload === null) {
             return null;
@@ -69,7 +67,21 @@ class SessionService
         $user->role = $payload->role;
 
         return $user;
-        // return $this->userRepository->findById($session->userId);
     }  
+
+    private function payload(): ?stdClass
+    {
+        $JWT = $_COOKIE[Config::get('session.name')] ?? '';
+        if (empty($JWT)) {
+            return null;
+        }
+
+        try {
+            $payload = JWT::decode($JWT, new Key(Config::get('session.key'), 'HS256'));
+            return $payload;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
 }

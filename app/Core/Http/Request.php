@@ -2,10 +2,6 @@
 
 namespace App\Core\Http;
 
-use Firebase\JWT\{JWT, Key};
-use App\Core\Config;
-use stdClass;
-
 class Request
 {
     private static array $cookie;
@@ -17,15 +13,15 @@ class Request
         $this->files = $this->clean($_FILES);
     }
 
-    public static function currentSession(): ?stdClass
+    public function getSession(string $name, string $key = 'key'): ? \stdClass
     {
-        $JWT = self::$cookie[Config::get('session.name')] ?? '';
+        $JWT = self::$cookie[$name] ?? '';
         if (empty($JWT)) {
             return null;
         }
 
         try {
-            $payload = JWT::decode($JWT, new Key(Config::get('session.key'), 'HS256'));
+            $payload = \Firebase\JWT\JWT::decode($JWT, new \Firebase\JWT\Key($key, 'HS256'));
             return $payload;
         } catch (\Exception $e) {
             return null;

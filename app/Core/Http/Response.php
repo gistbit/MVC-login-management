@@ -2,8 +2,6 @@
 
 namespace App\Core\Http;
 
-use App\Core\MVC\View;
-
 class Response
 {
     private array $headers = [];
@@ -178,6 +176,11 @@ class Response
         $this->setHeader("Set-Cookie: $cookieString");
     }
 
+    public function setSession(string $name, array $payload, string $key = 'key', int $exp = 0){
+        $JWT = \Firebase\JWT\JWT::encode($payload, $key, 'HS256');
+        $this->setCookie($name, $JWT, $exp, '/');
+    }
+
     public function setDownload(string $filePath, string $fileName): void
     {
         $this->setHeader('Content-Type: application/octet-stream');
@@ -188,7 +191,7 @@ class Response
     public function setNotFound(): void
     {
         $this->setStatusCode(404);
-        $this->setContent(View::renderViewOnly('404', [
+        $this->setContent(\App\Core\MVC\View::renderViewOnly('404', [
             'title' => 'Not Found',
             'status' => [
                 'code' => '404',

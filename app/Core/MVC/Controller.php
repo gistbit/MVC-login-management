@@ -20,8 +20,6 @@ abstract class Controller
 
     public function model(string $modelName)
     {
-        $modelFilePath = MODELS . $modelName . ".php";
-
         $modelClass = "\App\Models\\" . $modelName;
 
         $this->checkModelClass($modelClass);

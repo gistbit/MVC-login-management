@@ -2,6 +2,8 @@
 
 namespace App\Core\Http;
 
+use App\Core\Features\Secret;
+
 class Request
 {
     private static array $cookie;
@@ -19,13 +21,7 @@ class Request
         if (empty($JWT)) {
             return null;
         }
-
-        try {
-            $payload = \Firebase\JWT\JWT::decode($JWT, new \Firebase\JWT\Key($key, 'HS256'));
-            return $payload;
-        } catch (\Exception $e) {
-            return null;
-        }
+        return Secret::decode($JWT, $key);
     }
 
     public function get(string $key = ''): ?string

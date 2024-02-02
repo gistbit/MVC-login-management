@@ -4,9 +4,8 @@ namespace App\Service;
 
 use App\Repository\SessionRepository;
 use App\Domain\{User, Session};
-use Firebase\JWT\JWT;
 use App\Core\Config;
-use Firebase\JWT\Key;
+use App\Core\Features\Secret;
 use stdClass;
 
 class SessionService
@@ -30,11 +29,10 @@ class SessionService
             'role' => $user->role
         ];
 
-        $JWT = JWT::encode($payload, Config::get('session.key'), 'HS256');
-
         $this->sessionRepository->save($session);
 
-        setcookie(Config::get('session.name'), $JWT, Config::get('session.exp'), "/", "", false, true);
+        $value = Secret::encode($payload, Config::get('session.key'));
+        setcookie(Config::get('session.name'), $value, Config::get('session.exp'), "/", "", false, true);
 
         return $session;
     }
@@ -75,13 +73,7 @@ class SessionService
         if (empty($JWT)) {
             return null;
         }
-
-        try {
-            $payload = JWT::decode($JWT, new Key(Config::get('session.key'), 'HS256'));
-            return $payload;
-        } catch (\Exception $e) {
-            return null;
-        }
+        return Secret::decode($JWT, Config::get('session.key'));
     }
 
 }

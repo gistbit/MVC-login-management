@@ -1,5 +1,5 @@
 <?php
-namespace app\Models;
+namespace App\Models;
 
 class UserLoginRequest{
     public ?string $id = null;

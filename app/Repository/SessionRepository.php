@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository;
+namespace App\Repository;
 
 use App\Domain\Session;
 

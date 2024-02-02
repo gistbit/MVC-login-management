@@ -1,5 +1,5 @@
 <?php
-namespace app\Models;
+namespace App\Models;
 use App\Domain\User;
 
 class UserRegisterResponse{

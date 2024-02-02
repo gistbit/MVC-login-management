@@ -1,5 +1,5 @@
 <?php
-namespace app\Models;
+namespace App\Models;
 class UserPasswordUpdateRequest
 {
     public ?string $id = null;

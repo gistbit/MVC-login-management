@@ -2,7 +2,7 @@
 
 namespace App\Core\Http;
 
-use App\Core\Features\Secret;
+use App\Core\Features\TokenHandler;
 
 class Response
 {
@@ -179,7 +179,7 @@ class Response
     }
 
     public function setSession(string $name, array $payload, string $key = 'key', int $exp = 0, string $path = '/'){
-        $this->setCookie($name, Secret::encode($payload, $key), $exp, $path);
+        $this->setCookie($name, TokenHandler::generateToken($payload, $key), $exp, $path);
     }
 
     public function setDownload(string $filePath, string $fileName): void

@@ -2,7 +2,7 @@
 
 namespace App\Core\Http;
 
-use App\Core\Features\Secret;
+use App\Core\Features\TokenHandler;
 
 class Request
 {
@@ -21,7 +21,7 @@ class Request
         if (empty($JWT)) {
             return null;
         }
-        return Secret::decode($JWT, $key);
+        return TokenHandler::verifyToken($JWT, $key);
     }
 
     public function get(string $key = ''): ?string

@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Repository\SessionRepository;
 use App\Domain\{User, Session};
 use App\Core\Config;
-use App\Core\Features\Secret;
+use App\Core\Features\TokenHandler;
 use stdClass;
 
 class SessionService
@@ -31,7 +31,7 @@ class SessionService
 
         $this->sessionRepository->save($session);
 
-        $value = Secret::encode($payload, Config::get('session.key'));
+        $value = TokenHandler::generateToken($payload, Config::get('session.key'));
         setcookie(Config::get('session.name'), $value, Config::get('session.exp'), "/", "", false, true);
 
         return $session;
@@ -73,7 +73,7 @@ class SessionService
         if (empty($JWT)) {
             return null;
         }
-        return Secret::decode($JWT, Config::get('session.key'));
+        return TokenHandler::verifyToken($JWT, Config::get('session.key'));
     }
 
 }

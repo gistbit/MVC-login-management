@@ -5,9 +5,9 @@ namespace App\Service;
 use App\Repository\SessionRepository;
 use App\Domain\{User, Session};
 use App\Core\Config;
+use App\Core\Features\TokenHandler;
 
 use function App\Helper\request;
-use function App\helper\response;
 
 class SessionService
 {
@@ -32,12 +32,8 @@ class SessionService
 
         $this->sessionRepository->save($session);
 
-        response()->setSession(
-            Config::get('session.name'), 
-            $payload, 
-            Config::get('session.key'), 
-            Config::get('session.exp'), 
-            '/', '', false, true);
+        $value = TokenHandler::generateToken($payload, Config::get('session.key'));
+        setcookie(Config::get('session.name'), $value, Config::get('session.exp'), "/", "", false, true);
 
         return $session;
     }
@@ -71,5 +67,4 @@ class SessionService
 
         return $user;
     }
-
 }

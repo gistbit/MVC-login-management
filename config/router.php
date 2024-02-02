@@ -23,7 +23,7 @@ $router->get("/user/password", "UserController@updatePassword", [OnlyMemberMiddl
 $router->post("/user/password", "UserController@postupdatePassword", [OnlyMemberMiddleware::class]);
 
 $router->get($request->getPath(), function() {
-    response()->setStatus(404);
+    response()->setStatusCode(404);
     return View::renderViewOnly(404, [
         'title' => 'error',
         'status' => [

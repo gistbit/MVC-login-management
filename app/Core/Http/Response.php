@@ -115,7 +115,7 @@ class Response
         exit;
     }
 
-    public function setStatus(int $code): void
+    public function setStatusCode(int $code): void
     {
         if (!$this->isInvalid($code)) {
             $this->statusCode = $code;
@@ -187,7 +187,7 @@ class Response
 
     public function setNotFound(): void
     {
-        $this->setStatus(404);
+        $this->setStatusCode(404);
         $this->setContent(View::renderViewOnly('404', [
             'title' => 'Not Found',
             'status' => [

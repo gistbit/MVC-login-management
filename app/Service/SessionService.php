@@ -43,8 +43,8 @@ class SessionService
 
     public function destroy()
     {
-        $decoded = Request::currentSession();
-        $this->sessionRepository->deleteById($decoded['id']);
+        $session = Request::currentSession();
+        $this->sessionRepository->deleteById($session->id);
         setcookie(Config::get('session.name'), '', 1, "/");
     }
 
@@ -56,7 +56,7 @@ class SessionService
             return null;
         }
     
-        $session = $this->sessionRepository->findById($payload['id']);
+        $session = $this->sessionRepository->findById($payload->id);
     
         if ($session === null) {
             $this->destroy();
@@ -65,8 +65,8 @@ class SessionService
 
         $user = new User();
         $user->id = $session->userId;
-        $user->name = $payload['name'];
-        $user->role = $payload['role'];
+        $user->name = $payload->name;
+        $user->role = $payload->role;
 
         return $user;
         // return $this->userRepository->findById($session->userId);

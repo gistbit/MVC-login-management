@@ -7,13 +7,12 @@ use App\Core\Http\Response;
 use App\Core\MVC\View;
 
 use function App\helper\response;
-use function App\helper\userCurrent;
 
 class MustLoginAdmin implements Middleware
 {
     function process(Request $request): bool
     {
-        $session = userCurrent();
+        $session = $request->currentSession();
         if($session !== null && $session->role == 1){
             return true;
         }

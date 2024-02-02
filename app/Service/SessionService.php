@@ -42,6 +42,7 @@ class SessionService
     {
         $session = request()->getSession(Config::get('session.name'), Config::get('session.key'));
         $this->sessionRepository->deleteById($session->id);
+        // $this->sessionRepository->deleteAll();
         setcookie(Config::get('session.name'), '', 1, "/");
     }
 

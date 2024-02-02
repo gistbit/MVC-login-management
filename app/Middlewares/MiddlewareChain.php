@@ -3,7 +3,7 @@ namespace App\Middlewares;
 
 use App\Core\Http\Request;
 
-class MiddlewareChain {
+final class MiddlewareChain {
     private $middlewareList = [];
 
     public function addMiddleware(Middleware $middleware) {

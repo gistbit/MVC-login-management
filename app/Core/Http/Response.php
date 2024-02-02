@@ -155,15 +155,6 @@ class Response
         $this->setContent($text);
     }
 
-
-    public function setStatusCodeText(string $statusText): void
-    {
-        $statusCode = array_search($statusText, self::STATUS_TEXTS, true);
-        if ($statusCode !== false) {
-            $this->setStatus($statusCode);
-        }
-    }
-
     public function setContentFromFile(string $filePath): void
     {
         if (file_exists($filePath)) {

@@ -1,7 +1,7 @@
 <?php
 // path root
 define('ROOT', str_replace('\\', '/', rtrim(dirname(__DIR__), '/')));
-define('APP', ROOT . '/App');
+define('APP', ROOT . '/app');
 define('CONTROLLERS', APP . '/Controllers');
 define('MODELS', APP . '/Models');
 define('VIEWS', APP . '/views');

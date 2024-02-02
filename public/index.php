@@ -15,7 +15,7 @@ Config::load();
 // create objects of request and response classes
 $request = new Request();
 $response = new Response();
-// cetak();
+// cetak($modifiedClass);
 // set common headers
 $response->setHeader('Access-Control-Allow-Origin: '.Config::get('app.url'));
 $response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");

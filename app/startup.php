@@ -1,6 +1,6 @@
 <?php
 spl_autoload_register( function($class) {
-    $file = ROOT .'/'. strtolower(str_replace('\\','/', $class)) . '.php';
+    $file = ROOT .'/'. lcfirst(str_replace('\\','/', $class)) . '.php';
     if (file_exists($file)){
         require_once $file;
     }else{

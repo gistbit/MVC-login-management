@@ -213,17 +213,6 @@ class Response
         $this->setHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
     }
 
-    public function setCorsHeaders(array $allowedOrigins = [], array $allowedMethods = ['GET', 'POST'], array $allowedHeaders = []): void
-    {
-        if (!empty($allowedOrigins)) {
-            $this->setHeader('Access-Control-Allow-Origin: ' . implode(', ', $allowedOrigins));
-        }
-        $this->setHeader('Access-Control-Allow-Methods: ' . implode(', ', $allowedMethods));
-        if (!empty($allowedHeaders)) {
-            $this->setHeader('Access-Control-Allow-Headers: ' . implode(', ', $allowedHeaders));
-        }
-    }
-
     public function setCacheHeaders(int $maxAgeInSeconds = 3600, string $cacheControl = 'public'): void
     {
         $this->setHeader('Cache-Control: ' . $cacheControl . ', max-age=' . $maxAgeInSeconds);

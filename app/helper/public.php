@@ -23,7 +23,7 @@ function request() : Request
     return $GLOBALS['request'];
 }
 
-function userCurrent(): ?User
+function currentUser(): ?User
 {
     $connection = Database::getConnection();
     $sessionRepository = new SessionRepository($connection);

@@ -20,7 +20,8 @@ class MustLoginAdmin implements Middleware
         return false;
     }
 
-    public function isAdmin($session){
+    private function isAdmin($session): bool
+    {
         return $session !== null && $session->role == 1;
     }
 }

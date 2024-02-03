@@ -9,13 +9,18 @@ use App\Core\Config;
 
 class MustLoginAdmin implements Middleware
 {
-    function process(Request $request): bool
+    public function process(Request $request): bool
     {   
         $session = $request->getSession(Config::get('session.name'), Config::get('session.key'));
-        if($session !== null && $session->role == 1){
+        
+        if($this->isAdmin($session)){
             return true;
         }
         response()->setNotFound();
         return false;
+    }
+
+    public function isAdmin($session){
+        return $session !== null && $session->role == 1;
     }
 }

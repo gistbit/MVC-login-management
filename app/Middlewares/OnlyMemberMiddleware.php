@@ -9,7 +9,7 @@ use function App\helper\currentUser;
 
 class OnlyMemberMiddleware implements Middleware
 {
-    function process(Request $request): bool
+    public function process(Request $request): bool
     {
         $user =  currentUser();
         if ($user == null) {

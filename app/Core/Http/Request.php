@@ -6,18 +6,18 @@ use App\Core\Features\TokenHandler;
 
 class Request
 {
-    private static array $cookie;
+    private array $cookie;
     private array $files;
 
     public function __construct()
     {
-        self::$cookie = $this->clean($_COOKIE);
+        $this->cookie = $this->clean($_COOKIE);
         $this->files = $this->clean($_FILES);
     }
 
     public function getSession(string $name, string $key = 'key'): ? \stdClass
     {
-        $JWT = self::$cookie[$name] ?? '';
+        $JWT = $this->cookie[$name] ?? '';
         if (empty($JWT)) return null;
         return TokenHandler::verifyToken($JWT, $key);
     }

@@ -2,8 +2,6 @@
 
 namespace App\Core\Http;
 
-use App\Core\Features\TokenHandler;
-
 class Response
 {
     private array $headers = [];

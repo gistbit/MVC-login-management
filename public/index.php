@@ -9,7 +9,7 @@ use App\Core\Router\RouteMaker;
 use App\Core\Router\Router;
 use App\Core\Config;
 
-// use function App\helper\cetak;
+// use function App\Helper\cetak;
 
 Config::load();
 // create objects of request and response classes

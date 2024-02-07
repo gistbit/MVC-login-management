@@ -4,7 +4,7 @@ namespace App\Controllers;
 use App\Core\MVC\Controller;
 use App\Core\MVC\View;
 
-use function App\helper\currentUser;
+use function App\Helper\currentUser;
 
 class HomeController extends Controller {
 

@@ -68,7 +68,7 @@ class Router
 
         foreach ($middlewares as $middlewareClass) {
             $processed = (new $middlewareClass)->process($this->request);
-            if (!$processed){
+            if (!$processed || $this->response->getContent() !== null){
                 $this->response->setNotFound();
                 return;
             }

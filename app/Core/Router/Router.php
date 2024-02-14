@@ -50,11 +50,6 @@ class Router
             return;
         }
 
-        $this->processRoute($route);
-    }
-
-    private function processRoute(Route $route)
-    {
         $this->runMiddlewares($route->getMiddlewares(), function() use($route) {
             if ($route->getController() === null) {
                 $content = call_user_func($route->getAction(), $this->request);
@@ -73,10 +68,12 @@ class Router
 
         foreach ($middlewares as $middlewareClass) {
             $processed = (new $middlewareClass)->process($this->request);
-            if ($processed) {
-                $next();
+            if (!$processed){
+                $this->response->setNotFound();
+                return;
             }
         }
+        $next();
     }
 
     private function runController(string $controller, string $method)

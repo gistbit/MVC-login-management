@@ -3,7 +3,6 @@
 namespace App\Core\Router;
 
 use App\Core\Http\{Response, Request};
-use App\Middlewares\MiddlewareChain;
 
 class Router
 {
@@ -72,13 +71,11 @@ class Router
             $next(); return;
         }
 
-        $middlewareChain = new MiddlewareChain;
         foreach ($middlewares as $middlewareClass) {
-            $middlewareChain->addMiddleware(new $middlewareClass);
-        }
-
-        if ($middlewareChain->processRequest($this->request)) {
-            $next();
+            $processed = (new $middlewareClass)->process($this->request);
+            if ($processed) {
+                $next();
+            }
         }
     }
 

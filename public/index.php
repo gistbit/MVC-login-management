@@ -1,7 +1,6 @@
 <?php
 // load config and startup file
-require_once dirname(__DIR__) . '/config/constants.php';
-require_once APP . '/startup.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Core\Http\Request;
 use App\Core\Http\Response;

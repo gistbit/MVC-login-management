@@ -4,7 +4,7 @@ namespace App\Middlewares;
 
 use App\Core\Http\Request;
 
-use function App\helper\response;
+use function App\Helper\response;
 use App\Core\Config;
 
 class MustLoginAdmin implements Middleware

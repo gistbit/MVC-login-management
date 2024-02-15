@@ -1,5 +1,5 @@
 <?php
-// load config and startup file
+// load autoload file
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Core\Http\Request;

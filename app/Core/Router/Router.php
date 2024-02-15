@@ -3,6 +3,9 @@
 namespace App\Core\Router;
 
 use App\Core\Http\{Response, Request};
+use App\Core\Router\Stack;
+
+use function App\Helper\cetak;
 
 class Router
 {
@@ -66,14 +69,15 @@ class Router
             $next(); return;
         }
 
-        foreach ($middlewares as $middlewareClass) {
-            $processed = (new $middlewareClass)->process($this->request);
-            if (!$processed || $this->response->getContent() !== null){
-                $this->response->setNotFound();
-                return;
-            }
+        $stack = new Stack(...array_map(
+            fn($middleware) => new $middleware(), $middlewares
+        ));
+
+        if($stack->handle($this->request)){
+            $next();
+        }else{
+            $this->response->setNotFound();
         }
-        $next();
     }
 
     private function runController(string $controller, string $method)

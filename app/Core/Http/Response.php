@@ -183,7 +183,7 @@ class Response
         $this->setContentFromFile($filePath);
     }
 
-    public function setNotFound(): void
+    public function setNotFound(): bool
     {
         $this->setStatusCode(404);
         $this->setContent(\App\Core\MVC\View::renderViewOnly('404', [
@@ -193,6 +193,7 @@ class Response
                 'text' => 'Not Found'
             ]
         ]));
+        return false;
     }
 
     public function setNoCache(): void

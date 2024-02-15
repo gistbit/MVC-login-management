@@ -11,7 +11,7 @@ class OnlyMemberMiddleware implements Middleware
 {
     public function process(Request $request): bool
     {
-        $user =  \App\Helper\currentUser();
+        $user = currentUser();
         if ($user == null) {
             Response::redirect('/user/login');
         }

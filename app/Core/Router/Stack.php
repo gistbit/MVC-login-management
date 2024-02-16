@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Router;
+namespace MA\PHPMVC\Core\Router;
 
-use App\{Core\Http\Request, Middlewares\Middleware};
+use MA\PHPMVC\{Core\Http\Request, Middlewares\Middleware};
 
 class Stack
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Middlewares;
+namespace MA\PHPMVC\Middlewares;
 
-use App\App\Config;
-use App\Core\Http\Request;
-use function App\Helper\response;
+use MA\PHPMVC\App\Config;
+use MA\PHPMVC\Core\Http\Request;
+use function MA\PHPMVC\Helper\response;
 
 class MustLoginAdmin implements Middleware
 {

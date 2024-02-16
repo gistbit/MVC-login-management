@@ -1,8 +1,9 @@
 <?php
-namespace App\Domain;
+namespace MA\PHPMVC\Domain;
 
 class Session
 {
     public string $id;
     public string $userId;
+    
 }

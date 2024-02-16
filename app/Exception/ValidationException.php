@@ -1,5 +1,5 @@
 <?php
-namespace App\Exception;
+namespace MA\PHPMVC\Exception;
 class ValidationException extends \Exception{
 
 }

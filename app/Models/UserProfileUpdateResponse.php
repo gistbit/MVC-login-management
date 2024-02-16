@@ -1,6 +1,6 @@
 <?php
-namespace App\Models;
-use App\Domain\User;
+namespace MA\PHPMVC\Models;
+use MA\PHPMVC\Domain\User;
 
 class UserProfileUpdateResponse
 {

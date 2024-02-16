@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Middlewares;
+namespace MA\PHPMVC\Middlewares;
 
-use App\Core\Http\Request;
-use App\Core\Http\Response;
+use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Response;
 
-use function App\Helper\currentUser;
+use function MA\PHPMVC\Helper\currentUser;
 
 class OnlyMemberMiddleware implements Middleware
 {

@@ -1,11 +1,11 @@
 <?php
-namespace App\Helper;
-use App\Domain\User;
-use App\Core\Database\Database;
-use App\Core\Http\Request;
-use App\Core\Http\Response;
-use App\Repository\SessionRepository;
-use App\Service\SessionService;
+namespace MA\PHPMVC\Helper;
+use MA\PHPMVC\Domain\User;
+use MA\PHPMVC\Core\Database\Database;
+use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Repository\SessionRepository;
+use MA\PHPMVC\Service\SessionService;
 
 function cetak($arr){
     echo '<pre>';

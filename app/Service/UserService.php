@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Service;
+namespace MA\PHPMVC\Service;
 
-use App\Core\Database\Database;
-use App\Repository\UserRepository;
-use App\Exception\ValidationException;
-use App\Domain\User;
+use MA\PHPMVC\Core\Database\Database;
+use MA\PHPMVC\Repository\UserRepository;
+use MA\PHPMVC\Exception\ValidationException;
+use MA\PHPMVC\Domain\User;
 use Exception;
-use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
-use App\Models\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
+use MA\PHPMVC\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+use MA\PHPMVC\Models\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
 
 class UserService{
 

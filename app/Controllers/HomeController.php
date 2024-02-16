@@ -1,10 +1,10 @@
 <?php
-namespace App\Controllers;
+namespace MA\PHPMVC\Controllers;
 
-use App\Core\MVC\Controller;
-use App\Core\MVC\View;
+use MA\PHPMVC\Core\MVC\Controller;
+use MA\PHPMVC\Core\MVC\View;
 
-use function App\Helper\currentUser;
+use function MA\PHPMVC\Helper\currentUser;
 
 class HomeController extends Controller {
 

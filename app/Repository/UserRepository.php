@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace MA\PHPMVC\Repository;
 
-use App\Domain\User;
+use MA\PHPMVC\Domain\User;
 use PDO;
 
 class UserRepository{

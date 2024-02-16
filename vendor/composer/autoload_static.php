@@ -12,24 +12,24 @@ class ComposerStaticInitb709e93e13b58407e73c0e534a4321cc
     );
 
     public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'MA\\PHPMVC\\' => 10,
+        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
         ),
-        'A' => 
-        array (
-            'App\\' => 4,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'MA\\PHPMVC\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
+        ),
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
-        ),
-        'App\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app',
         ),
     );
 

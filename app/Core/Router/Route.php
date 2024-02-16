@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Router;
+namespace MA\PHPMVC\Core\Router;
 
 use InvalidArgumentException;
 
@@ -36,7 +36,7 @@ final class Route {
             throw new InvalidArgumentException(print('Invalid controller action format'));
         }
 
-        $segments['0'] = "\App\Controllers\\".$segments['0'];
+        $segments['0'] = "\MA\PHPMVC\Controllers\\".$segments['0'];
 
         return $segments;
     }

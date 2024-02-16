@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Router;
+namespace MA\PHPMVC\Core\Router;
 
 class Router
 {

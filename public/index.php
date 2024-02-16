@@ -2,10 +2,10 @@
 // load autoload file
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-use App\App\App;
-use App\Core\Http\Request;
-use App\Core\Http\Response;
-use App\Core\Router\Router;
+use MA\PHPMVC\App\App;
+use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Core\Router\Router;
 
 $request = new Request();
 $response = new Response();

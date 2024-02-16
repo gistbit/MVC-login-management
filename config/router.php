@@ -1,10 +1,10 @@
 <?php
 
-use App\Core\MVC\View;
-use App\Middlewares\{OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
+use MA\PHPMVC\Core\MVC\View;
+use MA\PHPMVC\Middlewares\{OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
 
-use function App\Helper\response;
-use App\Core\Http\Response;
+use function MA\PHPMVC\Helper\response;
+use MA\PHPMVC\Core\Http\Response;
 
 $router->get('/', 'HomeController@index');
 

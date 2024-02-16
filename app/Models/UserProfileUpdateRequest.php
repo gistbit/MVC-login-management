@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace MA\PHPMVC\Models;
 class UserProfileUpdateRequest
 {
     public ?string $id = null;

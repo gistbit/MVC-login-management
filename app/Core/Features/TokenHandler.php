@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Features;
+namespace MA\PHPMVC\Core\Features;
 use Exception;
 use Firebase\JWT\{JWT, Key};
 use stdClass;

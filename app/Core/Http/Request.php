@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Http;
+namespace MA\PHPMVC\Core\Http;
 
-use App\Core\Features\TokenHandler;
+use MA\PHPMVC\Core\Features\TokenHandler;
 use stdClass;
 
 class Request

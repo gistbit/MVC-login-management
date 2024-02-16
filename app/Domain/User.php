@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain;
+namespace MA\PHPMVC\Domain;
 
 class User{
     public string $id;

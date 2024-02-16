@@ -1,11 +1,11 @@
 <?php
 
-namespace App\App;
+namespace MA\PHPMVC\App;
 
-use App\Core\Http\Request;
-use App\Core\Http\Response;
-use App\Core\Router\Router;
-use App\Core\Router\Stack;
+use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Core\Router\Router;
+use MA\PHPMVC\Core\Router\Stack;
 
 final class App
 {

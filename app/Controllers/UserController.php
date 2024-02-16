@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controllers;
-use App\Core\Database\Database;
-use App\Core\MVC\{Controller, View};
-use App\Repository\{SessionRepository, UserRepository};
-use App\Service\{SessionService, UserService};
-use App\Exception\ValidationException;
-use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+namespace MA\PHPMVC\Controllers;
+use MA\PHPMVC\Core\Database\Database;
+use MA\PHPMVC\Core\MVC\{Controller, View};
+use MA\PHPMVC\Repository\{SessionRepository, UserRepository};
+use MA\PHPMVC\Service\{SessionService, UserService};
+use MA\PHPMVC\Exception\ValidationException;
+use MA\PHPMVC\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
 
 class UserController extends Controller{
 

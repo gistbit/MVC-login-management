@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Core\MVC;
-use App\Core\Database\Database;
+namespace MA\PHPMVC\Core\MVC;
+use MA\PHPMVC\Core\Database\Database;
 
 abstract class Model {
 

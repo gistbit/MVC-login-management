@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace MA\PHPMVC\Repository;
 
-use App\Domain\Session;
+use MA\PHPMVC\Domain\Session;
 use PDO;
 
 class SessionRepository

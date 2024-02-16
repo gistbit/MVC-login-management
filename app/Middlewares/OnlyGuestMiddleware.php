@@ -1,9 +1,9 @@
 <?php
-namespace App\Middlewares;
+namespace MA\PHPMVC\Middlewares;
 
-use App\App\Config;
-use App\Core\Http\Request;
-use App\Core\Http\Response;
+use MA\PHPMVC\App\Config;
+use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Response;
 
 class OnlyGuestMiddleware implements Middleware
 {

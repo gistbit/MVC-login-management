@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace MA\PHPMVC\Service;
 
-use App\App\Config;
-use App\Core\Features\TokenHandler;
-use App\Domain\{Session, User};
-use App\Repository\SessionRepository;
-use function App\Helper\request;
+use MA\PHPMVC\App\Config;
+use MA\PHPMVC\Core\Features\TokenHandler;
+use MA\PHPMVC\Domain\{Session, User};
+use MA\PHPMVC\Repository\SessionRepository;
+use function MA\PHPMVC\Helper\request;
 
 class SessionService
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Core\MVC;
+namespace MA\PHPMVC\Core\MVC;
 
-use App\Core\Http\Request;
-use App\Core\Http\Response;
+use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Response;
 use Exception;
 
 abstract class Controller
@@ -21,7 +21,7 @@ abstract class Controller
 
     public function model(string $modelName)
     {
-        $modelClass = "\App\Models\\" . $modelName;
+        $modelClass = "\MA\PHPMVC\Models\\" . $modelName;
 
         $this->checkModelClass($modelClass);
 

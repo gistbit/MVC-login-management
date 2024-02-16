@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Http;
+namespace MA\PHPMVC\Core\Http;
 
-use App\Core\MVC\View;
+use MA\PHPMVC\Core\MVC\View;
 use InvalidArgumentException;
 
 class Response

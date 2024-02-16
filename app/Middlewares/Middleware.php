@@ -1,7 +1,7 @@
 <?php
-namespace App\Middlewares;
+namespace MA\PHPMVC\Middlewares;
 
-use App\Core\Http\Request;
+use MA\PHPMVC\Core\Http\Request;
 
 interface Middleware {
     public function process(Request $request): bool;

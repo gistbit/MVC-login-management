@@ -2,11 +2,13 @@
 
 namespace App\Core\Router;
 
+use InvalidArgumentException;
+
 final class Route {
     
     private ?string $controller; 
 
-    private mixed $action;
+    private $action;
 
     private array $middlewares;
 
@@ -23,15 +25,15 @@ final class Route {
             $this->controller = null;
             $this->action = $callback;
         } else {
-            throw new \InvalidArgumentException(print('Invalid callback provided'));
+            throw new InvalidArgumentException(print('Invalid callback provided'));
         }
     }
 
-    private function parseControllerAction($callback)
+    private function parseControllerAction($callback): array
     {
         $segments = explode('@', $callback);
         if (count($segments) !== 2){
-            throw new \InvalidArgumentException(print('Invalid controller action format'));
+            throw new InvalidArgumentException(print('Invalid controller action format'));
         }
 
         $segments['0'] = "\App\Controllers\\".$segments['0'];
@@ -44,7 +46,7 @@ final class Route {
         return $this->controller;
     }
     
-    public function getAction(): mixed
+    public function getAction()
     {
         return $this->action;
     }

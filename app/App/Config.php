@@ -5,7 +5,7 @@ namespace App\Core;
 
 class Config{
 
-    private static $config;
+    private static array $config;
 
     public static function load()
     {

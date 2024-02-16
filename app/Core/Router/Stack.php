@@ -2,12 +2,11 @@
 
 namespace App\Core\Router;
 
-use App\Core\Http\Request;
-use App\Middlewares\Middleware;
+use App\{Core\Http\Request, Middlewares\Middleware};
 
 class Stack
 {
-    private $middlewares = [];
+    private array $middlewares;
 
     public function __construct(Middleware ...$middlewares)
     {

@@ -27,9 +27,6 @@ final class View
         }
     }
 
-    /**
-     * @throws Exception
-     */
     private static function loadViewContent(string $view, $data = [])
     {
         $viewFilePath = VIEWS .'/'. $view . '.php';
@@ -40,9 +37,6 @@ final class View
         return ob_get_clean();
     }
 
-    /**
-     * @throws Exception
-     */
     private static function loadViewTemplate(string $view, $data = [])
     {
         $templateFilePath = VIEWS . "/templates/" . self::getTemplate($view) . '.php';

@@ -2,7 +2,6 @@
 
 namespace App\Core\MVC;
 use App\Core\Database\Database;
-use Exception;
 
 abstract class Model {
 

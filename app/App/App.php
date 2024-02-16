@@ -51,7 +51,6 @@ final class App
             }
         });
 
-        $this->render();
     }
 
     private function runMiddlewares($middlewares, callable $next)
@@ -86,7 +85,7 @@ final class App
         }
     }
 
-    private function render(): void
+    public function __destruct()
     {
         if ($this->response->getContent()) {
             http_response_code($this->response->getStatusCode());

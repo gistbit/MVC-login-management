@@ -13,6 +13,6 @@ $router = new Router();
 
 require_once CONFIG . '/router.php';
 
-$myApp = new App($request, $response);
+$kernel = new App($request, $response);
 
-$myApp->run($router);
+$kernel->run($router);

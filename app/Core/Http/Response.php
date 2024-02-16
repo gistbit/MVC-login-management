@@ -81,10 +81,6 @@ class Response
         return self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status';
     }
 
-    /**
-     * @param string $header
-     * @return void
-     */
     public function setHeader(string $header): void
     {
         $this->headers[] = $header;

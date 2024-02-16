@@ -38,7 +38,7 @@ final class App
         $route = $router->getRoute($this->method, $this->path);
 
         if ($route === null) {
-            $this->response->setContent('Route tidak ada');
+            $this->response->setNotFound('Route tidak ada');
             return;
         }
 
@@ -98,13 +98,13 @@ final class App
 
     private function handleMethodNotFound(string $method)
     {
-        $this->response->setContent("Method [ $method ] tidak ada");
+        $this->response->setNotFound("Method [ $method ] tidak ada");
         // $this->response->redirect('/');
     }
 
     private function handleControllerNotFound(string $controller)
     {
-        $this->response->setContent("Controller Class [ $controller ] tidak ada");
+        $this->response->setNotFound("Controller Class [ $controller ] tidak ada");
         // $this->response->redirect('/');
     }
 

@@ -1,10 +1,6 @@
 <?php
 
-use MA\PHPMVC\Core\MVC\View;
 use MA\PHPMVC\Middlewares\{OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
-
-use function MA\PHPMVC\Helper\response;
-use MA\PHPMVC\Core\Http\Response;
 
 $router->get('/', 'HomeController@index');
 
@@ -21,14 +17,3 @@ $router->post("/user/profile", "UserController@postUpdateProfile", [OnlyMemberMi
 
 $router->get("/user/password", "UserController@updatePassword", [OnlyMemberMiddleware::class]);
 $router->post("/user/password", "UserController@postupdatePassword", [OnlyMemberMiddleware::class]);
-
-$router->get($request->getPath(), function() {
-    response()->setStatusCode(404);
-    return View::renderViewOnly(404, [
-        'title' => 'error',
-        'status' => [
-            'code' => 404,
-            'text' => Response::STATUS_TEXTS[404]
-        ]
-    ]);
-});

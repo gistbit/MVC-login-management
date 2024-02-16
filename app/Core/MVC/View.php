@@ -6,7 +6,7 @@ use Exception;
 
 final class View
 {
-    public static function renderView(string $view, $model = [])
+    public static function renderView(string $view, array $model = [])
     {
         try {
             $viewContent = self::loadViewContent($view, $model);
@@ -18,7 +18,7 @@ final class View
         }
     }
 
-    public static function renderViewOnly(string $view, $model = [])
+    public static function renderViewOnly(string $view, array $model = [])
     {
         try {
             return self::loadViewContent($view, $model);
@@ -27,20 +27,28 @@ final class View
         }
     }
 
-    private static function loadViewContent(string $view, $data = [])
+    private static function loadViewContent(string $view, array $data = [])
     {
         $viewFilePath = VIEWS .'/'. $view . '.php';
         self::checkViewFile($viewFilePath);
+
+        foreach($data as $key => $value){
+            ${$key} = $value;
+        }
 
         ob_start();
         include $viewFilePath;
         return ob_get_clean();
     }
 
-    private static function loadViewTemplate(string $view, $data = [])
+    private static function loadViewTemplate(string $view, array $data = [])
     {
         $templateFilePath = VIEWS . "/templates/" . self::getTemplate($view) . '.php';
         self::checkViewFile($templateFilePath);
+
+        foreach($data as $key => $value){
+            ${$key} = $value;
+        }
 
         ob_start();
         include $templateFilePath;

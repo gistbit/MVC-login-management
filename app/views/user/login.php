@@ -1,8 +1,8 @@
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-<?php if(isset($data['error'])): ?>
+<?php if(isset($error)): ?>
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            <?= $data['error'] ?>
+            <?= $error ?>
         </div>
     </div>
     <?php endif ?>

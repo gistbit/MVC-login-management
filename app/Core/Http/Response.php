@@ -171,15 +171,11 @@ class Response
         $this->setContentFromFile($filePath);
     }
 
-    public function setNotFound(): bool
+    public function setNotFound(string $pesan = null): bool
     {
         $this->setStatusCode(404);
         $this->setContent(View::renderViewOnly('404', [
-            'title' => 'Not Found',
-            'status' => [
-                'code' => '404',
-                'text' => 'Not Found'
-            ]
+            'message' => $pesan
         ]));
         return false;
     }

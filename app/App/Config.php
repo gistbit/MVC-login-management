@@ -2,7 +2,6 @@
 
 namespace MA\PHPMVC\App;
 
-
 class Config{
 
     private static array $config;

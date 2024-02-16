@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $data['title']?? 'Error' ?></title>
+    <title>Error</title>
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
 </head>
@@ -12,8 +12,8 @@
     <div class="container col-xl-12 mx-auto my-auto">
         <div class="row align-items-center mt-4">
             <div class="col-md-10 mx-auto my-auto col-lg-4">
-                <h1 class="fw-bold mt-5 mb-3 text-center"><?= $data['status']['code'] . ' - ' . $data['status']['text'] ?></h1>
-                <p class="lh-5 text-center"><?= $data['message']?? null ?></p>
+                <h1 class="fw-bold mt-5 mb-3 text-center">404 - Not Found</h1>
+                <p class="lh-5 text-center"><?= $message ?? null ?></p>
             </div>
         </div>
         <div class="row align-items-center">

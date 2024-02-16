@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?= $data['title']?? 'Login Management' ?></title>
+    <title><?= $title ?? 'Login Management' ?></title>
      <!-- Bootstrap css-->
      <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
 </head>

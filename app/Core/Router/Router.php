@@ -5,8 +5,6 @@ namespace App\Core\Router;
 use App\Core\Http\{Response, Request};
 use App\Core\Router\Stack;
 
-use function App\Helper\cetak;
-
 class Router
 {
     private string $path;
@@ -75,7 +73,7 @@ class Router
 
         if($stack->handle($this->request)){
             $next();
-        }else{
+        }else if($this->response->getContent() !== null){
             $this->response->setNotFound();
         }
     }

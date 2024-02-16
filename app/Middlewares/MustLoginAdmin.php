@@ -16,8 +16,7 @@ class MustLoginAdmin implements Middleware
         if($this->isAdmin($session)){
             return true;
         }
-        response()->setNotFound();
-        return false;
+        return response()->setNotFound();
     }
 
     private function isAdmin($session): bool

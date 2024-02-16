@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use App\Domain\User;
+use PDO;
 
 class UserRepository{
-    private \PDO $connection;
+    private PDO $connection;
 
-    public function __construct(\PDO $connection){
+    public function __construct(PDO $connection){
         $this->connection = $connection;
 
     }

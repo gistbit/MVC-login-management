@@ -6,6 +6,7 @@ use App\Core\Database\Database;
 use App\Repository\UserRepository;
 use App\Exception\ValidationException;
 use App\Domain\User;
+use Exception;
 use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
 use App\Models\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
 
@@ -41,7 +42,7 @@ class UserService{
 
             Database::commitTransaction();
             return $response;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Database::rollbackTransaction();
             throw $exception;
         }
@@ -100,7 +101,7 @@ class UserService{
                 $response = new UserProfileUpdateResponse();
                 $response->user = $user;
                 return $response;
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 Database::rollbackTransaction();
                 throw $exception;
             }
@@ -138,7 +139,7 @@ class UserService{
             $response = new UserPasswordUpdateResponse();
             $response->user = $user;
             return $response;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Database::rollbackTransaction();
             throw $exception;
         }

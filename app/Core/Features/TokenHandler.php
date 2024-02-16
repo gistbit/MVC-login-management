@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Core\Features;
+use Exception;
 use Firebase\JWT\{JWT, Key};
+use stdClass;
 
 class TokenHandler{
 
@@ -9,16 +11,14 @@ class TokenHandler{
 
     public static function generateToken(array $payload, string $key): string
     {
-        $JWT = JWT::encode($payload, $key, self::ALGORITHM );
-        return $JWT;
+        return JWT::encode($payload, $key, self::ALGORITHM );
     }
 
-    public static function verifyToken(string $encPayload, string $key): ? \stdClass
+    public static function verifyToken(string $encPayload, string $key): ? stdClass
     {
         try {
-            $payload = JWT::decode($encPayload, new Key($key, self::ALGORITHM));
-            return $payload;
-        } catch (\Exception $e) {
+            return JWT::decode($encPayload, new Key($key, self::ALGORITHM));
+        } catch (Exception $e) {
             return null;
         }
     }

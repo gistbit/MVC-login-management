@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Core\Database;
-use App\Core\Config;
+use App\App\Config;
+use Exception;
+use PDO;
+use PDOException;
 
 class Database
 {
-    private static ?\PDO $pdo = null;
+    private static ?PDO $pdo = null;
 
+    /**
+     * @throws Exception
+     */
     private static function initialize(): void
     {
         if (self::$pdo === null) {
@@ -14,14 +20,17 @@ class Database
             $dsn = "mysql:host=" . Config::get('db.host') . ";port=" . Config::get('db.port') . ";dbname=" . Config::get('db.name');
 
             try {
-                self::$pdo = new \PDO($dsn, Config::get('db.username'), Config::get('db.password'));
-            } catch (\PDOException $e) {
-                throw new \Exception('Koneksi ke basis data gagal: ' . $e->getMessage());
+                self::$pdo = new PDO($dsn, Config::get('db.username'), Config::get('db.password'));
+            } catch (PDOException $e) {
+                throw new Exception('Koneksi ke basis data gagal: ' . $e->getMessage());
             }
         }
     }
 
-    public static function getConnection(): \PDO
+    /**
+     * @throws Exception
+     */
+    public static function getConnection(): PDO
     {
         self::initialize();
         return self::$pdo;

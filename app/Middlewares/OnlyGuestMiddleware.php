@@ -1,7 +1,7 @@
 <?php
 namespace App\Middlewares;
 
-use App\Core\Config;
+use App\App\Config;
 use App\Core\Http\Request;
 use App\Core\Http\Response;
 

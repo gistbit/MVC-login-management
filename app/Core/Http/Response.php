@@ -2,6 +2,9 @@
 
 namespace App\Core\Http;
 
+use App\Core\MVC\View;
+use InvalidArgumentException;
+
 class Response
 {
     private array $headers = [];
@@ -75,9 +78,13 @@ class Response
 
     public function getStatusText(): string
     {
-        return (string)(self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status');
+        return self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status';
     }
 
+    /**
+     * @param string $header
+     * @return void
+     */
     public function setHeader(string $header): void
     {
         $this->headers[] = $header;
@@ -106,10 +113,10 @@ class Response
     public static function redirect(string $url): void
     {
         if (empty($url)) {
-            throw new \InvalidArgumentException('Invalid URL provided for redirect.');
+            throw new InvalidArgumentException('Invalid URL provided for redirect.');
         }
 
-        header('Location: ' . str_replace(['&amp;', "\n", "\r"], ['&', '', ''], $url), true);
+        header('Location: ' . str_replace(['&amp;', '\n', '\r'], ['&', '', ''], $url));
         exit;
     }
 
@@ -119,21 +126,6 @@ class Response
             $this->statusCode = $code;
         }
     }
-
-    public function render(): void
-    {
-        if ($this->content) {
-            http_response_code($this->statusCode);
-            if (!headers_sent()) {
-                foreach ($this->headers as $header) {
-                    header($header, true);
-                }
-            }
-            echo $this->content;
-        }
-    }
-
-    // Fungsi-fungsi tambahan:
 
     public function setJson(array $data): void
     {
@@ -186,7 +178,7 @@ class Response
     public function setNotFound(): bool
     {
         $this->setStatusCode(404);
-        $this->setContent(\App\Core\MVC\View::renderViewOnly('404', [
+        $this->setContent(View::renderViewOnly('404', [
             'title' => 'Not Found',
             'status' => [
                 'code' => '404',

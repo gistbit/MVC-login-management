@@ -2,11 +2,10 @@
 
 namespace App\Service;
 
-use App\Repository\SessionRepository;
-use App\Domain\{User, Session};
-use App\Core\Config;
+use App\App\Config;
 use App\Core\Features\TokenHandler;
-
+use App\Domain\{Session, User};
+use App\Repository\SessionRepository;
 use function App\Helper\request;
 
 class SessionService

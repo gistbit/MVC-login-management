@@ -2,6 +2,8 @@
 
 namespace App\Core\MVC;
 
+use Exception;
+
 final class View
 {
     public static function renderView(string $view, $model = [])
@@ -11,7 +13,7 @@ final class View
             $templateContent = self::loadViewTemplate($view, $model);
             return str_replace('{{content}}', $viewContent, $templateContent);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return self::handleException($e);
         }
     }
@@ -20,11 +22,14 @@ final class View
     {
         try {
             return self::loadViewContent($view, $model);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return self::handleException($e);
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private static function loadViewContent(string $view, $data = [])
     {
         $viewFilePath = VIEWS .'/'. $view . '.php';
@@ -35,6 +40,9 @@ final class View
         return ob_get_clean();
     }
 
+    /**
+     * @throws Exception
+     */
     private static function loadViewTemplate(string $view, $data = [])
     {
         $templateFilePath = VIEWS . "/templates/" . self::getTemplate($view) . '.php';
@@ -51,14 +59,17 @@ final class View
         return $viewParts[0];
     }
 
+    /**
+     * @throws Exception
+     */
     private static function checkViewFile(string $viewFilePath)
     {
         if (!file_exists($viewFilePath)) {
-            throw new \Exception("File View '" . basename($viewFilePath) . "' tidak ditemukan di [$viewFilePath]");
+            throw new Exception("File View '" . basename($viewFilePath) . "' tidak ditemukan di [$viewFilePath]");
         }
     }
 
-    private static function handleException(\Exception $e)
+    private static function handleException(Exception $e): string
     {
         return "Terjadi kesalahan: " . $e->getMessage();
     }

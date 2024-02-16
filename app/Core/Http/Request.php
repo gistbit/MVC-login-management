@@ -3,9 +3,13 @@
 namespace App\Core\Http;
 
 use App\Core\Features\TokenHandler;
+use stdClass;
 
 class Request
 {
+    /**
+     * @var array|mixed|string
+     */
     private array $cookie;
     private array $files;
 
@@ -15,7 +19,7 @@ class Request
         $this->files = $this->clean($_FILES);
     }
 
-    public function getSession(string $name, string $key = 'key'): ? \stdClass
+    public function getSession(string $name, string $key = 'key'): ? stdClass
     {
         $JWT = $this->cookie[$name] ?? '';
         if (empty($JWT)) return null;
@@ -32,12 +36,14 @@ class Request
         return $this->getValue($_POST, $key);
     }
 
+    /**
+     * @param string $key
+     * @return string|null
+     */
     public function input(string $key = ''): ?string
     {
         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-
-        return $this->getValue($request, $key);
+        return $this->getValue(json_decode($postdata, true), $key);
     }
 
     public function getPath(): string
@@ -76,7 +82,7 @@ class Request
 
     public function cookie(string $key = ''): ?string
     {
-        return $this->getValue(self::$cookie, $key);
+        return $this->getValue($this->cookie, $key);
     }
 
     public function files(string $key = ''): ?array

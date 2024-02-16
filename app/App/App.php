@@ -18,8 +18,7 @@ final class App
     {
         $this->request = $request;
         $this->response = $response;
-
-        $this->path = $this->cleanUrl(($request->getPath() !== '/') ? rtrim($request->getPath(), '/') : '/');
+        $this->path = $this->cleanPath($request->getPath());
         $this->method = strtoupper($request->getMethod());
 
         $this->setup();
@@ -110,8 +109,8 @@ final class App
         // $this->response->redirect('/');
     }
 
-    private function cleanUrl($url)
+    private function cleanPath($path) : string
     {
-        return str_replace(['%20', ' '], '-', $url);
+        return ($path === '/') ? $path : str_replace(['%20', ' '], '-', rtrim($path, '/'));
     }
 }

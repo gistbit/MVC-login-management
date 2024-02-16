@@ -7,9 +7,6 @@ use stdClass;
 
 class Request
 {
-    /**
-     * @var array|mixed|string
-     */
     private array $cookie;
     private array $files;
 
@@ -19,7 +16,7 @@ class Request
         $this->files = $this->clean($_FILES);
     }
 
-    public function getSession(string $name, string $key = 'key'): ? stdClass
+    public function getSession(string $name, string $key): ? stdClass
     {
         $JWT = $this->cookie[$name] ?? '';
         if (empty($JWT)) return null;
@@ -36,10 +33,6 @@ class Request
         return $this->getValue($_POST, $key);
     }
 
-    /**
-     * @param string $key
-     * @return string|null
-     */
     public function input(string $key = ''): ?string
     {
         $postdata = file_get_contents("php://input");

@@ -19,9 +19,6 @@ abstract class Controller
         $this->response = $GLOBALS['response'];
     }
 
-    /**
-     * @throws Exception
-     */
     public function model(string $modelName)
     {
         $modelClass = "\App\Models\\" . $modelName;
@@ -31,9 +28,6 @@ abstract class Controller
         return new $modelClass;
     }
 
-    /**
-     * @throws Exception
-     */
     private function checkModelClass(string $modelClass)
     {
         if (!class_exists($modelClass)) {

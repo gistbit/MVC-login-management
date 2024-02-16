@@ -10,9 +10,6 @@ class Database
 {
     private static ?PDO $pdo = null;
 
-    /**
-     * @throws Exception
-     */
     private static function initialize(): void
     {
         if (self::$pdo === null) {
@@ -27,9 +24,6 @@ class Database
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public static function getConnection(): PDO
     {
         self::initialize();

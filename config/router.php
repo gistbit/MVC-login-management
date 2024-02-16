@@ -3,7 +3,7 @@
 use App\Core\MVC\View;
 use App\Middlewares\{OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
 
-use function App\helper\response;
+use function App\Helper\response;
 use App\Core\Http\Response;
 
 $router->get('/', 'HomeController@index');

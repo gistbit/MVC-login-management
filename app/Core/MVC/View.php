@@ -59,9 +59,6 @@ final class View
         return $viewParts[0];
     }
 
-    /**
-     * @throws Exception
-     */
     private static function checkViewFile(string $viewFilePath)
     {
         if (!file_exists($viewFilePath)) {

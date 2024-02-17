@@ -7,7 +7,7 @@ use MA\PHPMVC\Core\Http\Response;
 use MA\PHPMVC\Core\Router\Router;
 use MA\PHPMVC\Core\Router\Stack;
 
-final class App
+final class App implements AppInterface
 {
     private string $path;
     private string $method;
@@ -27,10 +27,14 @@ final class App
     private function setup()
     {
         Config::load();
+        $this->setCorsHeaders();
+        $this->response->setHeader('Content-Type: text/html; charset=UTF-8');
+    }
+
+    private function setCorsHeaders(){
         $this->response->setHeader('Access-Control-Allow-Origin: '.Config::get('app.url'));
         $this->response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
         $this->response->setHeader("Access-Control-Allow-Headers: Content-Type");
-        $this->response->setHeader('Content-Type: text/html; charset=UTF-8');
     }
 
     public function run(Router $router)
@@ -87,6 +91,10 @@ final class App
 
     public function __destruct()
     {
+       $this->renderResponse();
+    }
+
+    private function renderResponse(){
         if ($this->response->getContent()) {
             http_response_code($this->response->getStatusCode());
             if (!headers_sent()) foreach ($this->response->getHeaders() as $header) {

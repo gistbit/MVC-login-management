@@ -27,9 +27,9 @@ final class View
         }
     }
 
-    private static function loadViewContent(string $view, array $__data = [])
+    private static function loadViewContent(string $__view, array $__data = [])
     {
-        $viewFilePath = VIEWS .'/'. $view . '.php';
+        $viewFilePath = VIEWS .'/'. $__view . '.php';
         self::checkViewFile($viewFilePath);
         extract($__data);
         ob_start();
@@ -37,9 +37,9 @@ final class View
         return ob_get_clean();
     }
 
-    private static function loadViewTemplate(string $view, array $__data = [])
+    private static function loadViewTemplate(string $__view, array $__data = [])
     {
-        $templateFilePath = VIEWS . "/templates/" . self::getTemplate($view) . '.php';
+        $templateFilePath = VIEWS . "/templates/" . self::getTemplate($__view) . '.php';
         self::checkViewFile($templateFilePath);
         extract($__data);
         ob_start();

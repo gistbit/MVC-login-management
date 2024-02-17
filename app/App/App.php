@@ -42,7 +42,7 @@ final class App implements AppInterface
         $route = $router->getRoute($this->method, $this->path);
 
         if ($route === null) {
-            $this->response->setNotFound('Route tidak ada');
+            $this->response->setNotFound('Route tidak ditemukan');
             return;
         }
 

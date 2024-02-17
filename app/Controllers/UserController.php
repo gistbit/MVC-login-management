@@ -25,8 +25,6 @@ class UserController extends Controller{
 
     public function register()
     {
-        
-        // $this->response->setHeader('Content-Type: application/json; charset=UTF-8');
         return View::renderView('user/register', ['title'=> 'Register New User']);
     }
 

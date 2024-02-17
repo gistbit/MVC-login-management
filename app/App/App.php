@@ -82,10 +82,10 @@ final class App implements AppInterface
                 $content = $controllerInstance->$method($this->request);
                 $this->response->setContent($content);
             } else {
-                $this->handleMethodNotFound($method);
+                $this->response->setNotFound("Method [ $method ] tidak ada");
             }
         } else {
-            $this->handleControllerNotFound($controller);
+            $this->response->setNotFound("Controller Class [ $controller ] tidak ada");
         }
     }
 
@@ -102,18 +102,6 @@ final class App implements AppInterface
             }
             echo $this->response->getContent();
         }
-    }
-
-    private function handleMethodNotFound(string $method)
-    {
-        $this->response->setNotFound("Method [ $method ] tidak ada");
-        // $this->response->redirect('/');
-    }
-
-    private function handleControllerNotFound(string $controller)
-    {
-        $this->response->setNotFound("Controller Class [ $controller ] tidak ada");
-        // $this->response->redirect('/');
     }
 
     private function cleanPath($path) : string

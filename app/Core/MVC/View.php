@@ -27,29 +27,21 @@ final class View
         }
     }
 
-    private static function loadViewContent(string $view, array $data = [])
+    private static function loadViewContent(string $view, array $__data = [])
     {
         $viewFilePath = VIEWS .'/'. $view . '.php';
         self::checkViewFile($viewFilePath);
-
-        foreach($data as $key => $value){
-            ${$key} = $value;
-        }
-
+        extract($__data);
         ob_start();
         include $viewFilePath;
         return ob_get_clean();
     }
 
-    private static function loadViewTemplate(string $view, array $data = [])
+    private static function loadViewTemplate(string $view, array $__data = [])
     {
         $templateFilePath = VIEWS . "/templates/" . self::getTemplate($view) . '.php';
         self::checkViewFile($templateFilePath);
-
-        foreach($data as $key => $value){
-            ${$key} = $value;
-        }
-
+        extract($__data);
         ob_start();
         include $templateFilePath;
         return ob_get_clean();

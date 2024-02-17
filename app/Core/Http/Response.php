@@ -123,22 +123,16 @@ class Response
         }
     }
 
-    public function setJson(array $data): void
+    public function setJson(array $data)
     {
         $this->setHeader('Content-Type: application/json; charset=UTF-8');
-        $this->setContent(json_encode($data));
+        return json_encode($data);
     }
 
-    public function setHtml(string $html): void
-    {
-        $this->setHeader('Content-Type: text/html; charset=UTF-8');
-        $this->setContent($html);
-    }
-
-    public function setPlainText(string $text): void
+    public function setPlainText(string $text): string
     {
         $this->setHeader('Content-Type: text/plain');
-        $this->setContent($text);
+        return $text;
     }
 
     public function setContentFromFile(string $filePath): void

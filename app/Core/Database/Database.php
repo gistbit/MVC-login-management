@@ -14,7 +14,7 @@ class Database
     {
         if (self::$pdo === null) {
 
-            $dsn = sprintf("mysql:host=%s;port=%d;dbname=%s", Config::get('db.host'), Config::get('db.port'), Config::get('db.name'));
+            $dsn = sprintf("mysql:host=%s;port=%s;dbname=%s", Config::get('db.host'), Config::get('db.port'), Config::get('db.name'));
 
             try {
                 self::$pdo = new PDO($dsn, Config::get('db.username'), Config::get('db.password'));

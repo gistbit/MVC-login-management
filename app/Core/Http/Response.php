@@ -131,7 +131,7 @@ class Response
 
     public function setPlainText(string $text): string
     {
-        $this->setHeader('Content-Type: text/plain');
+        $this->setHeader('Content-Type: text/plain; charset=UTF-8');
         return $text;
     }
 

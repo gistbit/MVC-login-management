@@ -19,7 +19,7 @@ abstract class Controller
         $this->response = $GLOBALS['response'];
     }
 
-    public function model(string $modelName)
+    protected function model(string $modelName)
     {
         $modelClass = "\MA\PHPMVC\Models\\" . $modelName;
 

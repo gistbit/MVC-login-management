@@ -10,13 +10,15 @@ abstract class Controller
 {
     protected Request $request;
     protected Response $response;
-    protected View $view;
 
     public function __construct()
     {
-        $this->view = new View();
         $this->request = $GLOBALS['request'];
         $this->response = $GLOBALS['response'];
+    }
+
+    protected function view(){
+        return new View();
     }
 
     protected function model(string $modelName)

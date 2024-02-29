@@ -80,8 +80,14 @@ final class App implements InterfacesApp
         if (class_exists($controller)) {
             $controllerInstance = new $controller();
             if (method_exists($controllerInstance, $method)) {
-                $content = $controllerInstance->$method($this->request);
-                $this->response->setContent($content);
+                $parameters = (new \ReflectionMethod($controllerInstance, $method))->getParameters();
+                if(empty($parameters)){
+                    $content = $controllerInstance->$method();
+                    $this->response->setContent($content);
+                }else{
+                    $content = $controllerInstance->$method($this->request);
+                    $this->response->setContent($content);
+                }
             } else {
                 $this->response->setNotFound("Method [ $method ] tidak ada");
             }

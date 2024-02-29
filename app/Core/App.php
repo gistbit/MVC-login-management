@@ -96,12 +96,14 @@ final class App implements InterfacesApp
     }
 
     private function renderResponse(){
-        if ($this->response->getContent()) {
+        if ($output = $this->response->getContent()) {
             http_response_code($this->response->getStatusCode());
-            if (!headers_sent()) foreach ($this->response->getHeaders() as $header) {
-                header($header);
+            if (!headers_sent()) {
+                foreach ($this->response->getHeaders() as $header) {
+                    header($header);
+                }
             }
-            echo $this->response->getContent();
+            echo $output;
         }
     }
 

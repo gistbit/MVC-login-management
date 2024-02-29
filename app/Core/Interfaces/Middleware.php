@@ -1,5 +1,5 @@
 <?php
-namespace MA\PHPMVC\Middlewares;
+namespace MA\PHPMVC\Core\Interfaces;
 
 use MA\PHPMVC\Core\Http\Request;
 

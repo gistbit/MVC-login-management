@@ -2,7 +2,7 @@
 
 namespace MA\PHPMVC\Service;
 
-use MA\PHPMVC\App\Config;
+use MA\PHPMVC\Core\Config;
 use MA\PHPMVC\Core\Features\TokenHandler;
 use MA\PHPMVC\Domain\{Session, User};
 use MA\PHPMVC\Repository\SessionRepository;

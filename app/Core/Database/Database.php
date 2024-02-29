@@ -1,7 +1,7 @@
 <?php
 
 namespace MA\PHPMVC\Core\Database;
-use MA\PHPMVC\App\Config;
+use MA\PHPMVC\Core\Config;
 use Exception;
 use PDO;
 use PDOException;

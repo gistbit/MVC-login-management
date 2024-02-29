@@ -2,7 +2,8 @@
 
 namespace MA\PHPMVC\Core\Router;
 
-use MA\PHPMVC\{Core\Http\Request, Middlewares\Middleware};
+use MA\PHPMVC\Core\Interfaces\Middleware;
+use MA\PHPMVC\Core\Http\Request;
 
 class Stack
 {

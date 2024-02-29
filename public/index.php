@@ -2,7 +2,7 @@
 // load autoload file
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-use MA\PHPMVC\App\App;
+use MA\PHPMVC\Core\App;
 use MA\PHPMVC\Core\Http\Request;
 use MA\PHPMVC\Core\Http\Response;
 use MA\PHPMVC\Core\Router\Router;
@@ -13,6 +13,6 @@ $router = new Router();
 
 require_once CONFIG . '/router.php';
 
-$kernel = new App($request, $response);
+$app = new App($request, $response);
 
-$kernel->run($router);
+$app->run($router);

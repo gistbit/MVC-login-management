@@ -1,13 +1,14 @@
 <?php
 
-namespace MA\PHPMVC\App;
+namespace MA\PHPMVC\Core;
 
 use MA\PHPMVC\Core\Http\Request;
 use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Core\Interfaces\App as InterfacesApp;
 use MA\PHPMVC\Core\Router\Router;
 use MA\PHPMVC\Core\Router\Stack;
 
-final class App implements AppInterface
+final class App implements InterfacesApp
 {
     private string $path;
     private string $method;

@@ -2,7 +2,6 @@
 namespace MA\PHPMVC\Controllers;
 
 use MA\PHPMVC\Core\MVC\Controller;
-use MA\PHPMVC\Core\MVC\View;
 
 use function MA\PHPMVC\Helper\currentUser;
 

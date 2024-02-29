@@ -12,7 +12,7 @@ class HomeController extends Controller {
         if(currentUser() == null){
             return $this->view()->renderView('home/index');
         }else{
-            return View::renderView('home/dashboard', [
+            return $this->view()->renderView('home/dashboard', [
                 "title" => "Dashboard",
                 "user" => [
                     "name" => currentUser()->name

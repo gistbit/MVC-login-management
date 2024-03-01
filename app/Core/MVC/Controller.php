@@ -16,9 +16,13 @@ abstract class Controller
         $this->request = $GLOBALS['request'];
         $this->response = $GLOBALS['response'];
     }
+    
+    protected function renderViewOnly(string $view, array $model = []){
+        return View::renderViewOnly($view, $model);
+    }
 
-    protected function view(){
-        return new View();
+    protected function renderView(string $view, array $model = []){
+        return View::renderView($view, $model);
     }
 
     protected function model(string $modelName)

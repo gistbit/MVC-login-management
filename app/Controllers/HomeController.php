@@ -9,9 +9,9 @@ class HomeController extends Controller {
 
     public function index() {
         if(currentUser() == null){
-            return $this->view()->renderView('home/index');
+            return $this->renderView('home/index');
         }else{
-            return $this->view()->renderView('home/dashboard', [
+            return $this->renderView('home/dashboard', [
                 "title" => "Dashboard",
                 "user" => [
                     "name" => currentUser()->name

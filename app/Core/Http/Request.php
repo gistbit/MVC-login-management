@@ -25,18 +25,25 @@ class Request
 
     public function get(string $key = ''): ?string
     {
-        return $this->getValue($_GET, $key);
+        if($key !== '') return $this->getValue($_GET, $key);
+
+        return $this->clean($_GET);
     }
 
     public function post(string $key = ''): ?string
     {
-        return $this->getValue($_POST, $key);
+        if($key !== '') return $this->getValue($_POST, $key);
+
+        return $this->clean($_POST);
     }
 
     public function input(string $key = ''): ?string
     {
-        $postdata = file_get_contents("php://input");
-        return $this->getValue(json_decode($postdata, true), $key);
+        $request = json_decode(file_get_contents("php://input"), true);
+
+        if($key !== '') return $this->getValue($request, $key);
+
+        return $request;
     }
 
     public function getPath(): string
@@ -47,30 +54,6 @@ class Request
     public function getMethod(): string
     {
         return $this->getValue($_SERVER, 'REQUEST_METHOD', 'GET');
-    }
-
-    public function has(string $key): bool
-    {
-        return $this->hasKey($_GET, $key) || $this->hasKey($_POST, $key);
-    }
-
-    public function all(): array
-    {
-        return array_merge($_GET, $_POST);
-    }
-
-    public function only(array $keys): array
-    {
-        $data = [];
-
-        foreach ($keys as $key) {
-            $value = $this->get($key);
-            if ($value !== null) {
-                $data[$key] = $value;
-            }
-        }
-
-        return $data;
     }
 
     public function cookie(string $key = ''): ?string
@@ -132,8 +115,4 @@ class Request
         return isset($array[$key]) ? $this->clean($array[$key]) : $default;
     }
 
-    private function hasKey(array $array, string $key): bool
-    {
-        return isset($array[$key]);
-    }
 }

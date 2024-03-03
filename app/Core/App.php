@@ -29,7 +29,7 @@ final class App implements InterfacesApp
     {
         Config::load();
         $this->setCorsHeaders();
-        $this->response->setHeader('Content-Type: text/html; charset=UTF-8');
+        // $this->response->setHeader('Content-Type: text/html; charset=UTF-8');
     }
 
     private function setCorsHeaders(){

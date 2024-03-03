@@ -3,7 +3,6 @@
 namespace MA\PHPMVC\Core\Http;
 
 use MA\PHPMVC\Core\Features\TokenHandler;
-use stdClass;
 
 class Request
 {
@@ -16,35 +15,35 @@ class Request
         $this->files = $this->clean($_FILES);
     }
 
-    public function getSession(string $name, string $key): ? stdClass
+    public function getSession(string $name, string $key): ? \stdClass
     {
         $JWT = $this->cookie[$name] ?? '';
         if (empty($JWT)) return null;
         return TokenHandler::verifyToken($JWT, $key);
     }
 
-    public function get(string $key = ''): ?string
+    public function get(string $key = '')
     {
         if($key !== '') return $this->getValue($_GET, $key);
 
         return $this->clean($_GET);
     }
 
-    public function post(string $key = ''): ?string
+    public function post(string $key = '')
     {
         if($key !== '') return $this->getValue($_POST, $key);
 
         return $this->clean($_POST);
     }
 
-    public function input(string $key = ''): ?string
+    public function input(string $key = '')
     {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
         if($key !== '') return $this->getValue($request, $key);
 
-        return $this->clean($request);
+        return $request;
     }
 
     public function getPath(): string
@@ -57,13 +56,13 @@ class Request
         return $this->getValue($_SERVER, 'REQUEST_METHOD', 'GET');
     }
 
-    public function cookie(string $key = ''): ?string
+    public function cookie(string $key = '')
     {
         if($key !== '') return $this->getValue($this->cookie, $key);
         return $this->clean($this->cookie);
     }
 
-    public function files(string $key = ''): ?array
+    public function files(string $key = '')
     {
         if($key !== '') return $this->getValue($this->files, $key);
         return $this->files;

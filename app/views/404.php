@@ -2,26 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Error</title>
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>404 Not Found</title>
+    <meta name="description" content="404 Not Found">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 
-<body>
-    <div class="container col-xl-12 mx-auto my-auto">
-        <div class="row align-items-center mt-4">
-            <div class="col-md-10 mx-auto my-auto col-lg-4">
-                <h1 class="fw-bold mt-5 mb-3 text-center">404 - Not Found</h1>
-                <p class="lh-5 text-center"><?= $message ?? null ?></p>
+<body class="py-5" onload="javascript:loadDomain();">
+    <!-- Error Page Content -->
+    <div class="container">
+        <div class="hero text-center my-4">
+            <h1 class="display-5"><i class="bi bi-emoji-dizzy text-danger mx-3"></i></h1>
+            <h1 class="display-5 fw-bold">404 Not Found</h1>
+            <p class="lead">We couldn't find what you're looking for on <em><span id="display-domain"></span></em>.
+            </p>
+            <p>
+                <btn onclick=javascript:goToHomePage(); class="btn btn-outline-success btn-lg">Go to Homepage</a></btn>
+        </div>
+
+        <div class="content">
+            <div class="row  justify-content-center py-3">
+                <div class="col-md-6">
+                    <div class="my-5 p-5 card">
+                        <h3>What happened?</h3>
+                        <p class="fs-5"><?= $message ?? "A 404 error status implies that the file or page that you're looking for could
+                            not be found." ?></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row align-items-center">
-            <h6 class="fw-bold mt-5 text-center"><a href="/">HOME</a></h6>
-        </div>
     </div>
-    <!-- Bootstrap js-->
-    <script src="/assets/js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function loadDomain() {
+            var display = document.getElementById("display-domain");
+            display.innerHTML = document.domain;
+        }
+        // CTA button actions
+        function goToHomePage() {
+            window.location = '/';
+        }
+
+        function reloadPage() {
+            document.location.reload(true);
+        }
+    </script>
 </body>
 
 </html>

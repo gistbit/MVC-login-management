@@ -39,11 +39,12 @@ class Request
 
     public function input(string $key = ''): ?string
     {
-        $request = json_decode(file_get_contents("php://input"), true);
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
 
         if($key !== '') return $this->getValue($request, $key);
 
-        return $request;
+        return $this->clean($request);
     }
 
     public function getPath(): string
@@ -59,7 +60,7 @@ class Request
     public function cookie(string $key = ''): ?string
     {
         if($key !== '') return $this->getValue($this->cookie, $key);
-        return $this->cookie;
+        return $this->clean($this->cookie);
     }
 
     public function files(string $key = ''): ?array

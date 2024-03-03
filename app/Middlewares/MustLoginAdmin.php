@@ -5,7 +5,6 @@ namespace MA\PHPMVC\Middlewares;
 use MA\PHPMVC\Core\Config;
 use MA\PHPMVC\Core\Interfaces\Middleware;
 use MA\PHPMVC\Core\Http\Request;
-use function MA\PHPMVC\Helper\response;
 
 class MustLoginAdmin implements Middleware
 {

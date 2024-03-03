@@ -70,8 +70,6 @@ final class App implements InterfacesApp
 
         if($stack->handle($this->request)){
             $next();
-        }else if($this->response->getContent() !== null){
-            $this->response->setNotFound();
         }
     }
 

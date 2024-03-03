@@ -13,9 +13,14 @@ function cetak($arr){
     echo '</pre>';
 }
 
-function response() : Response
+function response($message = null, int $code = 0) : Response
 {
-    return $GLOBALS['response'];
+    global $response;
+    if(!is_null($message)){
+        $response->setContent($message);
+        $response->setStatusCode($code);
+    }
+    return $response;
 }
 
 function request() : Request
@@ -23,7 +28,7 @@ function request() : Request
     return $GLOBALS['request'];
 }
 
-function currentUser(): ?User
+function currentUser() : ?User
 {
     $connection = Database::getConnection();
     $sessionRepository = new SessionRepository($connection);
@@ -31,7 +36,7 @@ function currentUser(): ?User
     return $sessionService->current();
 }
 
-function strRandom(int $length = 16)
+function strRandom(int $length = 16) : string
 {
     return (function ($length) {
         $string = '';
@@ -48,4 +53,11 @@ function strRandom(int $length = 16)
 
         return $string;
     })($length);
+}
+
+function set_CSRF(string $path) : string
+{
+    $token = strRandom(17);
+    response()->setCookie('csrf_token', $token, time() + 60*60*30 , $path);
+    return $token;
 }

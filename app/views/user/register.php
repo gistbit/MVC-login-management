@@ -11,8 +11,9 @@
             <h1 class="display-4 fw-bold lh-1 mb-3">Register</h1>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/user/register">
-                <div class="form-floating mb-3">
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/user/register">    
+            <input type="hidden" name="csrf_token" value=<?= $csrf_token ?? $_POST['csrf_token'] ?>>
+            <div class="form-floating mb-3">
                     <input name="id" type="text" class="form-control" id="id" value="<?=$_POST['id']??'' ?>" placeholder="id">
                     <label for="id">Id</label>
                 </div>

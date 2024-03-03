@@ -14,7 +14,7 @@ $response = new Response();
 $router = new Router();
 
 // Load routes configuration
-require_once CONFIG . '/router.php';
+require_once CONFIG . '/routes.php';
 
 // Initialize the application
 $app = new App($request, $response);

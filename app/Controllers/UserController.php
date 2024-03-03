@@ -25,12 +25,14 @@ class UserController extends Controller{
 
     public function register()
     {
-        return View::renderView('user/register', ['title'=> 'Register New User']);
+        return View::renderView('user/register', [
+            'title'=> 'Register New User',
+            'csrf_token' => set_CSRF('/user/register')
+        ]);
     }
 
     public function postRegister()
     {
-     
         $request = new UserRegisterRequest();
         $request->id = $this->request->post('id');
         $request->name = $this->request->post('name');
@@ -50,7 +52,10 @@ class UserController extends Controller{
 
     public function login()
     {
-        return View::renderView('user/login', ['title'=> 'Login User']);
+        return View::renderView('user/login', [
+            'title'=> 'Login User',
+            'csrf_token' => set_CSRF('/user/login')
+        ]);
     }
 
     public function postLogin()
@@ -88,7 +93,8 @@ class UserController extends Controller{
             "user" => [
                 "id" => $user->id,
                 "name" => $user->name
-            ]
+            ],
+            'csrf_token' => set_CSRF('/user/profile')
         ]);
     }
 
@@ -123,7 +129,8 @@ class UserController extends Controller{
             "title" => "Update user password",
             "user" => [
                 "id" => $user->id
-            ]
+            ],
+            'csrf_token' => set_CSRF('/user/password')
         ]);
     }
 

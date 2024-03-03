@@ -165,11 +165,11 @@ class Response
         $this->setContentFromFile($filePath);
     }
 
-    public function setNotFound(string $pesan = null): bool
+    public function setNotFound(string $message = null): bool
     {
         $this->setStatusCode(404);
         $this->setContent(View::renderViewOnly('404', [
-            'message' => $pesan
+            'message' => $message
         ]));
         return false;
     }

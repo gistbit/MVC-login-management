@@ -6,8 +6,6 @@ use MA\PHPMVC\Core\Config;
 use MA\PHPMVC\Core\Features\TokenHandler;
 use MA\PHPMVC\Domain\{Session, User};
 use MA\PHPMVC\Repository\SessionRepository;
-use function MA\PHPMVC\Helper\request;
-use function MA\PHPMVC\Helper\strRandom;
 
 class SessionService
 {

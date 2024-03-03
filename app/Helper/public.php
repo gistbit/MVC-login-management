@@ -1,5 +1,5 @@
 <?php
-namespace MA\PHPMVC\Helper;
+
 use MA\PHPMVC\Domain\User;
 use MA\PHPMVC\Core\Database\Database;
 use MA\PHPMVC\Core\Http\Request;

@@ -3,7 +3,6 @@ namespace MA\PHPMVC\Controllers;
 
 use MA\PHPMVC\Core\MVC\Controller;
 
-use function MA\PHPMVC\Helper\currentUser;
 
 class HomeController extends Controller {
 

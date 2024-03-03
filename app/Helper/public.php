@@ -13,7 +13,7 @@ function cetak($arr){
     echo '</pre>';
 }
 
-function response($message = null, int $code = 0) : Response
+function response(string $message = null, int $code = 0) : Response
 {
     global $response;
     if(!is_null($message)){

@@ -13,7 +13,7 @@ class CSRFMiddleware implements Middleware
             $token = $request->post() ?? '';
             if($token === $request->cookie('csrf_token')) return true;
         }
-        response('csrf_token tidak valid !');
+        response('<h1>csrf_token tidak valid !</h1>');
         return false;
     }
 }

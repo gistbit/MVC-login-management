@@ -10,7 +10,7 @@ class CSRFMiddleware implements Middleware
     public function process(Request $request): bool
     {  
         if($request->isMethod('post')){
-            $token = $request->post() ?? '';
+            $token = $request->post('csrf_token') ?? '';
             if($token === $request->cookie('csrf_token')) return true;
         }
 

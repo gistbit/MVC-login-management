@@ -58,12 +58,14 @@ class Request
 
     public function cookie(string $key = ''): ?string
     {
-        return $this->getValue($this->cookie, $key);
+        if($key !== '') return $this->getValue($this->cookie, $key);
+        return $this->cookie;
     }
 
     public function files(string $key = ''): ?array
     {
-        return $this->getValue($this->files, $key);
+        if($key !== '') return $this->getValue($this->files, $key);
+        return $this->files;
     }
 
     public function header(string $key = ''): ?string

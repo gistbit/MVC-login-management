@@ -4,7 +4,7 @@ namespace MA\PHPMVC\Core\Router;
 
 class Router
 {
-    private array $routes = [];
+    private static array $routes = [];
 
     public function get($path, $callback, $middlewares = [])
     {
@@ -28,19 +28,19 @@ class Router
 
     private function add(string $method, string $path, $callback, array $middlewares): void
     {
-        if (!isset($this->routes[$method][$path])) {
-            $this->routes[$method][$path] = new Route($callback, $middlewares);
+        if (!isset(self::$routes[$method][$path])) {
+            self::$routes[$method][$path] = new Route($callback, $middlewares);
         }
     }
 
     public function getRoute(string $method, string $path): ?Route
     {
-        return $this->routes[$method][$path] ?? null;
+        return self::$routes[$method][$path] ?? null;
     }
 
     public function getAllRoutes(): array
     {
-        return $this->routes;
+        return self::$routes;
     }
 
 }

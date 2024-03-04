@@ -1,7 +1,7 @@
 <?php
 namespace MA\PHPMVC\Middlewares;
 
-use MA\PHPMVC\Core\Config;
+use MA\PHPMVC\Core\Utility\Config;
 use MA\PHPMVC\Core\Interfaces\Middleware;
 use MA\PHPMVC\Core\Http\Request;
 use MA\PHPMVC\Core\Http\Response;

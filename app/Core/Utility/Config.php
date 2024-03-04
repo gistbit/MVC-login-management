@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\PHPMVC\Core;
+namespace MA\PHPMVC\Core\Utility;
 
 class Config{
 

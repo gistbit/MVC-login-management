@@ -1,9 +1,8 @@
 <?php
 
-namespace MA\PHPMVC\Core\Features;
+namespace MA\PHPMVC\Core\Utility;
 use Exception;
 use Firebase\JWT\{JWT, Key};
-use stdClass;
 
 class TokenHandler{
 
@@ -14,7 +13,7 @@ class TokenHandler{
         return JWT::encode($payload, $key, self::ALGORITHM );
     }
 
-    public static function verifyToken(string $encPayload, string $key): ? stdClass
+    public static function verifyToken(string $encPayload, string $key): ? \stdClass
     {
         try {
             return JWT::decode($encPayload, new Key($key, self::ALGORITHM));

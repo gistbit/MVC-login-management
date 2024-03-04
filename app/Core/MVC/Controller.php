@@ -5,6 +5,7 @@ namespace MA\PHPMVC\Core\MVC;
 use MA\PHPMVC\Core\Http\Request;
 use MA\PHPMVC\Core\Http\Response;
 use Exception;
+use MA\PHPMVC\Core\App;
 
 abstract class Controller
 {
@@ -13,8 +14,8 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->request = $GLOBALS['request'];
-        $this->response = $GLOBALS['response'];
+        $this->request = App::$request;
+        $this->response = App::$response;
     }
     
     protected function renderViewOnly(string $view, array $model = []){

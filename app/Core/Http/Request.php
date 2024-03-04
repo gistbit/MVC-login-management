@@ -2,38 +2,48 @@
 
 namespace MA\PHPMVC\Core\Http;
 
-use MA\PHPMVC\Core\Features\TokenHandler;
+use MA\PHPMVC\Core\Utility\TokenHandler;
 
 class Request
 {
-    private array $cookie;
+    private array $request;
+    private array $query;
+    private array $attributes;
+    private array $cookies;
     private array $files;
+    private array $server;
 
-    public function __construct()
+
+    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [])
     {
-        $this->cookie = $this->clean($_COOKIE);
-        $this->files = $this->clean($_FILES);
+        $this->request = $request;
+        $this->query = $query;
+        $this->attributes = $attributes;
+        $this->cookies = $cookies;
+        $this->files = $files;
+        $this->server = $server;
     }
+
 
     public function getSession(string $name, string $key): ? \stdClass
     {
-        $JWT = $this->cookie[$name] ?? '';
+        $JWT = $this->cookies[$name] ?? '';
         if (empty($JWT)) return null;
         return TokenHandler::verifyToken($JWT, $key);
     }
 
     public function get(string $key = '')
     {
-        if($key !== '') return $this->getValue($_GET, $key);
+        if($key !== '') return $this->getValue($this->query, $key);
 
-        return $this->clean($_GET);
+        return $this->clean($this->query);
     }
 
     public function post(string $key = '')
     {
-        if($key !== '') return $this->getValue($_POST, $key);
+        if($key !== '') return $this->getValue($this->request, $key);
 
-        return $this->clean($_POST);
+        return $this->clean($this->request);
     }
 
     public function input(string $key = '')
@@ -48,18 +58,18 @@ class Request
 
     public function getPath(): string
     {
-        return $this->getValue($_SERVER, 'PATH_INFO', '/');
+        return $this->getValue($this->server, 'PATH_INFO', '/');
     }
 
     public function getMethod(): string
     {
-        return $this->getValue($_SERVER, 'REQUEST_METHOD', 'GET');
+        return $this->getValue($this->server, 'REQUEST_METHOD', 'GET');
     }
 
     public function cookie(string $key = '')
     {
-        if($key !== '') return $this->getValue($this->cookie, $key);
-        return $this->clean($this->cookie);
+        if($key !== '') return $this->getValue($this->cookies, $key);
+        return $this->clean($this->cookies);
     }
 
     public function files(string $key = '')

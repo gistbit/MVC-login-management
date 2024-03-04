@@ -3,13 +3,12 @@
 namespace MA\PHPMVC\Core\Http;
 
 use MA\PHPMVC\Core\MVC\View;
-use InvalidArgumentException;
 
 class Response
 {
-    private array $headers = [];
-    private $content;
-    private int $statusCode = 0;
+    private static array $headers = [];
+    private static $content;
+    private static int $statusCode = 0;
 
     public const STATUS_TEXTS = [
         // INFORMATIONAL CODES
@@ -76,40 +75,49 @@ class Response
         511 => 'Network Authentication Required',
     ];
 
+    public function __construct($content = '', $status = 200, array $headers = [])
+    {
+        if($content !== ''){
+            self::$headers = $headers;
+            $this->setContent($content);
+            $this->setStatusCode($status);
+        }
+    }
+
     public function getStatusText(): string
     {
-        return self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status';
+        return self::STATUS_TEXTS[self::$statusCode] ?? 'unknown status';
     }
 
     public function setHeader(string $header): void
     {
-        $this->headers[] = $header;
+        self::$headers[] = $header;
     }
 
     public function getHeaders(): array
     {
-        return $this->headers;
+        return self::$headers;
     }
 
     public function setContent($content): void
     {
-        $this->content = $content;
+        self::$content = $content;
     }
 
     public function getStatusCode(): int
     {
-        return $this->statusCode;
+        return self::$statusCode;
     }
 
     public function getContent()
     {
-        return $this->content;
+        return self::$content;
     }
 
     public static function redirect(string $url): void
     {
         if (empty($url)) {
-            throw new InvalidArgumentException('Invalid URL provided for redirect.');
+            throw new \InvalidArgumentException('Invalid URL provided for redirect.');
         }
 
         header('Location: ' . str_replace(['&amp;', '\n', '\r'], ['&', '', ''], $url));
@@ -119,7 +127,7 @@ class Response
     public function setStatusCode(int $code): void
     {
         if (!$this->isInvalid($code)) {
-            $this->statusCode = $code;
+            self::$statusCode = $code;
         }
     }
 

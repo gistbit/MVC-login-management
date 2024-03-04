@@ -1,5 +1,6 @@
 <?php
 
+use MA\PHPMVC\Core\App;
 use MA\PHPMVC\Domain\User;
 use MA\PHPMVC\Core\Database\Database;
 use MA\PHPMVC\Core\Http\Request;
@@ -13,11 +14,11 @@ function cetak($arr){
     echo '</pre>';
 }
 
-function response(string $message = null, int $code = 0) : Response
+function response(string $content = null, int $code = 0) : Response
 {
-    global $response;
-    if(!is_null($message)){
-        $response->setContent($message);
+    $response = App::$response;
+    if(!is_null($content)){
+        $response->setContent($content);
         $response->setStatusCode($code);
     }
     return $response;
@@ -25,7 +26,7 @@ function response(string $message = null, int $code = 0) : Response
 
 function request() : Request
 {
-    return $GLOBALS['request'];
+    return App::$request;
 }
 
 function currentUser() : ?User

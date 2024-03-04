@@ -8,17 +8,15 @@ class Request
 {
     private array $request;
     private array $query;
-    private array $attributes;
     private array $cookies;
     private array $files;
     private array $server;
 
 
-    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [])
+    public function __construct(array $query = [], array $request = [], array $cookies = [], array $files = [], array $server = [])
     {
         $this->request = $request;
         $this->query = $query;
-        $this->attributes = $attributes;
         $this->cookies = $cookies;
         $this->files = $files;
         $this->server = $server;

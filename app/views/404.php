@@ -20,8 +20,9 @@
             <h1 class="display-5 fw-bold">404 Not Found</h1>
             <p class="lead">We couldn't find what you're looking for on <em><span id="display-domain"></span></em>.
             </p>
-            <p>
-                <btn onclick=javascript:goToHomePage(); class="btn btn-outline-success btn-lg">Go to Homepage</a></btn>
+            <a>
+                <button onclick=javascript:goToHomePage(); class="btn btn-outline-success btn-lg">Go to Homepage</button>
+            </a>
         </div>
 
         <div class="content">
@@ -41,13 +42,9 @@
             var display = document.getElementById("display-domain");
             display.innerHTML = document.domain;
         }
-        // CTA button actions
+        
         function goToHomePage() {
             window.location = '/';
-        }
-
-        function reloadPage() {
-            document.location.reload(true);
         }
     </script>
 </body>

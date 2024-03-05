@@ -88,12 +88,12 @@ class Request
 
     public function getClientIp(): ?string
     {
-        return $_SERVER['REMOTE_ADDR'] ?? null;
+        return $this->server['REMOTE_ADDR'] ?? null;
     }
 
     public function isAjax(): bool
     {
-        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+        return !empty($this->server['HTTP_X_REQUESTED_WITH']) && strtolower($this->server['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 
     public function getUserAgent(): ?string
@@ -103,7 +103,7 @@ class Request
 
     public function getQueryString(): string
     {
-        return $_SERVER['QUERY_STRING'] ?? '';
+        return $this->server['QUERY_STRING'] ?? '';
     }
 
     private function clean($data)

@@ -4,7 +4,7 @@ use MA\PHPMVC\Core\App;
 use MA\PHPMVC\Domain\User;
 use MA\PHPMVC\Core\Database\Database;
 use MA\PHPMVC\Core\Http\Request;
-use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
+use MA\PHPMVC\Core\Interfaces\Response;
 use MA\PHPMVC\Repository\SessionRepository;
 use MA\PHPMVC\Service\SessionService;
 
@@ -14,7 +14,7 @@ function cetak($arr){
     echo '</pre>';
 }
 
-function response(?string $content = null, int $code = 0) : InterfacesResponse
+function response(?string $content = null, int $code = 200) : Response
 {
     $response = App::$response;
     if(!is_null($content) && !is_null($response) ){

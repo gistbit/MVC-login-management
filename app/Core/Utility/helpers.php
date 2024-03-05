@@ -17,7 +17,7 @@ function cetak($arr){
 function response(string $content = null, int $code = 0) : Response
 {
     $response = App::$response;
-    if(!is_null($content)){
+    if(!is_null($content) && !is_null($response) ){
         $response->setContent($content);
         $response->setStatusCode($code);
     }

@@ -7,7 +7,7 @@
             "MA\\PHPMVC\\": "app"
         },
         "files": [
-            "app/Helper/public.php",
+            "app/Core/Utility/helpers.php",
             "config/constants.php"
         ]
     }

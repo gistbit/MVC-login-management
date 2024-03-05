@@ -2,34 +2,31 @@
 
 namespace MA\PHPMVC\Core\Router;
 
-use MA\PHPMVC\Core\Interfaces\GetRoute;
-use MA\PHPMVC\Core\Interfaces\Routes;
-
-class Router implements Routes, GetRoute
+class Router
 {
     private static array $routes = [];
 
-    public function get($path, $callback, $middlewares = [])
+    public function get(string $path, $callback, ...$middlewares): void
     {
         $this->add('GET', $path, $callback, $middlewares);
     }
 
-    public function post($path, $callback, $middlewares = [])
+    public function post(string $path, $callback, ...$middlewares): void
     {
         $this->add('POST', $path, $callback, $middlewares);
     }
 
-    public function put($path, $callback, $middlewares = [])
+    public function put(string $path, $callback, ...$middlewares): void
     {
         $this->add('PUT', $path, $callback, $middlewares);
     }
 
-    public function delete($path, $callback, $middlewares = [])
+    public function delete(string $path, $callback, ...$middlewares): void
     {
         $this->add('DELETE', $path, $callback, $middlewares);
     }
 
-    private function add(string $method, string $path, $callback, array $middlewares): void
+    private function add(string $method, string $path, $callback, $middlewares): void
     {
         if (!isset(self::$routes[$method][$path])) {
             self::$routes[$method][$path] = new Route($callback, $middlewares);

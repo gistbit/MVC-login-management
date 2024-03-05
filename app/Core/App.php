@@ -44,7 +44,7 @@ final class App implements InterfacesApp
     {
         require_once CONFIG . '/routes.php';
         $route = $router->getRoute($this->method, $this->path);
-
+        
         if ($route === null) {
             self::$response->setNotFound('Route tidak ditemukan');
             return self::$response;

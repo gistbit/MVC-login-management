@@ -2,13 +2,15 @@
 
 namespace MA\PHPMVC\Core\Http;
 
+use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
+use MA\PHPMVC\Core\Interfaces\ResponseApp;
 use MA\PHPMVC\Core\MVC\View;
 
-class Response
+class Response implements ResponseApp, InterfacesResponse
 {
-    private static array $headers = [];
-    private static $content;
-    private static int $statusCode = 0;
+    protected array $headers;
+    protected $content;
+    protected int $statusCode = 200;
 
     public const STATUS_TEXTS = [
         // INFORMATIONAL CODES
@@ -75,43 +77,51 @@ class Response
         511 => 'Network Authentication Required',
     ];
 
-    public function __construct($content = '', $status = 200, array $headers = [])
+    public function __construct($content = '', int $status = 200, array $headers = [])
     {
-        if($content !== ''){
-            self::$headers = $headers;
-            $this->setContent($content);
-            $this->setStatusCode($status);
-        }
+        $this->headers = $headers;
+        $this->setContent($content);
+        $this->setStatusCode($status);
     }
 
     public function getStatusText(): string
     {
-        return self::STATUS_TEXTS[self::$statusCode] ?? 'unknown status';
+        return self::STATUS_TEXTS[$this->statusCode] ?? 'unknown status';
     }
 
-    public function setHeader(string $header): void
+    public function setHeader(string $header): Response
     {
-        self::$headers[] = $header;
+        $this->headers[] = $header;
+        return $this;
     }
 
     public function getHeaders(): array
     {
-        return self::$headers;
+        return $this->headers;
     }
 
-    public function setContent($content): void
+    public function setContent($content): Response
     {
-        self::$content = $content;
-    }
-
-    public function getStatusCode(): int
-    {
-        return self::$statusCode;
+        $this->content = $content;
+        return $this;
     }
 
     public function getContent()
     {
-        return self::$content;
+        return $this->content;
+    }
+
+    public function setStatusCode(int $code): Response
+    {
+        if (!$this->isInvalid($code)) {
+            $this->statusCode = $code;
+        }
+        return $this;
+    }
+
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
     }
 
     public static function redirect(string $url): void
@@ -124,33 +134,29 @@ class Response
         exit;
     }
 
-    public function setStatusCode(int $code): void
-    {
-        if (!$this->isInvalid($code)) {
-            self::$statusCode = $code;
-        }
-    }
-
-    public function setJson(array $data)
+    public function setJson(array $content = []): Response
     {
         $this->setHeader('Content-Type: application/json; charset=UTF-8');
-        return json_encode($data);
+        $this->setContent(!empty($content) ? json_encode($content) : json_encode($this->content));
+        return $this;
     }
 
-    public function setPlainText(string $text): string
+    public function setPlainText(string $content = ''): Response
     {
         $this->setHeader('Content-Type: text/plain; charset=UTF-8');
-        return $text;
+        if($content !== '') $this->setContent($content);
+        return $this;
     }
 
-    public function setContentFromFile(string $filePath): void
+    public function setContentFromFile(string $filePath): Response
     {
         if (file_exists($filePath)) {
             $this->setContent(file_get_contents($filePath));
         }
+        return $this;
     }
 
-    public function setCookie(string $name, string $value, int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false): void
+    public function setCookie(string $name, string $value, int $expire = 0, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = false): Response
     {
         $cookieString = sprintf(
             '%s=%s; expires=%s; path=%s; domain=%s; secure=%s; httponly=%s',
@@ -164,13 +170,15 @@ class Response
         );
 
         $this->setHeader("Set-Cookie: $cookieString");
+        return $this;
     }
 
-    public function setDownload(string $filePath, string $fileName): void
+    public function setDownload(string $filePath, string $fileName): Response
     {
         $this->setHeader('Content-Type: application/octet-stream');
         $this->setHeader("Content-Disposition: attachment; filename=\"$fileName\"");
         $this->setContentFromFile($filePath);
+        return $this;
     }
 
     public function setNotFound(string $message = null): bool
@@ -182,21 +190,46 @@ class Response
         return false;
     }
 
-    public function setNoCache(): void
+    public function setNoCache(): Response
     {
         $this->setHeader('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         $this->setHeader('Pragma: no-cache');
         $this->setHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+        return $this;
     }
 
-    public function setCacheHeaders(int $maxAgeInSeconds = 3600, string $cacheControl = 'public'): void
+    public function setCacheHeaders(int $maxAgeInSeconds = 3600, string $cacheControl = 'public'): Response
     {
         $this->setHeader('Cache-Control: ' . $cacheControl . ', max-age=' . $maxAgeInSeconds);
         $this->setHeader('Expires: ' . gmdate('D, d M Y H:i:s T', time() + $maxAgeInSeconds));
+        return $this;
     }
 
     private function isInvalid(int $statusCode): bool
     {
         return $statusCode < 100 || $statusCode >= 600;
+    }
+
+    private function sendHeaders()
+    {
+        if (!headers_sent()) {
+            foreach ($this->headers as $header) {
+                header($header);
+            }
+        }
+        http_response_code($this->statusCode);
+        return $this;
+    }
+
+    private function sendContent()
+    {
+        echo $this->content;
+        return $this;
+    }
+
+    public function render()
+    {
+        $this->sendHeaders();
+        $this->sendContent();
     }
 }

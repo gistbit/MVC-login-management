@@ -4,22 +4,24 @@ namespace MA\PHPMVC\Core;
 
 use MA\PHPMVC\Core\Http\Request;
 use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Core\Interfaces\ResponseApp as ResponseApp;
 use MA\PHPMVC\Core\Interfaces\App as InterfacesApp;
+use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
 use MA\PHPMVC\Core\Router\Router;
 use MA\PHPMVC\Core\Router\Stack;
 use MA\PHPMVC\Core\Utility\Config;
 
-final class App implements InterfacesApp
+final class App extends Response implements InterfacesApp
 {
     private string $path;
     private string $method;
     public static Request $request;
-    public static Response $response;
+    public static InterfacesResponse $response;
 
-    public function __construct(Request $request, Response $response)
+    public function __construct(Request $request)
     {
         self::$request = $request;
-        self::$response = $response;
+        self::$response = $this;
         $this->path = $this->cleanPath(self::$request->getPath());
         $this->method = strtoupper(self::$request->getMethod());
 
@@ -40,7 +42,7 @@ final class App implements InterfacesApp
         self::$response->setHeader("Access-Control-Allow-Headers: Content-Type");
     }
 
-    public function run(Router $router)
+    public function run(Router $router): ResponseApp
     {
         require_once CONFIG . '/routes.php';
         $route = $router->getRoute($this->method, $this->path);
@@ -95,24 +97,6 @@ final class App implements InterfacesApp
             }
         } else {
             self::$response->setNotFound("Controller Class [ $controller ] tidak ada");
-        }
-    }
-
-    public function render()
-    {
-        if ($output = self::$response->getContent()) {
-            $this->sendHeaders();
-            echo $output;
-        }
-    }
-
-    private function sendHeaders()
-    {
-        http_response_code(self::$response->getStatusCode());
-        if (!headers_sent()) {
-            foreach (self::$response->getHeaders() as $header) {
-                header($header);
-            }
         }
     }
 

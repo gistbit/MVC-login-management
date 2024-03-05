@@ -12,7 +12,6 @@ class Request
     private array $files;
     private array $server;
 
-
     public function __construct(array $query = [], array $request = [], array $cookies = [], array $files = [], array $server = [])
     {
         $this->request = $request;

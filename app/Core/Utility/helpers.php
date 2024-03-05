@@ -14,7 +14,7 @@ function cetak($arr){
     echo '</pre>';
 }
 
-function response(string $content = null, int $code = 0) : Response
+function response(?string $content = null, int $code = 0) : Response
 {
     $response = App::$response;
     if(!is_null($content) && !is_null($response) ){

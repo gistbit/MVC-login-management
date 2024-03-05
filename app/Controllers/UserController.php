@@ -8,7 +8,7 @@ use MA\PHPMVC\Service\{SessionService, UserService};
 use MA\PHPMVC\Exception\ValidationException;
 use MA\PHPMVC\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
 
-class UserController extends Controller{
+class UserController extends Controller {
 
     private UserService $userService;
     private SessionService $sessionService;

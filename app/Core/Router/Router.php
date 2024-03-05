@@ -2,7 +2,10 @@
 
 namespace MA\PHPMVC\Core\Router;
 
-class Router
+use MA\PHPMVC\Core\Interfaces\GetRoute;
+use MA\PHPMVC\Core\Interfaces\Routes;
+
+class Router implements Routes, GetRoute
 {
     private static array $routes = [];
 

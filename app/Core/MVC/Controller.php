@@ -3,14 +3,13 @@
 namespace MA\PHPMVC\Core\MVC;
 
 use MA\PHPMVC\Core\Http\Request;
-use MA\PHPMVC\Core\Http\Response;
-use Exception;
 use MA\PHPMVC\Core\App;
+use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
 
 abstract class Controller
 {
     protected Request $request;
-    protected Response $response;
+    protected InterfacesResponse $response;
 
     public function __construct()
     {
@@ -38,7 +37,7 @@ abstract class Controller
     private function checkModelClass(string $modelClass)
     {
         if (!class_exists($modelClass)) {
-            throw new Exception(sprintf('{ %s } this model class not found', $modelClass));
+            throw new \Exception(sprintf('{ %s } this model class not found', $modelClass));
         }
     }
 }

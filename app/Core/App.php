@@ -4,27 +4,25 @@ namespace MA\PHPMVC\Core;
 
 use MA\PHPMVC\Core\Http\Request;
 use MA\PHPMVC\Core\Http\Response;
-use MA\PHPMVC\Core\Interfaces\ResponseApp as ResponseApp;
 use MA\PHPMVC\Core\Interfaces\App as InterfacesApp;
-use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
+use MA\PHPMVC\Core\Interfaces\RenderResponse;
 use MA\PHPMVC\Core\Router\Router;
 use MA\PHPMVC\Core\Router\Stack;
 use MA\PHPMVC\Core\Utility\Config;
 
-final class App extends Response implements InterfacesApp
+final class App implements InterfacesApp
 {
     private string $path;
     private string $method;
     public static Request $request;
-    public static InterfacesResponse $response;
+    public static Response $response;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Response $response)
     {
         self::$request = $request;
-        self::$response = $this;
+        self::$response = $response;
         $this->path = $this->cleanPath(self::$request->getPath());
         $this->method = strtoupper(self::$request->getMethod());
-
         $this->setup();
     }
 
@@ -42,14 +40,14 @@ final class App extends Response implements InterfacesApp
         self::$response->setHeader("Access-Control-Allow-Headers: Content-Type");
     }
 
-    public function run(Router $router): ResponseApp
+    public function run(Router $router): RenderResponse
     {
         require_once CONFIG . '/routes.php';
         $route = $router->getRoute($this->method, $this->path);
 
         if ($route === null) {
             self::$response->setNotFound('Route tidak ditemukan');
-            return $this;
+            return self::$response;
         }
 
         $this->runMiddlewares(
@@ -64,7 +62,7 @@ final class App extends Response implements InterfacesApp
             }
         );
 
-        return $this;
+        return self::$response;
     }
 
     private function runMiddlewares($middlewares, callable $next)

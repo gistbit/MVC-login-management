@@ -2,7 +2,7 @@
 
 namespace MA\PHPMVC\Core\Interfaces;
 
-Interface ResponseApp
+Interface RenderResponse
 {
     public function render();
 }

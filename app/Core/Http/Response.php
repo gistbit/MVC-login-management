@@ -2,11 +2,11 @@
 
 namespace MA\PHPMVC\Core\Http;
 
+use MA\PHPMVC\Core\Interfaces\RenderResponse;
 use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
-use MA\PHPMVC\Core\Interfaces\ResponseApp;
 use MA\PHPMVC\Core\MVC\View;
 
-class Response implements ResponseApp, InterfacesResponse
+class Response implements RenderResponse, InterfacesResponse
 {
     protected array $headers;
     protected $content;

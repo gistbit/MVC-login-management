@@ -68,7 +68,6 @@ class UserController extends Controller{
         try {
             $response = $this->userService->login($request);
             $this->sessionService->create($response->user);
-            response()->setNoCache();
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
            

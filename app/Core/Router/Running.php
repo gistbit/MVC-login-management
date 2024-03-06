@@ -14,7 +14,7 @@ class Running
         $this->middlewares = $middlewares;
     }
 
-    public function handle(Request $request, callable $nextHandler)
+    public function process(Request $request, callable $nextHandler)
     {
         if ($this->middlewares) {
             $this->prosesMiddlewares($request);

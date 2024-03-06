@@ -57,7 +57,7 @@ final class App implements InterfacesApp
             $route->getMiddlewares()
         ));
         
-        $running->handle(self::$request, fn() => $this->handleRoute($route));
+        $running->process(self::$request, fn() => $this->handleRoute($route));
 
         return self::$response;
     }

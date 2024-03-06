@@ -49,26 +49,23 @@ final class App implements InterfacesApp
             self::$response->setNotFound('Route tidak ditemukan');
             return self::$response;
         }
-        
-        $route->parseCallback();
-        
+
         $running = new Running(...array_map(
             fn ($middleware) => new $middleware(),
             $route->getMiddlewares()
         ));
         
-        $running->process(self::$request, fn() => $this->handleRoute($route));
+        $running->process(self::$request, function ($request) use($route) {
+            $route->parseCallback();
+            if ($route->getController() === null) {
+                $content = call_user_func($route->getAction(), self::$request);
+                self::$response->setContent($content);
+            } else {
+                $this->runController($route->getController(), $route->getAction());
+            }
+        });
 
         return self::$response;
-    }
-
-    private function handleRoute($route){
-        if ($route->getController() === null) {
-            $content = call_user_func($route->getAction(), self::$request);
-            self::$response->setContent($content);
-        } else {
-            $this->runController($route->getController(), $route->getAction());
-        }
     }
 
     private function runController(string $controller, string $method)

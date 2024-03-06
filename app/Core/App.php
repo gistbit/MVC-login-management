@@ -92,10 +92,10 @@ final class App implements InterfacesApp
                 $content = empty($parameters) ? $controllerInstance->$method() : $controllerInstance->$method(self::$request);
                 self::$response->setContent($content);
             } else {
-                self::$response->setNotFound("Method [ $method ] tidak ada");
+                self::$response->setNotFound("Method { <strong> $method </strong> } tidak ada");
             }
         } else {
-            self::$response->setNotFound("Controller Class [ $controller ] tidak ada");
+            self::$response->setNotFound("Controller Class { <strong> $controller </strong> } tidak ada");
         }
     }
 

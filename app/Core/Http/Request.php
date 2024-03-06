@@ -2,9 +2,10 @@
 
 namespace MA\PHPMVC\Core\Http;
 
+use MA\PHPMVC\Core\Interfaces\Request as InterfacesRequest;
 use MA\PHPMVC\Core\Utility\TokenHandler;
 
-class Request
+class Request implements InterfacesRequest
 {
     private array $request;
     private array $query;

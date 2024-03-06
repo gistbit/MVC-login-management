@@ -23,36 +23,24 @@ final class Route
             $this->controller = null;
             $this->action = $this->callback;
         } else {
-            throw new \InvalidArgumentException('Invalid callback provided');
+            throw new \InvalidArgumentException("Invalid callback <strong>{ $this->callback }</strong> provided");
         }
     }
 
-    private function parseControllerAction($callback): array
+    private function parseControllerAction(array $callback): array
     {
         $this->validateControllerActionFormat($callback);
 
         [$class, $method] = $callback;
-
-        $this->validateClassAndMethod($class, $method);
-
+        if(!class_exists($class)) return [$method, $class];
+        
         return $callback;
     }
 
-    private function validateControllerActionFormat($callback): void
+    private function validateControllerActionFormat(array $callback): void
     {
-        if (!is_array($callback) || count($callback) !== 2) {
+        if (count($callback) !== 2) {
             throw new \InvalidArgumentException('Invalid controller action format');
-        }
-    }
-
-    private function validateClassAndMethod(string $class, string $method): void
-    {
-        if (!is_string($class) || !class_exists($class)) {
-            throw new \InvalidArgumentException('Invalid class name in controller action');
-        }
-
-        if (!is_string($method) || !method_exists($class, $method)) {
-            throw new \InvalidArgumentException('Invalid method name in controller action');
         }
     }
 

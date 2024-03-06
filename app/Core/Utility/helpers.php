@@ -3,7 +3,7 @@
 use MA\PHPMVC\Core\App;
 use MA\PHPMVC\Domain\User;
 use MA\PHPMVC\Core\Database\Database;
-use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Interfaces\Request;
 use MA\PHPMVC\Core\Interfaces\Response;
 use MA\PHPMVC\Repository\SessionRepository;
 use MA\PHPMVC\Service\SessionService;

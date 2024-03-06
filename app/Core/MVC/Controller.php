@@ -2,18 +2,19 @@
 
 namespace MA\PHPMVC\Core\MVC;
 
-use MA\PHPMVC\Core\Http\Request;
-use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
+use MA\PHPMVC\Core\App;
+use MA\PHPMVC\Core\Interfaces\Request;
+use MA\PHPMVC\Core\Interfaces\Response;
 
 abstract class Controller
 {
     protected Request $request;
-    protected InterfacesResponse $response;
+    protected Response $response;
 
     public function __construct()
     {
-        $this->request = request();
-        $this->response = response();
+        $this->request = App::$request;
+        $this->response = App::$response;
     }
     
     protected function renderViewOnly(string $view, array $model = []){

@@ -4,12 +4,12 @@ use MA\PHPMVC\Controllers\HomeController;
 use MA\PHPMVC\Controllers\UserController;
 use MA\PHPMVC\Middlewares\{CSRFMiddleware, OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
 
-$router->get('/', [HomeController::class, 'index']);
+$router->get('/', ['index', HomeController::class]);
 
-$router->get("/user/register", [UserController::class, 'register'] , OnlyGuestMiddleware::class);
+$router->get("/user/register", ['register', UserController::class] , OnlyGuestMiddleware::class);
 $router->post("/user/register", [UserController::class, 'postRegister'] , OnlyGuestMiddleware::class, CSRFMiddleware::class);
 
-$router->get("/user/login",[UserController::class, 'login'], OnlyGuestMiddleware::class);
+$router->get("/user/login", [UserController::class, 'login'], OnlyGuestMiddleware::class);
 $router->post("/user/login", [UserController::class, 'postLogin'], OnlyGuestMiddleware::class, CSRFMiddleware::class);
 
 $router->get("/user/logout", [UserController::class, 'logout'], OnlyMemberMiddleware::class);

@@ -126,7 +126,7 @@ class Request implements InterfacesRequest
         return isset($array[$key]) ? $this->clean($array[$key]) : $default;
     }
 
-    public function user(): User
+    public function user(): ?User
     {
         return currentUser();
     }

@@ -2,6 +2,7 @@
 
 namespace MA\PHPMVC\Core\Router;
 
+use Closure;
 use MA\PHPMVC\Core\Interfaces\Middleware;
 use MA\PHPMVC\Core\Interfaces\Request;
 
@@ -14,21 +15,18 @@ class Running
         $this->middlewares = $middlewares;
     }
 
-    public function process(Request $request, callable $nextHandler)
+    public function process(Request $request, Closure $finalHandler)
     {
-        if ($this->middlewares) {
-            $this->prosesMiddlewares($request);
-        }
+        $next = $finalHandler;
 
-        $nextHandler();
-    }
-
-    private function prosesMiddlewares(Request $request)
-    {
-        foreach ($this->middlewares as $middleware) {
-            if (!$middleware->process($request)) {
-                return;
+        if($this->middlewares){
+            foreach (array_reverse($this->middlewares) as $middleware) {
+                $next = function ($request) use ($middleware, $next) {
+                    return $middleware->process($request, $next);
+                };
             }
         }
+        // Mulai eksekusi middleware pertama
+        $next($request);
     }
 }

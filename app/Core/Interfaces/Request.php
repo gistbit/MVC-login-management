@@ -34,5 +34,5 @@ interface Request
 
     public function getQueryString(): string;
 
-    public function user(): User;
+    public function user(): ?User;
 }

@@ -19,3 +19,11 @@ $router->post("/user/profile", [UserController::class, 'postUpdateProfile'], Onl
 
 $router->get("/user/password", [UserController::class, 'updatePassword'], OnlyMemberMiddleware::class);
 $router->post("/user/password", [UserController::class, 'postUpdatePassword'], OnlyMemberMiddleware::class, CSRFMiddleware::class);
+
+$router->get('/tes', function(){
+    if ([]) {
+        return "Array tidak kosong";
+    } else {
+        return "Array kosong";
+    }
+});

@@ -7,7 +7,7 @@ use MA\PHPMVC\Core\Http\Response;
 use MA\PHPMVC\Core\Interfaces\App as InterfacesApp;
 use MA\PHPMVC\Core\Interfaces\RenderResponse;
 use MA\PHPMVC\Core\Router\Router;
-use MA\PHPMVC\Core\Router\Stack;
+use MA\PHPMVC\Core\Router\Running;
 use MA\PHPMVC\Core\Utility\Config;
 
 final class App implements InterfacesApp
@@ -49,37 +49,25 @@ final class App implements InterfacesApp
             self::$response->setNotFound('Route tidak ditemukan');
             return self::$response;
         }
-
+        
         $route->parseCallback();
-        $this->runMiddlewares(
-            $route->getMiddlewares(),
-            function () use ($route) {
-                if ($route->getController() === null) {
-                    $content = call_user_func($route->getAction(), self::$request);
-                    self::$response->setContent($content);
-                } else {
-                    $this->runController($route->getController(), $route->getAction());
-                }
-            }
-        );
+        
+        $running = new Running(...array_map(
+            fn ($middleware) => new $middleware(),
+            $route->getMiddlewares()
+        ));
+        
+        $running->handle(self::$request, fn() => $this->handleRoute($route));
 
         return self::$response;
     }
 
-    private function runMiddlewares($middlewares, callable $next)
-    {
-        if (empty($middlewares)) {
-            $next();
-            return;
-        }
-
-        $stack = new Stack(...array_map(
-            fn ($middleware) => new $middleware(),
-            $middlewares
-        ));
-
-        if ($stack->handle(self::$request)) {
-            $next();
+    private function handleRoute($route){
+        if ($route->getController() === null) {
+            $content = call_user_func($route->getAction(), self::$request);
+            self::$response->setContent($content);
+        } else {
+            $this->runController($route->getController(), $route->getAction());
         }
     }
 

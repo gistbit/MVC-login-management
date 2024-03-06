@@ -4,6 +4,7 @@ namespace MA\PHPMVC\Core\Http;
 
 use MA\PHPMVC\Core\Interfaces\Request as InterfacesRequest;
 use MA\PHPMVC\Core\Utility\TokenHandler;
+use MA\PHPMVC\Domain\User;
 
 class Request implements InterfacesRequest
 {
@@ -123,6 +124,11 @@ class Request implements InterfacesRequest
     private function getValue(array $array, string $key, string $default = null): ?string
     {
         return isset($array[$key]) ? $this->clean($array[$key]) : $default;
+    }
+
+    public function user(): User
+    {
+        return currentUser();
     }
 
 }

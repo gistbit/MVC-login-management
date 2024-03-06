@@ -4,7 +4,7 @@ namespace MA\PHPMVC\Middlewares;
 
 use MA\PHPMVC\Core\Utility\Config;
 use MA\PHPMVC\Core\Interfaces\Middleware;
-use MA\PHPMVC\Core\Http\Request;
+use MA\PHPMVC\Core\Interfaces\Request;
 
 class MustLoginAdmin implements Middleware
 {

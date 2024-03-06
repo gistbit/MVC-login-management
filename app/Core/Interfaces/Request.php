@@ -2,6 +2,8 @@
 
 namespace MA\PHPMVC\Core\Interfaces;
 
+use MA\PHPMVC\Domain\User;
+
 interface Request
 {
     public function getSession(string $name, string $key): ? \stdClass;
@@ -31,4 +33,6 @@ interface Request
     public function getUserAgent(): ?string;
 
     public function getQueryString(): string;
+
+    public function user(): User;
 }

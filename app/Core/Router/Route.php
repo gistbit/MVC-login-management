@@ -7,20 +7,21 @@ final class Route
     private ?string $controller;
     private $action;
     private array $middlewares;
+    private $callback;
 
     public function __construct($callback, $middlewares)
     {
-        $this->parseCallback($callback);
+        $this->callback = $callback;
         $this->middlewares = $middlewares;
     }
 
-    private function parseCallback($callback): void
+    public function parseCallback(): void
     {
-        if (is_array($callback)) {
-            [$this->controller, $this->action] = $this->parseControllerAction($callback);
-        } elseif (is_callable($callback)) {
+        if (is_array($this->callback)) {
+            [$this->controller, $this->action] = $this->parseControllerAction($this->callback);
+        } elseif (is_callable($this->callback)) {
             $this->controller = null;
-            $this->action = $callback;
+            $this->action = $this->callback;
         } else {
             throw new \InvalidArgumentException('Invalid callback provided');
         }

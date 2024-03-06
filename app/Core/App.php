@@ -50,6 +50,7 @@ final class App implements InterfacesApp
             return self::$response;
         }
 
+        $route->parseCallback();
         $this->runMiddlewares(
             $route->getMiddlewares(),
             function () use ($route) {

@@ -18,4 +18,4 @@ $router->get("/user/profile", [UserController::class, 'updateProfile'], OnlyMemb
 $router->post("/user/profile", [UserController::class, 'postUpdateProfile'], OnlyMemberMiddleware::class, CSRFMiddleware::class);
 
 $router->get("/user/password", [UserController::class, 'updatePassword'], OnlyMemberMiddleware::class);
-$router->post("/user/password", [UserController::class, 'postupdatePassword'], OnlyMemberMiddleware::class, CSRFMiddleware::class);
+$router->post("/user/password", [UserController::class, 'postUpdatePassword'], OnlyMemberMiddleware::class, CSRFMiddleware::class);

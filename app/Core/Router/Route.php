@@ -9,7 +9,7 @@ final class Route
     private array $middlewares;
     private $callback;
 
-    public function __construct($callback, $middlewares)
+    public function __construct($callback, array $middlewares)
     {
         $this->callback = $callback;
         $this->middlewares = $middlewares;

@@ -26,7 +26,7 @@ class Router
         $this->add('DELETE', $path, $callback, $middlewares);
     }
 
-    private function add(string $method, string $path, $callback, $middlewares): void
+    private function add(string $method, string $path, $callback, array $middlewares): void
     {
         if (!isset(self::$routes[$method][$path])) {
             self::$routes[$method][$path] = new Route($callback, $middlewares);

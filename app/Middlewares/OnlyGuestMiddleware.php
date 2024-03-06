@@ -5,7 +5,7 @@ use Closure;
 use MA\PHPMVC\Core\Utility\Config;
 use MA\PHPMVC\Core\Interfaces\Middleware;
 use MA\PHPMVC\Core\Interfaces\Request;
-use MA\PHPMVC\Core\Interfaces\Response;
+use MA\PHPMVC\Core\Http\Response;
 
 class OnlyGuestMiddleware implements Middleware
 {

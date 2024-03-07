@@ -35,7 +35,8 @@ final class App implements InterfacesApp
 
     private function setCorsHeaders()
     {
-        self::$response->setHeader('Access-Control-Allow-Origin: ' . Config::get('app.url'));
+        $allowedOrigin = Config::get('app.url');
+        self::$response->setHeader('Access-Control-Allow-Origin: ' . $allowedOrigin);
         self::$response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
         self::$response->setHeader("Access-Control-Allow-Headers: Content-Type");
     }
@@ -50,38 +51,46 @@ final class App implements InterfacesApp
             return self::$response;
         }
         
-        $running = new Running(...array_map(
-            fn ($middleware) => new $middleware(),
-            $route->getMiddlewares()
-        ));
+        $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
+        $running = new Running(...$middlewares);
         
         $route->parseCallback();
         
-        $running->process(self::$request, function ($request) use($route) {
-            if ($route->getController() === null) {
-                $content = call_user_func($route->getAction(), self::$request);
-                self::$response->setContent($content);
-            } else {
-                $this->runController($route->getController(), $route->getAction());
-            }
+        $running->process(self::$request, function ($request) use ($route) {
+            $this->handleRouteCallback($route);
         });
 
         return self::$response;
+    }
+
+    private function handleRouteCallback($route)
+    {
+        if ($route->getController() === null) {
+            $content = call_user_func($route->getAction(), self::$request);
+            self::$response->setContent($content);
+        } else {
+            $this->runController($route->getController(), $route->getAction());
+        }
     }
 
     private function runController(string $controller, string $method)
     {
         if (class_exists($controller)) {
             $controllerInstance = new $controller();
-            if (method_exists($controllerInstance, $method)) {          
-                $parameters = (new \ReflectionMethod($controllerInstance, $method))->getParameters();
-                $content = empty($parameters) ? $controllerInstance->$method() : $controllerInstance->$method(self::$request);
-                self::$response->setContent($content);
-            } else {
-                self::$response->setNotFound("Method { <strong> $method </strong> } tidak ada");
-            }
+            $this->invokeControllerMethod($controllerInstance, $method);
         } else {
             self::$response->setNotFound("Controller Class { <strong> $controller </strong> } tidak ada");
+        }
+    }
+
+    private function invokeControllerMethod($controllerInstance, $method)
+    {
+        if (method_exists($controllerInstance, $method)) {          
+            $parameters = (new \ReflectionMethod($controllerInstance, $method))->getParameters();
+            $content = empty($parameters) ? $controllerInstance->$method() : $controllerInstance->$method(self::$request);
+            self::$response->setContent($content);
+        } else {
+            self::$response->setNotFound("Method { <strong> $method </strong> } tidak ada");
         }
     }
 

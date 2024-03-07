@@ -12,20 +12,25 @@ class Running implements Middleware
 
     public function __construct(Middleware ...$middlewares)
     {
-        $this->middlewares = array_reverse($middlewares);
+        $this->middlewares = $middlewares;
     }
 
     public function process(Request $request, Closure $next)
     {
-        if($this->middlewares){
-            foreach ($this->middlewares as $middleware) {
-                $next = function ($request) use ($middleware, $next) {
-                    return $middleware->process($request, $next);
-                };
-            }
+        $middlewareStack = $this->middlewares ? $this->createMiddlewareStack($next) : $next;
+        $middlewareStack($request);
+    }
+
+    private function createMiddlewareStack(Closure $defaultNext): Closure
+    {
+        $middlewareStack = $defaultNext;
+
+        foreach (array_reverse($this->middlewares) as $middleware) {
+            $middlewareStack = function ($request) use ($middleware, $middlewareStack) {
+                return $middleware->process($request, $middlewareStack);
+            };
         }
 
-        // Start executing the first middleware
-        $next($request);
+        return $middlewareStack;
     }
 }

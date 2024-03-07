@@ -54,9 +54,8 @@ final class App implements InterfacesApp
         $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
         $running = new Running(...$middlewares);
         
-        $route->parseCallback();
-        
-        $running->process(self::$request, function ($request) use ($route) {
+        $running->process(self::$request, function () use ($route) {
+            $route->parseCallback();
             $this->handleRouteCallback($route);
         });
 

@@ -6,7 +6,7 @@ use Closure;
 use MA\PHPMVC\Core\Interfaces\Middleware;
 use MA\PHPMVC\Core\Interfaces\Request;
 
-class Running
+class Running implements Middleware
 {
     private array $middlewares;
 

@@ -12,21 +12,20 @@ class Running
 
     public function __construct(Middleware ...$middlewares)
     {
-        $this->middlewares = $middlewares;
+        $this->middlewares = array_reverse($middlewares);
     }
 
-    public function process(Request $request, Closure $finalHandler)
+    public function process(Request $request, Closure $next)
     {
-        $next = $finalHandler;
-
         if($this->middlewares){
-            foreach (array_reverse($this->middlewares) as $middleware) {
+            foreach ($this->middlewares as $middleware) {
                 $next = function ($request) use ($middleware, $next) {
                     return $middleware->process($request, $next);
                 };
             }
         }
-        // Mulai eksekusi middleware pertama
+
+        // Start executing the first middleware
         $next($request);
     }
 }

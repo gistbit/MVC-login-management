@@ -7,7 +7,7 @@ use MA\PHPMVC\MVC\{Controller, View};
 use App\Repository\{SessionRepository, UserRepository};
 use App\Service\{SessionService, UserService};
 use MA\PHPMVC\Exception\ValidationException;
-use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+use App\Models\User\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
 
 class UserController extends Controller
 {

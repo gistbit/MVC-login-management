@@ -5,10 +5,10 @@ namespace  App\Service;
 use MA\PHPMVC\Database\Database;
 use App\Repository\UserRepository;
 use MA\PHPMVC\Exception\ValidationException;
-use MA\PHPMVC\Domain\User;
+use App\Domain\User;
 use Exception;
-use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
-use App\Models\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
+use App\Models\User\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+use App\Models\User\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
 
 class UserService
 {

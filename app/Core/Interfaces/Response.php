@@ -95,7 +95,7 @@ interface Response{
 
     public function setDownload(string $filePath, string $fileName): Response;
 
-    public function setNotFound(string $message = null): bool;
+    public function setNotFound(string $message = null): Response;
 
     public function setNoCache(): Response;
 

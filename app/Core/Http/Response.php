@@ -3,6 +3,7 @@
 namespace MA\PHPMVC\Core\Http;
 
 use MA\PHPMVC\Core\Interfaces\RenderResponse;
+use MA\PHPMVC\Core\Interfaces\Request;
 use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
 use MA\PHPMVC\Core\MVC\View;
 
@@ -181,13 +182,13 @@ class Response implements RenderResponse, InterfacesResponse
         return $this;
     }
 
-    public function setNotFound(string $message = null): bool
+    public function setNotFound(string $message = null): Response
     {
         $this->setStatusCode(404);
         $this->setContent(View::renderViewOnly('404', [
             'message' => $message
         ]));
-        return false;
+        return $this;
     }
 
     public function setNoCache(): Response

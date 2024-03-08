@@ -1,10 +1,10 @@
 <?php
 
-namespace MA\PHPMVC\Core\Http;
+namespace MA\PHPMVC\Http;
 
-use MA\PHPMVC\Core\Interfaces\Request as InterfacesRequest;
-use MA\PHPMVC\Core\Utility\TokenHandler;
-use MA\PHPMVC\Domain\User;
+use MA\PHPMVC\Interfaces\Request as InterfacesRequest;
+use MA\PHPMVC\Utility\TokenHandler;
+use App\Domain\User;
 
 class Request implements InterfacesRequest
 {
@@ -24,7 +24,7 @@ class Request implements InterfacesRequest
     }
 
 
-    public function getSession(string $name, string $key): ? \stdClass
+    public function getSession(string $name, string $key): ?\stdClass
     {
         $JWT = $this->cookies[$name] ?? '';
         if (empty($JWT)) return null;
@@ -33,14 +33,14 @@ class Request implements InterfacesRequest
 
     public function get(string $key = '')
     {
-        if($key !== '') return $this->getValue($this->query, $key);
+        if ($key !== '') return $this->getValue($this->query, $key);
 
         return $this->clean($this->query);
     }
 
     public function post(string $key = '')
     {
-        if($key !== '') return $this->getValue($this->request, $key);
+        if ($key !== '') return $this->getValue($this->request, $key);
 
         return $this->clean($this->request);
     }
@@ -50,7 +50,7 @@ class Request implements InterfacesRequest
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
-        if($key !== '') return $this->getValue($request, $key);
+        if ($key !== '') return $this->getValue($request, $key);
 
         return $request;
     }
@@ -67,13 +67,13 @@ class Request implements InterfacesRequest
 
     public function cookie(string $key = '')
     {
-        if($key !== '') return $this->getValue($this->cookies, $key);
+        if ($key !== '') return $this->getValue($this->cookies, $key);
         return $this->clean($this->cookies);
     }
 
     public function files(string $key = '')
     {
-        if($key !== '') return $this->getValue($this->files, $key);
+        if ($key !== '') return $this->getValue($this->files, $key);
         return $this->files;
     }
 
@@ -130,5 +130,4 @@ class Request implements InterfacesRequest
     {
         return currentUser();
     }
-
 }

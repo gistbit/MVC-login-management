@@ -1,11 +1,10 @@
 <?php
 
-namespace MA\PHPMVC\Core\Http;
+namespace MA\PHPMVC\Http;
 
-use MA\PHPMVC\Core\Interfaces\RenderResponse;
-use MA\PHPMVC\Core\Interfaces\Request;
-use MA\PHPMVC\Core\Interfaces\Response as InterfacesResponse;
-use MA\PHPMVC\Core\MVC\View;
+use MA\PHPMVC\Interfaces\RenderResponse;
+use MA\PHPMVC\Interfaces\Response as InterfacesResponse;
+use MA\PHPMVC\MVC\View;
 
 class Response implements RenderResponse, InterfacesResponse
 {
@@ -145,7 +144,7 @@ class Response implements RenderResponse, InterfacesResponse
     public function setPlainText(string $content = ''): Response
     {
         $this->setHeader('Content-Type: text/plain; charset=UTF-8');
-        if($content !== '') $this->setContent($content);
+        if ($content !== '') $this->setContent($content);
         return $this;
     }
 

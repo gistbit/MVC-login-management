@@ -1,12 +1,12 @@
 <?php
 
-use MA\PHPMVC\Core\App;
-use MA\PHPMVC\Domain\User;
-use MA\PHPMVC\Core\Database\Database;
-use MA\PHPMVC\Core\Interfaces\Request;
-use MA\PHPMVC\Core\Interfaces\Response;
-use MA\PHPMVC\Repository\SessionRepository;
-use MA\PHPMVC\Service\SessionService;
+use App\Domain\User;
+use MA\PHPMVC\Database\Database;
+use MA\PHPMVC\Interfaces\Request;
+use MA\PHPMVC\Interfaces\Response;
+use MA\PHPMVC\Kernel;
+use App\Repository\SessionRepository;
+use App\Service\SessionService;
 
 function cetak($arr){
     echo '<pre>';
@@ -16,7 +16,7 @@ function cetak($arr){
 
 function response(?string $content = null, int $code = 200) : Response
 {
-    $response = App::$response;
+    $response = Kernel::$response;
     if(!is_null($content) && !is_null($response) ){
         $response->setContent($content);
         $response->setStatusCode($code);
@@ -26,7 +26,7 @@ function response(?string $content = null, int $code = 200) : Response
 
 function request() : Request
 {
-    return App::$request;
+    return Kernel::$request;
 }
 
 function currentUser() : ?User

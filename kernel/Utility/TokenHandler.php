@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\PHPMVC\Core\Utility;
+namespace MA\PHPMVC\Utility;
 use Exception;
 use Firebase\JWT\{JWT, Key};
 

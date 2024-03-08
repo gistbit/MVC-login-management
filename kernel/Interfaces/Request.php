@@ -1,12 +1,12 @@
 <?php
 
-namespace MA\PHPMVC\Core\Interfaces;
+namespace MA\PHPMVC\Interfaces;
 
-use MA\PHPMVC\Domain\User;
+use App\Domain\User;
 
 interface Request
 {
-    public function getSession(string $name, string $key): ? \stdClass;
+    public function getSession(string $name, string $key): ?\stdClass;
 
     public function get(string $key = '');
 

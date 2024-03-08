@@ -1,8 +1,8 @@
 <?php
 
-use MA\PHPMVC\Controllers\HomeController;
-use MA\PHPMVC\Controllers\UserController;
-use MA\PHPMVC\Middlewares\{CSRFMiddleware, OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
+use App\Controllers\HomeController;
+use App\Controllers\UserController;
+use App\Middlewares\{CSRFMiddleware, OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
 
 $router->get('/', ['index', HomeController::class]);
 

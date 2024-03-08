@@ -1,10 +1,10 @@
 <?php
 
-namespace MA\PHPMVC\Core\Router;
+namespace MA\PHPMVC\Router;
 
 use Closure;
-use MA\PHPMVC\Core\Interfaces\Middleware;
-use MA\PHPMVC\Core\Interfaces\Request;
+use MA\PHPMVC\Interfaces\Middleware;
+use MA\PHPMVC\Interfaces\Request;
 
 class Running implements Middleware
 {

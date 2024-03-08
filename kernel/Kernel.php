@@ -1,16 +1,16 @@
 <?php
 
-namespace MA\PHPMVC\Core;
+namespace MA\PHPMVC;
 
-use MA\PHPMVC\Core\Http\Request;
-use MA\PHPMVC\Core\Http\Response;
-use MA\PHPMVC\Core\Interfaces\App as InterfacesApp;
-use MA\PHPMVC\Core\Interfaces\RenderResponse;
-use MA\PHPMVC\Core\Router\Router;
-use MA\PHPMVC\Core\Router\Running;
-use MA\PHPMVC\Core\Utility\Config;
+use MA\PHPMVC\Http\Request;
+use MA\PHPMVC\Http\Response;
+use MA\PHPMVC\Interfaces\App as InterfacesApp;
+use MA\PHPMVC\Interfaces\RenderResponse;
+use MA\PHPMVC\Router\Router;
+use MA\PHPMVC\Router\Running;
+use MA\PHPMVC\Utility\Config;
 
-final class App implements InterfacesApp
+final class Kernel implements InterfacesApp
 {
     private string $path;
     private string $method;

@@ -1,6 +1,8 @@
 <?php
-namespace MA\PHPMVC\Models;
-use MA\PHPMVC\Domain\User;
+
+namespace App\Models;
+
+use App\Domain\User;
 
 class UserPasswordUpdateResponse
 {

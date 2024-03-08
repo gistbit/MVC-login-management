@@ -1,8 +1,9 @@
 <?php
 
-namespace MA\PHPMVC\Domain;
+namespace App\Domain;
 
-class User{
+class User
+{
     public string $id;
     public string $name;
     public string $password;

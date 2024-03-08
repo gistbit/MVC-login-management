@@ -1,8 +1,8 @@
 <?php
 
-namespace MA\PHPMVC\Repository;
+namespace  App\Repository;
 
-use MA\PHPMVC\Domain\Session;
+use App\Domain\Session;
 use PDO;
 
 class SessionRepository
@@ -27,12 +27,12 @@ class SessionRepository
         $statement->execute([$id]);
 
         try {
-            if($row = $statement->fetch()){
+            if ($row = $statement->fetch()) {
                 $session = new Session();
                 $session->id = $row['id'];
                 $session->userId = $row['user_id'];
                 return $session;
-            }else{
+            } else {
                 return null;
             }
         } finally {
@@ -50,5 +50,4 @@ class SessionRepository
     {
         $this->connection->exec("DELETE FROM sessions");
     }
-
 }

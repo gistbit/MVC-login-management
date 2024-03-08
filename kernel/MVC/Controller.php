@@ -1,10 +1,10 @@
 <?php
 
-namespace MA\PHPMVC\Core\MVC;
+namespace MA\PHPMVC\MVC;
 
-use MA\PHPMVC\Core\App;
-use MA\PHPMVC\Core\Interfaces\Request;
-use MA\PHPMVC\Core\Interfaces\Response;
+use MA\PHPMVC\Interfaces\Request;
+use MA\PHPMVC\Interfaces\Response;
+use MA\PHPMVC\Kernel;
 
 abstract class Controller
 {
@@ -13,15 +13,17 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->request = App::$request;
-        $this->response = App::$response;
+        $this->request = Kernel::$request;
+        $this->response = Kernel::$response;
     }
-    
-    protected function renderViewOnly(string $view, array $model = []){
+
+    protected function renderViewOnly(string $view, array $model = [])
+    {
         return View::renderViewOnly($view, $model);
     }
 
-    protected function renderView(string $view, array $model = []){
+    protected function renderView(string $view, array $model = [])
+    {
         return View::renderView($view, $model);
     }
 

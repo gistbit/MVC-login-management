@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\PHPMVC\Core\MVC;
+namespace MA\PHPMVC\MVC;
 
 use Exception;
 

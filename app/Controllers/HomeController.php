@@ -1,15 +1,18 @@
 <?php
-namespace MA\PHPMVC\Controllers;
 
-use MA\PHPMVC\Core\MVC\Controller;
+namespace App\Controllers;
 
-class HomeController extends Controller {
+use MA\PHPMVC\MVC\Controller;
 
-    public function index() {
+class HomeController extends Controller
+{
+
+    public function index()
+    {
         response()->setNoCache();
-        if(currentUser() == null){
+        if (currentUser() == null) {
             return $this->renderView('home/index');
-        }else{
+        } else {
             return $this->renderView('home/dashboard', [
                 "title" => "Dashboard",
                 "user" => [

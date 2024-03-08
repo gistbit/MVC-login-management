@@ -1,9 +1,9 @@
 <?php
 
-namespace MA\PHPMVC\Core\Interfaces;
+namespace MA\PHPMVC\Interfaces;
 
-interface Response{
-
+interface Response
+{
     public const STATUS_TEXTS = [
         // INFORMATIONAL CODES
         100 => 'Continue',
@@ -100,5 +100,4 @@ interface Response{
     public function setNoCache(): Response;
 
     public function setCacheHeaders(int $maxAgeInSeconds = 3600, string $cacheControl = 'public'): Response;
-
 }

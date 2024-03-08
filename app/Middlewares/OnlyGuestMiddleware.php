@@ -1,11 +1,11 @@
 <?php
-namespace MA\PHPMVC\Middlewares;
+
+namespace App\Middlewares;
 
 use Closure;
-use MA\PHPMVC\Core\Utility\Config;
-use MA\PHPMVC\Core\Interfaces\Middleware;
-use MA\PHPMVC\Core\Interfaces\Request;
-use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Utility\Config;
+use MA\PHPMVC\Interfaces\Middleware;
+use MA\PHPMVC\Interfaces\Request;
 
 class OnlyGuestMiddleware implements Middleware
 {
@@ -13,7 +13,7 @@ class OnlyGuestMiddleware implements Middleware
     {
         $user = $request->getSession(Config::get('session.name'), Config::get('session.key'));
         if ($user != null) {
-            Response::redirect('/');
+            response()->redirect('/');
         }
         return $next($request);
     }

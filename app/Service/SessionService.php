@@ -1,11 +1,11 @@
 <?php
 
-namespace MA\PHPMVC\Service;
+namespace  App\Service;
 
-use MA\PHPMVC\Core\Utility\Config;
-use MA\PHPMVC\Core\Utility\TokenHandler;
-use MA\PHPMVC\Domain\{Session, User};
-use MA\PHPMVC\Repository\SessionRepository;
+use MA\PHPMVC\Utility\Config;
+use MA\PHPMVC\Utility\TokenHandler;
+use App\Domain\{Session, User};
+use App\Repository\SessionRepository;
 
 class SessionService
 {
@@ -47,13 +47,13 @@ class SessionService
     public function current(): ?User
     {
         $payload = request()->getSession(Config::get('session.name'), Config::get('session.key'));
-    
+
         if ($payload === null) {
             return null;
         }
-    
+
         $session = $this->sessionRepository->findById($payload->id);
-    
+
         if ($session === null) {
             $this->destroy();
             return null;

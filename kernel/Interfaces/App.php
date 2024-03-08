@@ -1,9 +1,9 @@
 <?php
 
-namespace MA\PHPMVC\Core\Interfaces;
-use MA\PHPMVC\Core\Http\Request;
-use MA\PHPMVC\Core\Http\Response;
-use MA\PHPMVC\Core\Router\Router;
+namespace MA\PHPMVC\Interfaces;
+use MA\PHPMVC\Http\Request;
+use MA\PHPMVC\Http\Response;
+use MA\PHPMVC\Router\Router;
 
 interface App{
     public function __construct(Request $request, Response $response);

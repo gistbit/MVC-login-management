@@ -1,11 +1,11 @@
 <?php
 
-use MA\PHPMVC\Core\App;
-use MA\PHPMVC\Core\Http\Request;
-use MA\PHPMVC\Core\Http\Response;
+use MA\PHPMVC\Kernel;
+use MA\PHPMVC\Http\Request;
+use MA\PHPMVC\Http\Response;
 
 // Initialize the application with dependency injection
-$app = new App(
+$app = new Kernel(
     new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),
     new Response()
 );

@@ -1,19 +1,21 @@
 <?php
 
-namespace MA\PHPMVC\Repository;
+namespace App\Repository;
 
-use MA\PHPMVC\Domain\User;
+use App\Domain\User;
 use PDO;
 
-class UserRepository{
+class UserRepository
+{
     private PDO $connection;
 
-    public function __construct(PDO $connection){
+    public function __construct(PDO $connection)
+    {
         $this->connection = $connection;
-
     }
-    
-    public function save(User $user): User{
+
+    public function save(User $user): User
+    {
         $statement = $this->connection->prepare("INSERT INTO users(id, name, password, role) VALUES (?, ?, ?, 0)");
         $statement->execute([
             $user->id, $user->name, $user->password

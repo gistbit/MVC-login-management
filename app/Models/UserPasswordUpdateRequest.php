@@ -1,5 +1,7 @@
 <?php
-namespace MA\PHPMVC\Models;
+
+namespace App\Models;
+
 class UserPasswordUpdateRequest
 {
     public ?string $id = null;

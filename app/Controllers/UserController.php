@@ -1,14 +1,16 @@
 <?php
 
-namespace MA\PHPMVC\Controllers;
-use MA\PHPMVC\Core\Database\Database;
-use MA\PHPMVC\Core\MVC\{Controller, View};
-use MA\PHPMVC\Repository\{SessionRepository, UserRepository};
-use MA\PHPMVC\Service\{SessionService, UserService};
-use MA\PHPMVC\Exception\ValidationException;
-use MA\PHPMVC\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+namespace App\Controllers;
 
-class UserController extends Controller {
+use MA\PHPMVC\Database\Database;
+use MA\PHPMVC\MVC\{Controller, View};
+use App\Repository\{SessionRepository, UserRepository};
+use App\Service\{SessionService, UserService};
+use MA\PHPMVC\Exception\ValidationException;
+use App\Models\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
+
+class UserController extends Controller
+{
 
     private UserService $userService;
     private SessionService $sessionService;
@@ -26,7 +28,7 @@ class UserController extends Controller {
     public function register()
     {
         return View::renderView('user/register', [
-            'title'=> 'Register New User',
+            'title' => 'Register New User',
             'csrf_token' => set_CSRF('/user/register')
         ]);
     }
@@ -36,13 +38,13 @@ class UserController extends Controller {
         $request = new UserRegisterRequest();
         $request->id = $this->request->post('id');
         $request->name = $this->request->post('name');
-        $request->password =$this->request->post('password');
+        $request->password = $this->request->post('password');
 
-        try { 
+        try {
             $this->userService->register($request);
             $this->response->redirect('/user/login');
         } catch (ValidationException $exception) {
-           
+
             return View::renderView('user/register', [
                 'title' => 'Register new User',
                 'error' => $exception->getMessage()
@@ -54,7 +56,7 @@ class UserController extends Controller {
     {
         response()->setNoCache();
         return View::renderView('user/login', [
-            'title'=> 'Login User',
+            'title' => 'Login User',
             'csrf_token' => set_CSRF('/user/login')
         ]);
     }
@@ -70,7 +72,7 @@ class UserController extends Controller {
             $this->sessionService->create($response->user);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-           
+
             return View::renderView('user/login', [
                 'title' => 'Login User',
                 'error' => $exception->getMessage()
@@ -112,7 +114,7 @@ class UserController extends Controller {
             $this->sessionService->create($response->user); //update cookie session setelah update profile
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-             return View::renderView('user/profile', [
+            return View::renderView('user/profile', [
                 "title" => "Update user profile",
                 "error" => $exception->getMessage(),
                 "user" => [
@@ -156,5 +158,4 @@ class UserController extends Controller {
             ]);
         }
     }
-
 }

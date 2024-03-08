@@ -47,7 +47,7 @@ final class App implements InterfacesApp
         $route = $router->getRoute($this->method, $this->path);
         
         if ($route === null) {
-            self::$response->setNotFound('Route tidak ditemukan');
+            return self::$response->setNotFound('Route tidak ditemukan');
         }
         
         $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());

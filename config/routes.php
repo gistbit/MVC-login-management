@@ -2,7 +2,7 @@
 
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
-use App\Middlewares\{CSRFMiddleware, OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
+use App\Middleware\{CSRFMiddleware, OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
 
 $router->get('/', ['index', HomeController::class]);
 

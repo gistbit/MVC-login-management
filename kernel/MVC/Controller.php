@@ -10,6 +10,7 @@ abstract class Controller
 {
     protected Request $request;
     protected Response $response;
+    protected $template = '';
 
     public function __construct()
     {
@@ -17,14 +18,9 @@ abstract class Controller
         $this->response = Kernel::$response;
     }
 
-    protected function renderViewOnly(string $view, array $model = [])
+    protected function view(string $view, array $model = [])
     {
-        return View::renderViewOnly($view, $model);
-    }
-
-    protected function renderView(string $view, array $model = [])
-    {
-        return View::renderView($view, $model);
+        return View::render($view, $model, $this->template);
     }
 
     protected function model(string $modelName)

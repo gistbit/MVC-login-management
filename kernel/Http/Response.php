@@ -184,9 +184,16 @@ class Response implements RenderResponse, InterfacesResponse
     public function setNotFound(string $message = null): Response
     {
         $this->setStatusCode(404);
-        $this->setContent(View::renderViewOnly('404', [
+        $this->setContent(View::render('error/404', [
             'message' => $message
         ]));
+        return $this;
+    }
+
+    public function setForbidden(): Response
+    {
+        $this->setStatusCode(404);
+        $this->setContent(View::render('error/403'));
         return $this;
     }
 

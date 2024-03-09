@@ -1,21 +1,19 @@
 <?php
 
+use App\Controllers\AuthController;
 use App\Controllers\HomeController;
-use App\Controllers\UserController;
+use App\Controllers\ProfileController;
 use App\Middleware\{CSRFMiddleware, OnlyMemberMiddleware, OnlyGuestMiddleware, MustLoginAdmin};
 
 $router->get('/', ['index', HomeController::class]);
 
-$router->get("/user/register", ['register', UserController::class] , OnlyGuestMiddleware::class);
-$router->post("/user/register", [UserController::class, 'postRegister'] , OnlyGuestMiddleware::class, CSRFMiddleware::class);
+$router->get("/user/register", ['showRegistration', AuthController::class] , OnlyGuestMiddleware::class);
+$router->post("/user/register", ['register', AuthController::class] , OnlyGuestMiddleware::class, CSRFMiddleware::class);
+$router->get("/user/login", [AuthController::class, 'showLogin'], OnlyGuestMiddleware::class);
+$router->post("/user/login", [AuthController::class, 'login'], OnlyGuestMiddleware::class, CSRFMiddleware::class);
+$router->get("/user/logout", [AuthController::class, 'logout'], OnlyMemberMiddleware::class);
 
-$router->get("/user/login", [UserController::class, 'login'], OnlyGuestMiddleware::class);
-$router->post("/user/login", [UserController::class, 'postLogin'], OnlyGuestMiddleware::class, CSRFMiddleware::class);
-
-$router->get("/user/logout", [UserController::class, 'logout'], OnlyMemberMiddleware::class);
-
-$router->get("/user/profile", [UserController::class, 'updateProfile'], OnlyMemberMiddleware::class, MustLoginAdmin::class);
-$router->post("/user/profile", [UserController::class, 'postUpdateProfile'], OnlyMemberMiddleware::class, CSRFMiddleware::class);
-
-$router->get("/user/password", [UserController::class, 'updatePassword'], OnlyMemberMiddleware::class);
-$router->post("/user/password", [UserController::class, 'postUpdatePassword'], OnlyMemberMiddleware::class, CSRFMiddleware::class);
+$router->get("/user/profile", [ProfileController::class, 'edit'], OnlyMemberMiddleware::class, MustLoginAdmin::class);
+$router->post("/user/profile", [ProfileController::class, 'update'], OnlyMemberMiddleware::class, CSRFMiddleware::class);
+$router->get("/user/password", [ProfileController::class, 'changePassword'], OnlyMemberMiddleware::class);
+$router->post("/user/password", [ProfileController::class, 'updatePassword'], OnlyMemberMiddleware::class, CSRFMiddleware::class);

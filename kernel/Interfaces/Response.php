@@ -97,6 +97,8 @@ interface Response
 
     public function setNotFound(string $message = null): Response;
 
+    public function setForbidden(): Response;
+
     public function setNoCache(): Response;
 
     public function setCacheHeaders(int $maxAgeInSeconds = 3600, string $cacheControl = 'public'): Response;

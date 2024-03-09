@@ -15,12 +15,17 @@ class HomeController extends Controller
         if ($request->user() == null) {
             return $this->view('index');
         } else {
-            return $this->view('home/index', [
-                "title" => "Dashboard",
-                "user" => [
-                    "name" => currentUser()->name
-                ]
-            ]);
+            return $this->home();
         }
+    }
+
+    public function home()
+    {
+        return $this->view('home/index', [
+            "title" => "Dashboard",
+            "user" => [
+                "name" => currentUser()->name
+            ]
+        ]);
     }
 }

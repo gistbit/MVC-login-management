@@ -51,7 +51,7 @@ class ProfileController extends Controller
                 "error" => $exception->getMessage(),
                 "user" => [
                     "id" => $user->id,
-                    "name" => $_POST['name']
+                    "name" => $this->request->post('name')
                 ]
             ]);
         }

@@ -12,8 +12,6 @@ use MA\PHPMVC\Utility\Config;
 
 final class Application implements App
 {
-    private string $path;
-    private string $method;
     public static Request $request;
     public static Response $response;
 
@@ -21,8 +19,6 @@ final class Application implements App
     {
         self::$request = $request;
         self::$response = $response;
-        $this->path = $this->cleanPath(self::$request->getPath());
-        $this->method = strtoupper(self::$request->getMethod());
         $this->setup();
     }
 
@@ -44,7 +40,7 @@ final class Application implements App
     public function run(Router $router): RenderResponse
     {
         require_once CONFIG . '/routes.php';
-        $route = $router->getRoute($this->method, $this->path);
+        $route = $router->getRoute($this->getMethod(), $this->getPath());
         
         if ($route === null) {
             return self::$response->setNotFound('Route tidak ditemukan');
@@ -95,5 +91,15 @@ final class Application implements App
     private function cleanPath($path): string
     {
         return ($path === '/') ? $path : str_replace(['%20', ' '], '-', rtrim($path, '/'));
+    }
+
+    private function getPath(): string
+    {
+        return $this->cleanPath(self::$request->getPath());
+    }
+
+    private function getMethod(): string
+    {
+        return strtoupper(self::$request->getMethod());
     }
 }

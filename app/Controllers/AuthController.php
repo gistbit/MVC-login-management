@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     use UserServiceTrait;
 
-    protected $template = 'layouts/user';
+    protected $template = 'layouts/app';
 
     public function showLogin() // Menampilkan formulir login
     {

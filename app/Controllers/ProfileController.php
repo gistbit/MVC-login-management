@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     use UserServiceTrait;
 
-    protected $template = 'layouts/user';
+    protected $template = 'layouts/app';
 
     public function show() // Menampilkan profil pengguna
     {

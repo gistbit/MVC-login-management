@@ -1,36 +1,38 @@
 <?php
 
 use App\Domain\User;
+use MA\PHPMVC\MVC\View;
+use MA\PHPMVC\Application;
+use App\Service\SessionService;
 use MA\PHPMVC\Database\Database;
 use MA\PHPMVC\Interfaces\Request;
 use MA\PHPMVC\Interfaces\Response;
 use App\Repository\SessionRepository;
-use App\Service\SessionService;
-use MA\PHPMVC\Application;
 
 function cetak($arr)
 {
     echo '<pre>';
-        print_r($arr);die;
+    print_r($arr);
+    die;
     echo '</pre>';
 }
 
-function response(?string $content = null, int $code = 200) : Response
+function response(?string $content = null, int $code = 200): Response
 {
     $response = Application::$response;
-    if(!is_null($content) && !is_null($response) ){
+    if (!is_null($content) && !is_null($response)) {
         $response->setContent($content);
         $response->setStatusCode($code);
     }
     return $response;
 }
 
-function request() : Request
+function request(): Request
 {
     return Application::$request;
 }
 
-function currentUser() : ?User
+function currentUser(): ?User
 {
     $connection = Database::getConnection();
     $sessionRepository = new SessionRepository($connection);
@@ -38,7 +40,7 @@ function currentUser() : ?User
     return $sessionService->current();
 }
 
-function strRandom(int $length = 16) : string
+function strRandom(int $length = 16): string
 {
     return (function ($length) {
         $string = '';
@@ -57,9 +59,14 @@ function strRandom(int $length = 16) : string
     })($length);
 }
 
-function set_CSRF(string $path) : string
+function set_CSRF(string $path): string
 {
     $token = strRandom(17);
-    response()->setCookie('csrf_token', $token, time() + 60*60*30 , $path);
+    response()->setCookie('csrf_token', $token, time() + 60 * 60 * 30, $path);
     return $token;
+}
+
+function view(string $view, array $model = [])
+{
+    return View::render($view, $model);
 }

@@ -7,24 +7,24 @@ use MA\PHPMVC\MVC\Controller;
 
 class HomeController extends Controller
 {
-    protected $template = 'layouts/home';
+    protected $template = 'layouts/app';
 
     public function index(Request $request)
     {
         response()->setNoCache();
         if ($request->user() == null) {
-            return $this->view('index');
+            return view('welcome');
         } else {
-            return $this->home();
+            return $this->home($request->user());
         }
     }
 
-    public function home()
+    public function home($user)
     {
         return $this->view('home/index', [
             "title" => "Dashboard",
             "user" => [
-                "name" => currentUser()->name
+                "name" => $user->name
             ]
         ]);
     }

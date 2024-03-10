@@ -107,7 +107,7 @@ final class Application implements App
         return strtoupper(self::$request->getMethod());
     }
 
-    public function responseError($message): Response
+    private function responseError($message): Response
     {
         if(Config::get('mode.development')){
             return self::$response->setStatusCode(200)->setContent(view('error/development', ['message' => $message]));

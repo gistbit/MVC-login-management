@@ -66,7 +66,7 @@ function set_CSRF(string $path): string
     return $token;
 }
 
-function view(string $view, array $model = [])
+function view(string $view, array $model = [], string $extends = '')
 {
-    return View::render($view, $model);
+    return View::render($view, $model, $extends);
 }

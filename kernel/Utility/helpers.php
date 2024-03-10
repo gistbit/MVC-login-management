@@ -4,11 +4,12 @@ use App\Domain\User;
 use MA\PHPMVC\Database\Database;
 use MA\PHPMVC\Interfaces\Request;
 use MA\PHPMVC\Interfaces\Response;
-use MA\PHPMVC\Kernel;
 use App\Repository\SessionRepository;
 use App\Service\SessionService;
+use MA\PHPMVC\Application;
 
-function cetak($arr){
+function cetak($arr)
+{
     echo '<pre>';
         print_r($arr);die;
     echo '</pre>';
@@ -16,7 +17,7 @@ function cetak($arr){
 
 function response(?string $content = null, int $code = 200) : Response
 {
-    $response = Kernel::$response;
+    $response = Application::$response;
     if(!is_null($content) && !is_null($response) ){
         $response->setContent($content);
         $response->setStatusCode($code);
@@ -26,7 +27,7 @@ function response(?string $content = null, int $code = 200) : Response
 
 function request() : Request
 {
-    return Kernel::$request;
+    return Application::$request;
 }
 
 function currentUser() : ?User

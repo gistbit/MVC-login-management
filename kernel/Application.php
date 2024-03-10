@@ -10,7 +10,7 @@ use MA\PHPMVC\Router\Router;
 use MA\PHPMVC\Router\Running;
 use MA\PHPMVC\Utility\Config;
 
-final class Kernel implements InterfacesApp
+final class Application implements InterfacesApp
 {
     private string $path;
     private string $method;

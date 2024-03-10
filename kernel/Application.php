@@ -39,6 +39,7 @@ final class Application implements App
 
     public function run(Router $router): RenderResponse
     {
+        try {
         require_once CONFIG . '/routes.php';
         $route = $router->getRoute($this->getMethod(), $this->getPath());
 
@@ -46,7 +47,6 @@ final class Application implements App
             return self::$response->setNotFound('Route tidak ditemukan');
         }
 
-        try {
             $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
             $running = new Running(...$middlewares);
 

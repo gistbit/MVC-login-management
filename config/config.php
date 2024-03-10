@@ -5,6 +5,10 @@ return [
         'url' => 'http://www.localhost:8080/'
     ],
 
+    'mode' => [
+        'development' => true
+    ],
+
     'db' => [
         'driver' => 'mysql',
         'host' => '127.0.0.1',

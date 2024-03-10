@@ -41,20 +41,24 @@ final class Application implements App
     {
         require_once CONFIG . '/routes.php';
         $route = $router->getRoute($this->getMethod(), $this->getPath());
-        
+
         if ($route === null) {
             return self::$response->setNotFound('Route tidak ditemukan');
         }
-        
-        $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
-        $running = new Running(...$middlewares);
-        
-        $running->process(self::$request, function () use ($route) {
-            $route->parseCallback();
-            $this->handleRouteCallback($route);
-        });
 
-        return self::$response;
+        try {
+            $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
+            $running = new Running(...$middlewares);
+
+            $running->process(self::$request, function () use ($route) {
+                $route->parseCallback();
+                $this->handleRouteCallback($route);
+            });
+
+            return self::$response;
+        } catch (\Throwable $th) {
+            return $this->responseError($th->getMessage());
+        }
     }
 
     private function handleRouteCallback($route)
@@ -79,7 +83,7 @@ final class Application implements App
 
     private function invokeControllerMethod($controllerInstance, $method)
     {
-        if (method_exists($controllerInstance, $method)) {          
+        if (method_exists($controllerInstance, $method)) {
             $parameters = (new \ReflectionMethod($controllerInstance, $method))->getParameters();
             $content = empty($parameters) ? $controllerInstance->$method() : $controllerInstance->$method(self::$request);
             self::$response->setContent($content);
@@ -101,5 +105,14 @@ final class Application implements App
     private function getMethod(): string
     {
         return strtoupper(self::$request->getMethod());
+    }
+
+    public function responseError($message): Response
+    {
+        if(Config::get('mode.development')){
+            return self::$response->setStatusCode(200)->setContent(view('error/development', ['message' => $message]));
+        }else{
+            return self::$response->setStatusCode(500)->setContent(view('error/500'));
+        }
     }
 }

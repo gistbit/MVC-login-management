@@ -6,13 +6,13 @@ use Exception;
 
 final class View
 {
-    public static function render(string $view, array $model = [], string $extends = '')
+    public static function render(string $view, array $data = [], string $extends = '')
     {
         try {
-            $content = self::loadView($view, $model);
+            $content = self::loadView($view, $data);
 
             if (!empty($extends)) {
-                $templateContent = self::loadView($extends, $model);
+                $templateContent = self::loadView($extends, $data);
                 return str_replace('{{content}}', $content, $templateContent);
             }
 

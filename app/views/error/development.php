@@ -99,7 +99,6 @@
 <body>
     <div class="container">
         <h1>ERROR</h1>
-        <h3>What happened?</h3>
         <p class="fs-5"><?= $message ?? '' ?></p>
     </div>
 </body>

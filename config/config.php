@@ -16,8 +16,7 @@ return [
         'name' => 'php_mvc',
         'username' => 'root',
         'password' => '',
-        'prefix' => '',
-        'sufix' => ''
+        'prefix' => ''
     ],
 
     'session' => [

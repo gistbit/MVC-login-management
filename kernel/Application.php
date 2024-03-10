@@ -4,13 +4,13 @@ namespace MA\PHPMVC;
 
 use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
-use MA\PHPMVC\Interfaces\App as InterfacesApp;
+use MA\PHPMVC\Interfaces\App;
 use MA\PHPMVC\Interfaces\RenderResponse;
 use MA\PHPMVC\Router\Router;
 use MA\PHPMVC\Router\Running;
 use MA\PHPMVC\Utility\Config;
 
-final class Application implements InterfacesApp
+final class Application implements App
 {
     private string $path;
     private string $method;

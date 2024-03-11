@@ -24,7 +24,6 @@ final class Application implements App
 
     private function setup()
     {
-        Config::load();
         $this->setCorsHeaders();
         // self::$response->setHeader('Content-Type: text/html; charset=UTF-8');
     }
@@ -109,7 +108,7 @@ final class Application implements App
 
     private function responseError($message): Response
     {
-        if(Config::get('mode.development', false)){
+        if(Config::isDevelopmentMode()){
             return self::$response->setStatusCode(200)->setContent(view('error/development', ['message' => $message]));
         }else{
             return self::$response->setStatusCode(500)->setContent(view('error/500'));

@@ -2,28 +2,31 @@
 
 namespace MA\PHPMVC\Utility;
 
-class Config{
-
-    private static array $config;
-
-    public static function load()
+class Config
+{
+    public static function isDevelopmentMode(): bool
     {
-        self::$config = require(CONFIG . '/config.php');
+        return self::get('mode.development', false);
+    }
+
+    public static function getDatabaseConfig(): array
+    {
+        return self::get('database', []);
     }
 
     public static function get($key, $default = null)
     {
-        $parts = explode('.', $key);
-        $value = self::$config;
+        $config = require(CONFIG . '/config.php');
+        $keys = explode('.', $key);
 
-        foreach ($parts as $part) {
-            if (isset($value[$part])) {
-                $value = $value[$part];
+        foreach ($keys as $part) {
+            if (isset($config[$part])) {
+                $config = $config[$part];
             } else {
                 return $default;
             }
         }
 
-        return $value;
+        return $config;
     }
 }

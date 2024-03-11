@@ -1,6 +1,7 @@
 <?php
 
 namespace MA\PHPMVC\Database;
+
 use MA\PHPMVC\Utility\Config;
 use Exception;
 use PDO;
@@ -14,10 +15,11 @@ class Database
     {
         if (self::$pdo === null) {
 
-            $dsn = sprintf("mysql:host=%s;port=%s;dbname=%s", Config::get('db.host'), Config::get('db.port'), Config::get('db.name'));
-
+            $db = Config::getDatabaseConfig();
+            $dsn = sprintf("%s:host=%s;port=%s;dbname=%s", $db['driver'] ,$db['host'], $db['port'], $db['name']);
+            
             try {
-                self::$pdo = new PDO($dsn, Config::get('db.username'), Config::get('db.password'));
+                self::$pdo = new PDO($dsn, $db['username'], $db['password']);
             } catch (PDOException $e) {
                 throw new Exception('Koneksi ke basis data gagal: ' . $e->getMessage());
             }

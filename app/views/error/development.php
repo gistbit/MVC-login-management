@@ -98,7 +98,7 @@
 
 <body>
     <div class="container">
-        <h1>ERROR</h1>
+        <h2>ERROR</h2>
         <p class="fs-5"><?= $message ?? '' ?></p>
     </div>
 </body>

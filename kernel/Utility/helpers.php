@@ -9,12 +9,15 @@ use MA\PHPMVC\Interfaces\Request;
 use MA\PHPMVC\Interfaces\Response;
 use App\Repository\SessionRepository;
 
-function cetak($arr)
+function cetak($arr, $die = true)
 {
     echo '<pre>';
     print_r($arr);
-    die;
     echo '</pre>';
+
+    if ($die) {
+        die;
+    }
 }
 
 function response(?string $content = null, int $code = 200): Response

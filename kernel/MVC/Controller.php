@@ -18,9 +18,9 @@ abstract class Controller
         $this->response = Application::$response;
     }
 
-    protected function view(string $view, array $model = [])
+    protected function view(string $view, array $data = [])
     {
-        return View::render($view, $model, $this->template);
+        return View::render($view, $data, $this->template);
     }
 
     protected function model(string $modelName)

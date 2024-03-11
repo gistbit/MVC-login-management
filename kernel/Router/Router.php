@@ -6,34 +6,34 @@ class Router
 {
     private static array $routes = [];
 
-    public function get(string $path, $callback, ...$middlewares): void
+    public static function get(string $path, $callback, ...$middlewares): void
     {
-        $this->add('GET', $path, $callback, $middlewares);
+        self::add('GET', $path, $callback, $middlewares);
     }
 
-    public function post(string $path, $callback, ...$middlewares): void
+    public static function post(string $path, $callback, ...$middlewares): void
     {
-        $this->add('POST', $path, $callback, $middlewares);
+        self::add('POST', $path, $callback, $middlewares);
     }
 
-    public function put(string $path, $callback, ...$middlewares): void
+    public static function put(string $path, $callback, ...$middlewares): void
     {
-        $this->add('PUT', $path, $callback, $middlewares);
+        self::add('PUT', $path, $callback, $middlewares);
     }
 
-    public function delete(string $path, $callback, ...$middlewares): void
+    public static function delete(string $path, $callback, ...$middlewares): void
     {
-        $this->add('DELETE', $path, $callback, $middlewares);
+        self::add('DELETE', $path, $callback, $middlewares);
     }
 
-    private function add(string $method, string $path, $callback, array $middlewares): void
+    private static function add(string $method, string $path, $callback, array $middlewares): void
     {
         if (!isset(self::$routes[$method][$path])) {
             self::$routes[$method][$path] = new Route($callback, $middlewares);
         }
     }
 
-    public function getRoute(string $method, string $path, &$matches): ?Route
+    public static function getRoute(string $method, string $path, &$matches): ?Route
     {
         foreach (self::$routes[$method] ?? [] as $pattern => $route) {
 
@@ -45,7 +45,7 @@ class Router
         return null;
     }
 
-    public function getAllRoutes(): array
+    public static function getAllRoutes(): array
     {
         return self::$routes;
     }

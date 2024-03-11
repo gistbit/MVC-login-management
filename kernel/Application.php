@@ -40,11 +40,10 @@ final class Application implements App
         self::$response->setHeader("Access-Control-Allow-Headers: Content-Type");
     }
 
-    public function run(Router $router): SendResponse
+    public function run(): SendResponse
     {
-        try {            
-            require_once CONFIG . '/routes.php';
-            $route = $router->getRoute($this->getMethod(), $this->getPath(), $this->variables);
+        try {
+            $route = Router::getRoute($this->getMethod(), $this->getPath(), $this->variables);
 
             if ($route === null) {
                 return self::$response->setNotFound('Route tidak ditemukan');

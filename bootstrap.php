@@ -19,6 +19,8 @@ define('DOC_ROOT', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/'))
 define('BASE_URL', Config::get('app.url'));
 define('UPLOAD_URL', BASE_URL . '/upload');
 
+require_once CONFIG . '/routes.php';
+
 // Initialize the application with dependency injection
 $app = new Application(
     new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),

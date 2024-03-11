@@ -8,8 +8,7 @@
             "MA\\PHPMVC\\": "kernel"
         },
         "files": [
-            "kernel/Utility/helpers.php",
-            "config/constants.php"
+            "kernel/Utility/helpers.php"
         ]
     }
 }

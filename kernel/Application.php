@@ -2,6 +2,7 @@
 
 namespace MA\PHPMVC;
 
+use Exception;
 use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
 use MA\PHPMVC\Interfaces\App;
@@ -15,6 +16,8 @@ final class Application implements App
 {
     public static Request $request;
     public static Response $response;
+
+    private $variables;
 
     public function __construct(Request $request, Response $response)
     {
@@ -41,12 +44,11 @@ final class Application implements App
     {
         try {            
             require_once CONFIG . '/routes.php';
-            $route = $router->getRoute($this->getMethod(), $this->getPath(), $variabels);
+            $route = $router->getRoute($this->getMethod(), $this->getPath(), $this->variables);
 
             if ($route === null) {
                 return self::$response->setNotFound('Route tidak ditemukan');
             }
-            self::$request->setParams($variabels);
 
             $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
             $running = new Running(...$middlewares);
@@ -78,18 +80,18 @@ final class Application implements App
             $controllerInstance = new $controller();
             $this->invokeControllerMethod($controllerInstance, $method);
         } else {
-            self::$response->setNotFound("Controller Class { <strong> $controller </strong> } tidak ada");
+            throw new Exception("Controller Class { $controller } tidak ditemukan");
         }
     }
 
     private function invokeControllerMethod($controller, $method)
     {
         if (method_exists($controller, $method)) {
-            $parameters = (new \ReflectionMethod($controller, $method))->getParameters();
-            $content = empty($parameters) ? $controller->$method() : $controller->$method(self::$request);
+            $this->variables[] = self::$request;
+            $content = call_user_func_array([$controller, $method], $this->variables);
             self::$response->setContent($content);
         } else {
-            self::$response->setNotFound("Method { <strong> $method </strong> } tidak ada");
+            throw new Exception("Method { $method } tidak ditemukan");
         }
     }
 

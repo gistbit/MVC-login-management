@@ -2,11 +2,11 @@
 
 namespace MA\PHPMVC\Http;
 
-use MA\PHPMVC\Interfaces\RenderResponse;
+use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Interfaces\Response as InterfacesResponse;
 use MA\PHPMVC\MVC\View;
 
-class Response implements RenderResponse, InterfacesResponse
+class Response implements SendResponse, InterfacesResponse
 {
     protected array $headers;
     protected $content;
@@ -234,7 +234,7 @@ class Response implements RenderResponse, InterfacesResponse
         return $this;
     }
 
-    public function render()
+    public function send()
     {
         $this->sendHeaders();
         $this->sendContent();

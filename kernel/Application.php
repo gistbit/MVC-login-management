@@ -5,7 +5,7 @@ namespace MA\PHPMVC;
 use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
 use MA\PHPMVC\Interfaces\App;
-use MA\PHPMVC\Interfaces\RenderResponse;
+use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Router\Router;
 use MA\PHPMVC\Router\Running;
 use MA\PHPMVC\Utility\Config;
@@ -36,7 +36,7 @@ final class Application implements App
         self::$response->setHeader("Access-Control-Allow-Headers: Content-Type");
     }
 
-    public function run(Router $router): RenderResponse
+    public function run(Router $router): SendResponse
     {
         try {
             require_once CONFIG . '/routes.php';

@@ -7,5 +7,5 @@ use MA\PHPMVC\Router\Router;
 
 interface App{
     public function __construct(Request $request, Response $response);
-    public function run(Router $router): RenderResponse;
+    public function run(Router $router): SendResponse;
 }

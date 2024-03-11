@@ -6,15 +6,14 @@ use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
 
 // Path constants
-define('ROOT', rtrim(__DIR__, '/'));
+define('ROOT', str_replace('\\', '/', rtrim(__DIR__ , '/')));
 define('APP', ROOT . '/app');
 define('CONTROLLERS', APP . '/Controllers');
 define('MODELS', APP . '/Models');
 define('VIEWS', APP . '/views');
 define('UPLOAD', ROOT . '/public/upload');
 define('CONFIG', ROOT . '/config');
-define('DOC_ROOT', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
-define('VENDOR', ROOT . '/vendor');
+define('DOC_ROOT', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/')));
 
 // Base URL constants
 define('BASE_URL', Config::get('app.url'));
@@ -25,5 +24,5 @@ $app = new Application(
     new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),
     new Response()
 );
-
+cetak(CONTROLLERS);
 return $app;

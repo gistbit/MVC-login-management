@@ -33,9 +33,16 @@ class Router
         }
     }
 
-    public function getRoute(string $method, string $path): ?Route
+    public function getRoute(string $method, string $path, &$matches): ?Route
     {
-        return self::$routes[$method][$path] ?? null;
+        foreach (self::$routes[$method] ?? [] as $pattern => $route) {
+
+            if (preg_match("#^$pattern$#", $path, $matches)) {
+                array_shift($matches);
+                return $route;
+            }
+        }
+        return null;
     }
 
     public function getAllRoutes(): array

@@ -14,6 +14,8 @@ class Request implements InterfacesRequest
     private array $files;
     private array $server;
 
+    private array $params;
+
     public function __construct(array $query = [], array $request = [], array $cookies = [], array $files = [], array $server = [])
     {
         $this->request = $request;
@@ -129,5 +131,15 @@ class Request implements InterfacesRequest
     public function user(): ?User
     {
         return currentUser();
+    }
+
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+    }
+
+    public function getParams(): array
+    {
+        return $this->params;
     }
 }

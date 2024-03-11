@@ -6,6 +6,7 @@ use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
 use MA\PHPMVC\Interfaces\App;
 use MA\PHPMVC\Interfaces\SendResponse;
+use MA\PHPMVC\Router\Route;
 use MA\PHPMVC\Router\Router;
 use MA\PHPMVC\Router\Running;
 use MA\PHPMVC\Utility\Config;
@@ -38,13 +39,14 @@ final class Application implements App
 
     public function run(Router $router): SendResponse
     {
-        try {
+        try {            
             require_once CONFIG . '/routes.php';
-            $route = $router->getRoute($this->getMethod(), $this->getPath());
+            $route = $router->getRoute($this->getMethod(), $this->getPath(), $variabels);
 
             if ($route === null) {
                 return self::$response->setNotFound('Route tidak ditemukan');
             }
+            self::$request->setParams($variabels);
 
             $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
             $running = new Running(...$middlewares);
@@ -60,7 +62,7 @@ final class Application implements App
         }
     }
 
-    private function handleRouteCallback($route)
+    private function handleRouteCallback(Route $route)
     {
         if ($route->getController() === null) {
             $content = call_user_func($route->getAction(), self::$request);
@@ -80,11 +82,11 @@ final class Application implements App
         }
     }
 
-    private function invokeControllerMethod($controllerInstance, $method)
+    private function invokeControllerMethod($controller, $method)
     {
-        if (method_exists($controllerInstance, $method)) {
-            $parameters = (new \ReflectionMethod($controllerInstance, $method))->getParameters();
-            $content = empty($parameters) ? $controllerInstance->$method() : $controllerInstance->$method(self::$request);
+        if (method_exists($controller, $method)) {
+            $parameters = (new \ReflectionMethod($controller, $method))->getParameters();
+            $content = empty($parameters) ? $controller->$method() : $controller->$method(self::$request);
             self::$response->setContent($content);
         } else {
             self::$response->setNotFound("Method { <strong> $method </strong> } tidak ada");

@@ -35,4 +35,8 @@ interface Request
     public function getQueryString(): string;
 
     public function user(): ?User;
+    
+    public function setParams(array $params);
+
+    public function getParams(): array;
 }

@@ -54,7 +54,6 @@ final class Application implements App
             $running = new Running(...$middlewares);
 
             $running->process(self::$request, function () use ($route) {
-                $route->parseCallback();
                 $this->handleRouteCallback($route);
             });
 
@@ -64,8 +63,9 @@ final class Application implements App
         }
     }
 
-    private function handleRouteCallback(Route $route)
-    {
+    public function handleRouteCallback(Route $route)
+    {   
+        $route->parseCallback();
         $this->variables[] = self::$request;
         if ($route->getController() === null) {
             $content = call_user_func_array($route->getAction(), $this->variables);
@@ -79,19 +79,14 @@ final class Application implements App
     {
         if (class_exists($controller)) {
             $controllerInstance = new $controller();
-            $this->invokeControllerMethod($controllerInstance, $method);
+            if (method_exists($controllerInstance, $method)) {
+                $content = call_user_func_array([$controllerInstance, $method], $this->variables);
+                self::$response->setContent($content);
+            } else {
+                throw new Exception(sprintf("Method %s not found in %s", $method, $controller));
+            }
         } else {
-            throw new Exception("Controller Class { $controller } tidak ditemukan");
-        }
-    }
-
-    private function invokeControllerMethod($controller, $method)
-    {
-        if (method_exists($controller, $method)) {
-            $content = call_user_func_array([$controller, $method], $this->variables);
-            self::$response->setContent($content);
-        } else {
-            throw new Exception("Method { $method } tidak ditemukan");
+            throw new Exception(sprintf("Controller class %s not found", $controller));
         }
     }
 

@@ -109,7 +109,7 @@ final class Application implements App
 
     private function responseError($message): Response
     {
-        if(Config::get('mode.development')){
+        if(Config::get('mode.development', false)){
             return self::$response->setStatusCode(200)->setContent(view('error/development', ['message' => $message]));
         }else{
             return self::$response->setStatusCode(500)->setContent(view('error/500'));

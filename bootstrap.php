@@ -1,5 +1,10 @@
 <?php
 
+use MA\PHPMVC\Utility\Config;
+use MA\PHPMVC\Application;
+use MA\PHPMVC\Http\Request;
+use MA\PHPMVC\Http\Response;
+
 // Path constants
 define('ROOT', rtrim(__DIR__, '/'));
 define('APP', ROOT . '/app');
@@ -12,20 +17,13 @@ define('DOC_ROOT', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
 define('VENDOR', ROOT . '/vendor');
 
 // Base URL constants
-define('BASE_URL', "http://www.localhost:8080");
+define('BASE_URL', Config::get('app.url'));
 define('UPLOAD_URL', BASE_URL . '/upload');
 
-use MA\PHPMVC\Application;
-use MA\PHPMVC\Http\Request;
-use MA\PHPMVC\Http\Response;
-
-// Create a request object with superglobal arrays
-$request = new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
-
-// Create a response object
-$response = new Response();
-
 // Initialize the application with dependency injection
-$app = new Application($request, $response);
+$app = new Application(
+    new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),
+    new Response()
+);
 
 return $app;

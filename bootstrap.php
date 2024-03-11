@@ -24,5 +24,5 @@ $app = new Application(
     new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),
     new Response()
 );
-cetak(CONTROLLERS);
+
 return $app;

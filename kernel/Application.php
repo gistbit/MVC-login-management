@@ -66,8 +66,9 @@ final class Application implements App
 
     private function handleRouteCallback(Route $route)
     {
+        $this->variables[] = self::$request;
         if ($route->getController() === null) {
-            $content = call_user_func($route->getAction(), self::$request);
+            $content = call_user_func_array($route->getAction(), $this->variables);
             self::$response->setContent($content);
         } else {
             $this->runController($route->getController(), $route->getAction());
@@ -87,7 +88,6 @@ final class Application implements App
     private function invokeControllerMethod($controller, $method)
     {
         if (method_exists($controller, $method)) {
-            $this->variables[] = self::$request;
             $content = call_user_func_array([$controller, $method], $this->variables);
             self::$response->setContent($content);
         } else {

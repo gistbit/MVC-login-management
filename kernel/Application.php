@@ -29,14 +29,13 @@ final class Application implements App
     private function setup()
     {
         $this->setCorsHeaders();
-        // self::$response->setHeader('Content-Type: text/html; charset=UTF-8');
     }
 
     private function setCorsHeaders()
     {
         $allowedOrigin = Config::get('app.url');
         self::$response->setHeader('Access-Control-Allow-Origin: ' . $allowedOrigin);
-        self::$response->setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+        self::$response->setHeader("Access-Control-Allow-Methods: GET, POST");
         self::$response->setHeader("Access-Control-Allow-Headers: Content-Type");
     }
 

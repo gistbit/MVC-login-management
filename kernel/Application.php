@@ -61,7 +61,7 @@ final class Application implements App
         }
     }
 
-    public function handleRouteCallback(Route $route)
+    private function handleRouteCallback(Route $route)
     {   
         $route->parseCallback();
         $this->variables[] = self::$request;

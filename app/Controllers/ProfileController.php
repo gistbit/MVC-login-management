@@ -81,7 +81,7 @@ class ProfileController extends Controller
             $this->userService->updatePassword($request);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
-            return $this->view('User/password', [
+            return $this->view('profile/password', [
                 "title" => "Update user password",
                 "error" => $exception->getMessage(),
                 "user" => [

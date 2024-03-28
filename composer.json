@@ -5,10 +5,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "app",
-            "MA\\PHPMVC\\": "kernel"
+            "MA\\PHPMVC\\": "core"
         },
         "files": [
-            "kernel/Utility/helpers.php"
+            "core/Utility/helpers.php"
         ]
     }
 }

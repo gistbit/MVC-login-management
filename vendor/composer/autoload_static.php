@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitb709e93e13b58407e73c0e534a4321cc
 {
     public static $files = array (
-        'b53b16b455bfcd3be1c8a6e896764c13' => __DIR__ . '/../..' . '/kernel/Utility/helpers.php',
+        'f92d572b4a78b45a178dcbb679a0a21c' => __DIR__ . '/../..' . '/core/Utility/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -28,7 +28,7 @@ class ComposerStaticInitb709e93e13b58407e73c0e534a4321cc
     public static $prefixDirsPsr4 = array (
         'MA\\PHPMVC\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/kernel',
+            0 => __DIR__ . '/../..' . '/core',
         ),
         'Firebase\\JWT\\' => 
         array (

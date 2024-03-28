@@ -13,7 +13,7 @@ define('MODELS', APP . '/Models');
 define('VIEWS', APP . '/views');
 define('UPLOAD', ROOT . '/public/upload');
 define('CONFIG', ROOT . '/config');
-define('DOC_ROOT', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/')));
+define('PUBLIC_HTML', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/')));
 
 // Base URL constants
 define('BASE_URL', Config::get('app.url'));

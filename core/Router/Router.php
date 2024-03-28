@@ -37,11 +37,11 @@ class Router
 
     public static function dispatch(string $method, string $path): ?Route
     {
-        foreach (self::$routes[$method] ?? [] as $routes) {
-            $pattern = '#^' . $routes['path'] . '$#';
+        foreach (self::$routes[$method] ?? [] as $route) {
+            $pattern = '#^' . $route['path'] . '$#';
             if (preg_match($pattern, $path, $variabels)) {
                 array_shift($variabels);
-                return new Route($routes['callback'], $routes['middlewares'], $variabels);
+                return new Route($route['callback'], $route['middlewares'], $variabels);
             }
         }
         return null;

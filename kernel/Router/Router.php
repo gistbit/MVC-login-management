@@ -28,26 +28,22 @@ class Router
 
     private static function add(string $method, string $path, $callback, array $middlewares): void
     {
-        if (!isset(self::$routes[$method][$path])) {
-            self::$routes[$method][$path] = new Route($callback, $middlewares);
-        }
+        self::$routes[$method][] = [
+            'path' => $path,
+            'callback' => $callback,
+            'middlewares' => $middlewares,
+        ];
     }
 
-    public static function getRoute(string $method, string $path, &$matches): ?Route
+    public static function dispatch(string $method, string $path): ?Route
     {
-        foreach (self::$routes[$method] ?? [] as $pattern => $route) {
-
-            if (preg_match("#^$pattern$#", $path, $matches)) {
-                array_shift($matches);
-                return $route;
+        foreach (self::$routes[$method] ?? [] as $routes) {
+            $pattern = '#^' . $routes['path'] . '$#';
+            if (preg_match($pattern, $path, $variabels)) {
+                array_shift($variabels);
+                return new Route($routes['callback'], $routes['middlewares'], $variabels);
             }
         }
         return null;
     }
-
-    public static function getAllRoutes(): array
-    {
-        return self::$routes;
-    }
-
 }

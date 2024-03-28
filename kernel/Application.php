@@ -17,8 +17,6 @@ final class Application implements App
     public static Request $request;
     public static Response $response;
 
-    private $variables;
-
     public function __construct(Request $request, Response $response)
     {
         self::$request = $request;
@@ -42,7 +40,7 @@ final class Application implements App
     public function run(): SendResponse
     {
         try {
-            $route = Router::getRoute($this->getMethod(), $this->getPath(), $this->variables);
+            $route = Router::dispatch($this->getMethod(), $this->getPath());
 
             if ($route === null) {
                 return self::$response->setNotFound('Route tidak ditemukan');
@@ -62,23 +60,23 @@ final class Application implements App
     }
 
     private function handleRouteCallback(Route $route)
-    {   
-        $route->parseCallback();
-        $this->variables[] = self::$request;
+    {
+        $parameter = $route->getParameter();
+        $parameter[] = self::$request;
         if ($route->getController() === null) {
-            $content = call_user_func_array($route->getAction(), $this->variables);
+            $content = call_user_func_array($route->getAction(), $parameter);
             self::$response->setContent($content);
         } else {
-            $this->runController($route->getController(), $route->getAction());
+            $this->runController($route->getController(), $route->getAction(), $parameter);
         }
     }
 
-    private function runController(string $controller, string $method)
+    private function runController(string $controller, string $method, $parameter)
     {
         if (class_exists($controller)) {
             $controllerInstance = new $controller();
             if (method_exists($controllerInstance, $method)) {
-                $content = call_user_func_array([$controllerInstance, $method], $this->variables);
+                $content = call_user_func_array([$controllerInstance, $method], $parameter);
                 self::$response->setContent($content);
             } else {
                 throw new Exception(sprintf("Method %s not found in %s", $method, $controller));

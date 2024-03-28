@@ -7,34 +7,39 @@ final class Route
     private ?string $controller;
     private $action;
     private array $middlewares;
-    private $callback;
+    private array $parameter;
 
-    public function __construct($callback, array $middlewares)
+    public function __construct($callback, array $middlewares, $parameter)
     {
-        $this->callback = $callback;
         $this->middlewares = $middlewares;
+        $this->parameter = $parameter;
+        $this->parseCallback($callback);
     }
 
-    public function parseCallback(): void
+    private function parseCallback($callback): void
     {
-        if (is_array($this->callback)) {
-            [$this->controller, $this->action] = $this->parseControllerAction($this->callback);
-        } elseif (is_callable($this->callback)) {
+        if (is_array($callback)) {
+            $this->parseControllerAction($callback);
+        } elseif (is_callable($callback)) {
             $this->controller = null;
-            $this->action = $this->callback;
+            $this->action = $callback;
         } else {
-            throw new \InvalidArgumentException("Invalid callback <strong>{ $this->callback }</strong> provided");
+            throw new \InvalidArgumentException("Invalid callback '{$callback}' provided");
         }
     }
 
-    private function parseControllerAction(array $callback): array
+    private function parseControllerAction(array $callback): void
     {
         $this->validateControllerActionFormat($callback);
 
         [$class, $method] = $callback;
-        if(!class_exists($class)) return [$method, $class];
-        
-        return $callback;
+        if (!class_exists($class)) {
+            $this->controller = $method;
+            $this->action = $class;
+        } else {
+            $this->controller = $class;
+            $this->action = $method;
+        }
     }
 
     private function validateControllerActionFormat(array $callback): void
@@ -52,6 +57,11 @@ final class Route
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function getParameter(): array
+    {
+        return $this->parameter;
     }
 
     public function getMiddlewares(): array

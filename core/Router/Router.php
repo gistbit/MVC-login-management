@@ -72,12 +72,10 @@ class Router
                 return self::$response->setNotFound('Route not found');
             }
 
-            $middlewares = array_map(fn ($middleware) => new $middleware(), $route->getMiddlewares());
+            $middlewares = array_map(fn($middleware) => new $middleware(), $route->getMiddlewares());
             $running = new Running(...$middlewares);
 
-            $running->process(self::$request, function () use ($route) {
-                $this->handleRouteCallback($route);
-            });
+            $running->process(self::$request, fn() => $this->handleRouteCallback($route));
 
             return self::$response;
         } catch (\Throwable $th) {

@@ -19,7 +19,7 @@ class HomeController extends Controller
         }
     }
 
-    public function home($user)
+    private function home($user)
     {
         return $this->view('home/index', [
             "title" => "Dashboard",

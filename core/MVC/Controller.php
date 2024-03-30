@@ -5,6 +5,7 @@ namespace MA\PHPMVC\MVC;
 use MA\PHPMVC\Application;
 use MA\PHPMVC\Interfaces\Request;
 use MA\PHPMVC\Interfaces\Response;
+use MA\PHPMVC\Router\Router;
 
 abstract class Controller
 {
@@ -14,8 +15,8 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->request = Application::$request;
-        $this->response = Application::$response;
+        $this->request = Router::$request;
+        $this->response = Router::$response;
     }
 
     protected function view(string $view, array $data = [])

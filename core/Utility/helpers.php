@@ -2,12 +2,12 @@
 
 use App\Domain\User;
 use MA\PHPMVC\MVC\View;
-use MA\PHPMVC\Application;
 use App\Service\SessionService;
 use MA\PHPMVC\Database\Database;
 use MA\PHPMVC\Interfaces\Request;
 use MA\PHPMVC\Interfaces\Response;
 use App\Repository\SessionRepository;
+use MA\PHPMVC\Router\Router;
 
 function cetak($arr, $die = true)
 {
@@ -22,7 +22,7 @@ function cetak($arr, $die = true)
 
 function response(?string $content = null, int $code = 200): Response
 {
-    $response = Application::$response;
+    $response = Router::$response;
     if (!is_null($content) && !is_null($response)) {
         $response->setContent($content);
         $response->setStatusCode($code);
@@ -32,7 +32,7 @@ function response(?string $content = null, int $code = 200): Response
 
 function request(): Request
 {
-    return Application::$request;
+    return Router::$request;
 }
 
 function currentUser(): ?User

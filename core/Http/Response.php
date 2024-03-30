@@ -8,9 +8,9 @@ use MA\PHPMVC\MVC\View;
 
 class Response implements SendResponse, InterfacesResponse
 {
-    protected array $headers;
-    protected $content;
-    protected int $statusCode = 200;
+    private array $headers = [];
+    private $content = '';
+    private int $statusCode = 200;
 
     public const STATUS_TEXTS = [
         // INFORMATIONAL CODES
@@ -76,13 +76,6 @@ class Response implements SendResponse, InterfacesResponse
         508 => 'Loop Detected',
         511 => 'Network Authentication Required',
     ];
-
-    public function __construct($content = '', int $status = 200, array $headers = [])
-    {
-        $this->headers = $headers;
-        $this->setContent($content);
-        $this->setStatusCode($status);
-    }
 
     public function getStatusText(): string
     {
@@ -225,13 +218,11 @@ class Response implements SendResponse, InterfacesResponse
             }
         }
         http_response_code($this->statusCode);
-        return $this;
     }
 
     private function sendContent()
     {
         echo $this->content;
-        return $this;
     }
 
     public function send()

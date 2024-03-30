@@ -51,7 +51,7 @@ class Router
             $pattern = '#^' . $route['path'] . '$#';
             if (preg_match($pattern, $path, $variabels)) {
                 array_shift($variabels);
-                return new Route($route['callback'], $route['middlewares'], $variabels);
+                return new Route($route['callback'], $route['middlewares'], $variabels + [self::$request]);
             }
         }
         return null;
@@ -85,13 +85,11 @@ class Router
 
     private function handleRouteCallback(Route $route)
     {
-        $parameter = $route->getParameter();
-        $parameter[] = self::$request;
         if ($route->getController() === null) {
-            $content = call_user_func_array($route->getAction(), $parameter);
+            $content = call_user_func_array($route->getAction(), $route->getParameter());
             self::$response->setContent($content);
         } else {
-            $this->runController($route->getController(), $route->getAction(), $parameter);
+            $this->runController($route->getController(), $route->getAction(), $route->getParameter());
         }
     }
 

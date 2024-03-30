@@ -51,7 +51,8 @@ class Router
             $pattern = '#^' . $route['path'] . '$#';
             if (preg_match($pattern, $path, $variabels)) {
                 array_shift($variabels);
-                return new Route($route['callback'], $route['middlewares'], $variabels + [self::$request]);
+                $variabels[] = self::$request;
+                return new Route($route['callback'], $route['middlewares'], $variabels);
             }
         }
         return null;

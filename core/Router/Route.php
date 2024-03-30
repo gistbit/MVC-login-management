@@ -19,10 +19,10 @@ final class Route
     private function parseCallback($callback): void
     {
         if (is_array($callback)) {
-            [$this->controller, $this->action] = $this->parseControllerAction($callback);
+            [$this->controller, $this->action] = $this->validateControllerAction($callback);
         } elseif(is_string($callback)){
             $handler = explode('@', $callback);
-            [$class, $this->action] = $this->parseControllerAction($handler);
+            [$class, $this->action] = $this->validateControllerAction($handler);
             $this->controller = '\\App\\Controllers\\' . $class;
         } elseif(is_callable($callback)) {
             $this->controller = null;
@@ -32,7 +32,7 @@ final class Route
         }
     }
 
-    private function parseControllerAction(array $callback): array
+    private function validateControllerAction(array $callback): array
     {
         if (count($callback) !== 2) {
             throw new \InvalidArgumentException('Invalid controller action format');

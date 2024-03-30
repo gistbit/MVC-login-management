@@ -33,7 +33,7 @@ class AuthController extends Controller
         try {
             $response = $this->userService->login($login);
             $this->sessionService->create($response->user);
-            $this->response->redirect('/');
+            response()->redirect('/');
         } catch (ValidationException $exception) {
 
             return $this->view('auth/login', [
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         try {
             $this->userService->register($register);
-            $this->response->redirect('/user/login');
+            response()->redirect('/user/login');
         } catch (ValidationException $exception) {
 
             return $this->view('auth/register', [
@@ -83,6 +83,6 @@ class AuthController extends Controller
     public function logout() // Proses logout pengguna
     {
         $this->sessionService->destroy();
-        $this->response->redirect('/');
+        response()->redirect('/');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace MA\PHPMVC\MVC;
 
-use MA\PHPMVC\Application;
 use MA\PHPMVC\Interfaces\Request;
 use MA\PHPMVC\Interfaces\Response;
 use MA\PHPMVC\Router\Router;
@@ -26,7 +25,7 @@ abstract class Controller
 
     protected function model(string $modelName)
     {
-        $modelClass = "\MA\PHPMVC\Models\\" . $modelName;
+        $modelClass = "\\MA\\PHPMVC\\Models\\" . $modelName;
 
         $this->checkModelClass($modelClass);
 

@@ -26,12 +26,12 @@ class AuthController extends Controller
 
     public function login(Request $request) // Proses login pengguna
     {
-        $request = new UserLoginRequest();
-        $request->id = $this->request->post('id');
-        $request->password = $this->request->post('password');
+        $login = new UserLoginRequest();
+        $login->id = $request->post('id');
+        $login->password = $request->post('password');
 
         try {
-            $response = $this->userService->login($request);
+            $response = $this->userService->login($login);
             $this->sessionService->create($response->user);
             $this->response->redirect('/');
         } catch (ValidationException $exception) {
@@ -51,15 +51,15 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register()  // Proses registrasi pengguna
+    public function register(Request $request)  // Proses registrasi pengguna
     {
-        $request = new UserRegisterRequest();
-        $request->id = $this->request->post('id');
-        $request->name = $this->request->post('name');
-        $request->password = $this->request->post('password');
+        $register = new UserRegisterRequest();
+        $register->id = $request->post('id');
+        $register->name = $request->post('name');
+        $register->password = $request->post('password');
 
         try {
-            $this->userService->register($request);
+            $this->userService->register($register);
             $this->response->redirect('/user/login');
         } catch (ValidationException $exception) {
 

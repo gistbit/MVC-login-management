@@ -15,7 +15,6 @@ trait UserServiceTrait {
 
     public function __construct()
     {
-        parent::__construct();
         $connection = Database::getConnection();
         $userRepository = new UserRepository($connection);
         $this->userService = new UserService($userRepository);

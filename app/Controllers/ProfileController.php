@@ -7,6 +7,7 @@ use App\Controllers\Traits\UserServiceTrait;
 use MA\PHPMVC\Exception\ValidationException;
 use App\Models\User\UserProfileUpdateRequest;
 use App\Models\User\UserPasswordUpdateRequest;
+use MA\PHPMVC\Interfaces\Request;
 
 class ProfileController extends Controller
 {
@@ -33,25 +34,25 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update() // Menyimpan perubahan pada profil yang telah diedit
+    public function update(Request $request) // Menyimpan perubahan pada profil yang telah diedit
     {
         $user = $this->sessionService->current();
 
-        $request = new UserProfileUpdateRequest();
-        $request->id = $user->id;
-        $request->name = $this->request->post('name');
+        $profile = new UserProfileUpdateRequest();
+        $profile->id = $user->id;
+        $profile->name = $request->post('name');
 
         try {
-            $response = $this->userService->updateProfile($request);
+            $response = $this->userService->updateProfile($profile);
             $this->sessionService->create($response->user); //update cookie session setelah update profile
-            $this->response->redirect('/');
+            response()->redirect('/');
         } catch (ValidationException $exception) {
             return $this->view('profile/profile', [
                 "title" => "Update user profile",
                 "error" => $exception->getMessage(),
                 "user" => [
                     "id" => $user->id,
-                    "name" => $this->request->post('name')
+                    "name" => $request->post('name')
                 ]
             ]);
         }
@@ -69,17 +70,17 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function updatePassword() // Menyimpan perubahan pada kata sandi
+    public function updatePassword(Request $request) // Menyimpan perubahan pada kata sandi
     {
         $user = $this->sessionService->current();
-        $request = new UserPasswordUpdateRequest();
-        $request->id = $user->id;
-        $request->oldPassword = $this->request->post('oldPassword');
-        $request->newPassword = $this->request->post('newPassword');
+        $password = new UserPasswordUpdateRequest();
+        $password->id = $user->id;
+        $password->oldPassword = $request->post('oldPassword');
+        $password->newPassword = $request->post('newPassword');
 
         try {
-            $this->userService->updatePassword($request);
-            $this->response->redirect('/');
+            $this->userService->updatePassword($password);
+            response()->redirect('/');
         } catch (ValidationException $exception) {
             return $this->view('profile/password', [
                 "title" => "Update user password",

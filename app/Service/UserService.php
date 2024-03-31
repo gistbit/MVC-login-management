@@ -61,7 +61,9 @@ class UserService
 
     public function login(UserLoginRequest $request): UserLoginResponse
     {
-        $this->validateUserLoginRequest($request);
+       if(!$request->validate()){
+            throw new ValidationException("Id and Password can not blank");
+       }
 
         $user = $this->userRepository->findById($request->id);
         if ($user == null) {
@@ -74,15 +76,6 @@ class UserService
             return $response;
         } else {
             throw new ValidationException("Id or password Anda Salah !");
-        }
-    }
-    private function validateUserLoginRequest(UserLoginRequest $request)
-    {
-        if (
-            $request->id == null || $request->password == null ||
-            trim($request->id) == "" || trim($request->password) == ""
-        ) {
-            throw new ValidationException("Id and Password can not blank");
         }
     }
 

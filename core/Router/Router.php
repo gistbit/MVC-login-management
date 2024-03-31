@@ -76,7 +76,7 @@ class Router
             $middlewares = array_map(fn($middleware) => new $middleware(), $route->getMiddlewares());
             $running = new Running(...$middlewares);
 
-            $running->process(self::$request, fn() => $this->handleRouteCallback($route));
+            $running->execute(self::$request, fn() => $this->handleRouteCallback($route));
 
             return self::$response;
         } catch (\Throwable $th) {

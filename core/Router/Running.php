@@ -15,7 +15,7 @@ class Running implements Middleware
         $this->middlewares = $middlewares;
     }
 
-    public function process(Request $request, Closure $next)
+    public function execute(Request $request, Closure $next)
     {
         $middlewareStack = $this->middlewares ? $this->createMiddlewareStack($next) : $next;
         $middlewareStack($request);
@@ -27,7 +27,7 @@ class Running implements Middleware
 
         foreach (array_reverse($this->middlewares) as $middleware) {
             $middlewareStack = function ($request) use ($middleware, $middlewareStack) {
-                return $middleware->process($request, $middlewareStack);
+                return $middleware->execute($request, $middlewareStack);
             };
         }
 

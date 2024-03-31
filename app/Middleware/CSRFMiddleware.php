@@ -8,7 +8,7 @@ use MA\PHPMVC\Interfaces\Request;
 
 class CSRFMiddleware implements Middleware
 {
-    public function process(Request $request, Closure $next)
+    public function execute(Request $request, Closure $next)
     {
         if ($request->isMethod('post')) {
             $token = $request->post('csrf_token') ?? '';

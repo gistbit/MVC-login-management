@@ -9,7 +9,7 @@ use MA\PHPMVC\Interfaces\Request;
 
 class OnlyGuestMiddleware implements Middleware
 {
-    public function process(Request $request, Closure $next)
+    public function execute(Request $request, Closure $next)
     {
         $user = $request->getSession(Config::get('session.name'), Config::get('session.key'));
         if ($user != null) {

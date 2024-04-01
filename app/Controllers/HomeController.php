@@ -7,7 +7,7 @@ use MA\PHPMVC\MVC\Controller;
 
 class HomeController extends Controller
 {
-    protected $template = 'layouts/app';
+    protected $layout = 'app';
 
     public function index(Request $request)
     {

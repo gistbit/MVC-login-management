@@ -12,7 +12,7 @@ final class View
             $content = self::loadView($view, $data);
 
             if (!empty($extends)) {
-                $templateContent = self::loadView($extends, $data);
+                $templateContent = self::loadView('layouts/'. $extends, $data);
                 return str_replace('{{content}}', $content, $templateContent);
             }
 

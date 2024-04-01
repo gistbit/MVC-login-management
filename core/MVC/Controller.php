@@ -4,11 +4,11 @@ namespace MA\PHPMVC\MVC;
 
 abstract class Controller
 {
-    protected $template = '';
+    protected $layout = '';
 
     protected function view(string $view, array $data = [])
     {
-        return View::render($view, $data, $this->template);
+        return View::render($view, $data, $this->layout);
     }
 
     protected function model(string $modelName)

@@ -7,5 +7,5 @@ class User
     public string $id;
     public string $name;
     public string $password;
-    public int $role;
+    public int $role = 0;
 }

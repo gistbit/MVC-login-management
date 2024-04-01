@@ -13,7 +13,7 @@ abstract class Controller
 
     protected function model(string $modelName)
     {
-        $modelClass = "\\MA\\PHPMVC\\Models\\" . $modelName;
+        $modelClass = "\\App\\Models\\" . $modelName;
 
         $this->checkModelClass($modelClass);
 

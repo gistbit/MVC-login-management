@@ -6,7 +6,7 @@ use MA\PHPMVC\Http\Response;
 use MA\PHPMVC\Router\Router;
 
 // Path constants
-define('DIR_ROOT', str_replace('\\', '/', rtrim(__DIR__ , '/')));
+define('DIR_ROOT', str_replace('\\', '/', __DIR__));
 define('CONFIG', DIR_ROOT . '/config');
 define('VIEWS', DIR_ROOT . '/app/views');
 define('DOC_ROOT', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/')));

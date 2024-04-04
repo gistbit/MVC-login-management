@@ -17,16 +17,12 @@ class Runner
 
     private function addMiddleware($middleware): void
     {
-        if (!($middleware instanceof MiddlewareInterface || is_callable($middleware))) {
-            throw new \InvalidArgumentException('Middleware must be an instance of MiddlewareInterface or a callable.');
-        }
-
-        $this->middlewares[] = new $middleware;
+        $this->middlewares[] = is_string($middleware) && class_exists($middleware) ? new $middleware : $middleware;
     }
 
     public function exec(Request $request, \Closure $callback)
     {
-        $this->middlewares[] = $callback;
+        $this->addMiddleware($callback);
         return $this->handle($request);
     }
 

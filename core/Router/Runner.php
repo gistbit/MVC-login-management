@@ -28,7 +28,7 @@ class Runner
 
     public function exec(Request $request, \Closure $callback)
     {
-        $this->middlewares[] = $this->addMiddleware($callback);
+        $this->middlewares[] = $callback;
       //  reset($this->middlewares);
       
         return $this->handle($request);

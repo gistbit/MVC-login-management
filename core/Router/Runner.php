@@ -16,9 +16,9 @@ class Runner
         array_map([$this, 'addMiddleware'], $middlewares);
     }
 
-    public function addMiddleware($middleware)
+    private function addMiddleware($middleware)
     {
-        if (!is_string($middleware) && !$middleware instanceof MiddlewareInterface && !$middleware instanceof \Closure && !is_callable($middleware)) {
+        if (!is_string($middleware) && !$middleware instanceof Middleware && !$middleware instanceof \Closure && !is_callable($middleware)) {
             throw new InvalidArgumentException('Middleware must be a string, Closure, Callable, or an instance of MiddlewareInterface');
         }
 
@@ -28,7 +28,7 @@ class Runner
 
     public function exec(Request $request, \Closure $callback)
     {
-        $this->middlewares[] = $callback;
+        $this->middlewares[] = $this->addMiddleware($callback);
       //  reset($this->middlewares);
       
         return $this->handle($request);

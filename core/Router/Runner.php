@@ -21,12 +21,12 @@ class Runner
             throw new \InvalidArgumentException('Middleware must be an instance of MiddlewareInterface or a callable.');
         }
 
-        $this->middlewares[] = $middleware;
+        $this->middlewares[] = new $middleware;
     }
 
     public function exec(Request $request, \Closure $callback)
     {
-        $this->addMiddleware($callback);
+        $this->middlewares[] = $callback;
         return $this->handle($request);
     }
 

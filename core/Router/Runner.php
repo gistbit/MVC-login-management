@@ -26,7 +26,7 @@ class Runner
         $this->middlewares[] = $class;
     }
 
-    private function exec(Request $request, \Closure $callback)
+    public function exec(Request $request, \Closure $callback)
     {
         $this->middlewares[] = $callback;
       //  reset($this->middlewares);
@@ -34,7 +34,7 @@ class Runner
         return $this->handle($request);
     }
 
-    public function handle(Request $request)
+    private function handle(Request $request)
     {
         if (!isset($middleware = $this->middlewares[$this->index])) {
             return Router::$response;

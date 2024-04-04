@@ -26,7 +26,7 @@ class Runner
         $this->middlewares[] = $class;
     }
 
-    public function exec(Request $request, \Closure $callback)
+    private function exec(Request $request, \Closure $callback)
     {
         $this->middlewares[] = $callback;
       //  reset($this->middlewares);

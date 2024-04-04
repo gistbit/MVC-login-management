@@ -37,7 +37,7 @@ class Runner
     public function handle(Request $request)
     {
         if (!isset($middleware = $this->middlewares[$this->index])) {
-            return $this->response;
+            return Router::$response;
         }
 
         $result = $this->executeMiddleware($middleware, $request);

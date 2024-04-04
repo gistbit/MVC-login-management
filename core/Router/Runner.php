@@ -3,34 +3,30 @@
 namespace MA\PHPMVC\Router;
 
 use MA\PHPMVC\Http\Request;
-use InvalidArgumentException;
-use MA\PHPMVC\Interfaces\Middleware;
+use MA\PHPMVC\Interfaces\Middleware as MiddlewareInterface;
 
 class Runner
 {
-    protected $index = 0;
-    protected array $middlewares = [];
+    private $index = 0;
+    private array $middlewares = [];
 
     public function __construct(array $middlewares)
     {
         array_map([$this, 'addMiddleware'], $middlewares);
     }
 
-    private function addMiddleware($middleware)
+    private function addMiddleware($middleware): void
     {
-        if (!is_string($middleware) && !$middleware instanceof Middleware && !$middleware instanceof \Closure && !is_callable($middleware)) {
-            throw new InvalidArgumentException('Middleware must be a string, Closure, Callable, or an instance of MiddlewareInterface');
+        if (!($middleware instanceof MiddlewareInterface || is_callable($middleware))) {
+            throw new \InvalidArgumentException('Middleware must be an instance of MiddlewareInterface or a callable.');
         }
 
-        $class = is_string($middleware) && class_exists($middleware) ? new $middleware : $middleware;
-        $this->middlewares[] = $class;
+        $this->middlewares[] = $middleware;
     }
 
     public function exec(Request $request, \Closure $callback)
     {
-        $this->middlewares[] = $callback;
-      //  reset($this->middlewares);
-      
+        $this->addMiddleware($callback);
         return $this->handle($request);
     }
 

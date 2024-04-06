@@ -7,7 +7,7 @@ use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
 use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Router\Route;
-use MA\PHPMVC\Router\Running;
+use MA\PHPMVC\Router\Runner;
 use MA\PHPMVC\Utility\Config;
 
 class Router

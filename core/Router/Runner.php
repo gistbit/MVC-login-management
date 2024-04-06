@@ -7,7 +7,7 @@ use MA\PHPMVC\Interfaces\Middleware as MiddlewareInterface;
 
 class Runner
 {
-    private $index = 0;
+    private int $index = 0;
     private array $middlewares = [];
 
     public function __construct(array $middlewares)
@@ -61,3 +61,4 @@ class Runner
         return $this;
     }
 }
+

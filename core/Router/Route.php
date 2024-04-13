@@ -28,7 +28,7 @@ final class Route
             $this->controller = null;
             $this->action = $callback;
         } else {
-            throw new \InvalidArgumentException("Invalid callback '{$callback}' provided");
+            throw new \InvalidArgumentException("Invalid callback provided");
         }
     }
 

@@ -1,16 +1,11 @@
 <?php
 
-require_once __DIR__ . '/core/Database/Database.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use MA\PHPMVC\Database\Database;
 
 try {
     $dbh = Database::getConnection();
-    
-    // Buat database php_mvc
-    $dbh->exec("CREATE DATABASE IF NOT EXISTS php_mvc");
-    
-    echo "Database php_mvc berhasil dibuat atau sudah ada.\n";
     
     // Buat tabel users
     $dbh->exec("CREATE TABLE IF NOT EXISTS users (

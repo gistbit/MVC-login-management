@@ -18,7 +18,4 @@ define('UPLOAD_URL', BASE_URL . '/upload');
 
 require CONFIG . '/routes.php';
 
-return new Router(
-    new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),
-    new Response()
-);
+return new Router(new Request(), new Response());

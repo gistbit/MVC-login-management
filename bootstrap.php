@@ -16,7 +16,7 @@ define('UPLOAD', DOC_ROOT . '/upload');
 define('BASE_URL', Config::get('app.url'));
 define('UPLOAD_URL', BASE_URL . '/upload');
 
-require_once CONFIG . '/routes.php';
+require CONFIG . '/routes.php';
 
 return new Router(
     new Request($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER),

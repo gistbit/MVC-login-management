@@ -48,7 +48,7 @@ class Runner
 
     private function executeMiddleware($middleware, Request $request)
     {
-        if (is_object($middleware) && method_exists($middleware, 'execute')) {
+        if ($middleware instanceof MiddlewareInterface) {
             return $middleware->execute($request, $this->next());
         } elseif (is_callable($middleware)) {
             return $middleware();

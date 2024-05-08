@@ -9,7 +9,7 @@ use MA\PHPMVC\Interfaces\Request;
 
 class MustLoginAdmin implements Middleware
 {
-    public function execute(Request $request, Closure $next)
+    public function execute(Request $request, callable $next)
     {
         $session = $request->getSession(Config::get('session.name'), Config::get('session.key'));
 

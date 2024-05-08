@@ -8,7 +8,7 @@ use MA\PHPMVC\Interfaces\Request;
 
 class OnlyMemberMiddleware implements Middleware
 {
-    public function execute(Request $request, Closure $next)
+    public function execute(Request $request, callable $next)
     {
         $user = $request->user();
         if ($user == null) {

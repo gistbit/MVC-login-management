@@ -14,13 +14,13 @@ class Request implements InterfacesRequest
     private array $files;
     private array $server;
 
-    public function __construct(array $query = [], array $request = [], array $cookies = [], array $files = [], array $server = [])
+    public function __construct()
     {
-        $this->request = $request;
-        $this->query = $query;
-        $this->cookies = $cookies;
-        $this->files = $files;
-        $this->server = $server;
+        $this->request = $_POST;
+        $this->query = $_GET;
+        $this->cookies = $_COOKIE;
+        $this->files = $_FILES;
+        $this->server = $_SERVER;
     }
 
 

@@ -11,15 +11,15 @@ use MA\PHPMVC\Router\Router;
 define('DIR_ROOT', str_replace('\\', '/', dirname(__DIR__)));
 define('CONFIG', DIR_ROOT . '/config');
 define('VIEWS', DIR_ROOT . '/app/views');
-// define('DOC_ROOT', str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/')));
-// define('UPLOAD', DOC_ROOT . '/upload');
 
+// Load the routes configuration
 require CONFIG . '/routes.php';
 
+// Initialize the router with Request and Response objects
 $router = new Router(new Request(), new Response());
 
 // Run the router
 $response = $router->run();
 
-// Send the response, which typically involves outputting content to the user
+// Send the response to the user
 $response->send();

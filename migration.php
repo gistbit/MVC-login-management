@@ -19,8 +19,15 @@ function runMigration(Migration $migration, int $existingVersion)
     global $db;
 
     if ($migration->version() > $existingVersion) {
-        $migration->migrate();
-        $db->exec("INSERT INTO `version` (`id`) VALUES ({$migration->version()})");
+        try{
+            Database::beginTransaction();
+            $migration->migrate();
+            $db->exec("INSERT INTO `version` (`id`) VALUES ({$migration->version()})");
+            Database::commitTransaction();
+        }catch(\PDOException $e){
+            Database::rollbackTransaction();
+            echo $e->getMessage();
+        }
     }
 }
 
@@ -35,7 +42,7 @@ class Migration01 implements Migration
     {
         global $db;
         // Buat tabel users
-        $db->exec("CREATE TABLE IF NOT EXISTS users (
+        $db->exec("CREATE TABLE users (
             id VARCHAR(255) PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
@@ -55,7 +62,7 @@ class Migration02 implements Migration
     {
         global $db;
         // Buat tabel sessions
-        $db->exec("CREATE TABLE IF NOT EXISTS sessions (
+        $db->exec("CREATE TABLE sessions (
             id VARCHAR(255) PRIMARY KEY,
             user_id VARCHAR(255) NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id)

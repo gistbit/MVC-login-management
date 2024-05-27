@@ -28,7 +28,8 @@ class Runner
 
     private function handle(Request $request)
     {
-        if (!isset($middleware = $this->middlewares[$this->index])) {
+        $middleware = $this->middlewares[$this->index];
+        if (!isset($this->middlewares[$this->index])) {
             return Router::$response;
         }
 

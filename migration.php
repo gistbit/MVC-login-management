@@ -66,6 +66,9 @@ class Migration02 implements Migration
 function getExistingVersion(): int
 {
     global $db;
+    $db->exec("CREATE TABLE IF NOT EXISTS version(
+        id int NOT NULL
+    ) ENGINE=InnoDB");
     $result = $db->query("SELECT MAX(id) as version FROM `version`")->fetch();
     return $result['version'] ?? 0;
 }

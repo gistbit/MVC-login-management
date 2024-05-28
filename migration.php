@@ -11,7 +11,7 @@ $db = Database::getConnection();
 interface Migration
 {
     public function version(): int;
-    public function migrate();
+    public function migrate(\PDO $db);
 }
 
 function runMigration(Migration $migration, int $existingVersion)
@@ -21,7 +21,7 @@ function runMigration(Migration $migration, int $existingVersion)
     if ($migration->version() > $existingVersion) {
         try{
             Database::beginTransaction();
-            $migration->migrate();
+            $migration->migrate($db);
             $db->exec("INSERT INTO `version` (`id`) VALUES ({$migration->version()})");
             Database::commitTransaction();
         }catch(\PDOException $e){
@@ -51,9 +51,8 @@ class Migration01 implements Migration
         return 1;
     }
 
-    public function migrate()
+    public function migrate(\PDO $db)
     {
-        global $db;
         // Buat tabel users
         $db->exec("CREATE TABLE users (
             id VARCHAR(255) PRIMARY KEY,
@@ -71,9 +70,8 @@ class Migration02 implements Migration
         return 2;
     }
 
-    public function migrate()
+    public function migrate(\PDO $db)
     {
-        global $db;
         // Buat tabel sessions
         $db->exec("CREATE TABLE sessions (
             id VARCHAR(255) PRIMARY KEY,

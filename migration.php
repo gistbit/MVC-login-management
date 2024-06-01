@@ -5,44 +5,59 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use MA\PHPMVC\Database\Database;
 
-// Inisialisasi koneksi database
-$db = Database::getConnection();
-
 interface Migration
 {
     public function version(): int;
-    public function migrate(\PDO $db);
+    public function migrate(\PDO $db): void;
 }
 
-function runMigration(Migration $migration, int $existingVersion)
+class MigrationRunner
 {
-    global $db;
+    private \PDO $db;
 
-    if ($migration->version() > $existingVersion) {
-        try{
-            Database::beginTransaction();
-            $migration->migrate($db);
-            $db->exec("INSERT INTO `version` (`id`) VALUES ({$migration->version()})");
-            Database::commitTransaction();
-        }catch(\PDOException $e){
-            Database::rollbackTransaction();
-            echo $e->getMessage();
+    public function __construct(\PDO $db)
+    {
+        $this->db = $db;
+    }
+
+    public function runMigration(Migration $migration, int $existingVersion): void
+    {
+        if ($migration->version() > $existingVersion) {
+            $migration->migrate($this->db);
+            $this->db->exec("INSERT INTO `version` (`id`) VALUES ({$migration->version()})");
+            echo 'migration - '.$migration->version() . ' sukses'. PHP_EOL;
         }
+    }
+
+    public function getExistingVersion(): int
+    {
+        $this->db->exec("CREATE TABLE IF NOT EXISTS version (
+            id INT NOT NULL
+        ) ENGINE=InnoDB");
+
+        $result = $this->db->query("SELECT MAX(id) AS version FROM `version`")->fetch();
+        return $result['version'] ?? 0;
     }
 }
 
-function getExistingVersion(): int
+function execute(array $migrations): void
 {
-    global $db;
-    $db->exec("CREATE TABLE IF NOT EXISTS version(
-        id int NOT NULL
-    ) ENGINE=InnoDB");
-    $result = $db->query("SELECT MAX(id) as version FROM `version`")->fetch();
-    return $result['version'] ?? 0;
+    $db = Database::getConnection();
+    $runner = new MigrationRunner($db);
+    try {
+        $db->beginTransaction();
+        $existingVersion = $runner->getExistingVersion();
+        foreach ($migrations as $migration) {
+            $runner->runMigration(new $migration($db), $existingVersion);
+        }
+        $db->commit();
+    } catch (\Exception $e) {
+        if ($db->inTransaction()) {
+            $db->rollBack();
+            echo "Migration failed: " . $e->getMessage();
+        }
+    }
 }
-
-
-//class Migration
 
 class Migration01 implements Migration
 {
@@ -51,9 +66,8 @@ class Migration01 implements Migration
         return 1;
     }
 
-    public function migrate(\PDO $db)
+    public function migrate(\PDO $db): void
     {
-        // Buat tabel users
         $db->exec("CREATE TABLE users (
             id VARCHAR(255) PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
@@ -70,9 +84,8 @@ class Migration02 implements Migration
         return 2;
     }
 
-    public function migrate(\PDO $db)
+    public function migrate(\PDO $db): void
     {
-        // Buat tabel sessions
         $db->exec("CREATE TABLE sessions (
             id VARCHAR(255) PRIMARY KEY,
             user_id VARCHAR(255) NOT NULL,
@@ -81,14 +94,7 @@ class Migration02 implements Migration
     }
 }
 
-
-function main()
-{
-    $existingVersion = getExistingVersion();
-
-    runMigration(new Migration01, $existingVersion);
-    runMigration(new Migration02, $existingVersion);
-
-}
-
-main();
+execute([
+    Migration01::class,
+    Migration02::class
+]);

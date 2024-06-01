@@ -20,7 +20,7 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function register(UserRegisterRequest $request): UserRegisterResponse
+    public function register(UserRegisterRequest $request): User
     {
         $this->validateUserRegistrationRequest($request);
 
@@ -38,11 +38,8 @@ class UserService
 
             $this->userRepository->save($user);
 
-            $response = new UserRegisterResponse();
-            $response->user = $user;
-
             Database::commitTransaction();
-            return $response;
+            return $user;
         } catch (Exception $exception) {
             Database::rollbackTransaction();
             throw $exception;
@@ -59,7 +56,7 @@ class UserService
         }
     }
 
-    public function login(UserLoginRequest $request): UserLoginResponse
+    public function login(UserLoginRequest $request): User
     {
        if(!$request->validate()){
             throw new ValidationException("Id and Password can not blank");
@@ -71,15 +68,13 @@ class UserService
         }
 
         if (password_verify($request->password, $user->password)) {
-            $response = new UserLoginResponse();
-            $response->user = $user;
-            return $response;
+            return $user;
         } else {
             throw new ValidationException("Id or password Anda Salah !");
         }
     }
 
-    public function updateProfile(UserProfileUpdateRequest $request): UserProfileUpdateResponse
+    public function updateProfile(UserProfileUpdateRequest $request): User
     {
         $this->validateUserProfileUpdateRequest($request);
 
@@ -95,10 +90,7 @@ class UserService
             $this->userRepository->update($user);
 
             Database::commitTransaction();
-
-            $response = new UserProfileUpdateResponse();
-            $response->user = $user;
-            return $response;
+            return $user;
         } catch (Exception $exception) {
             Database::rollbackTransaction();
             throw $exception;
@@ -115,7 +107,7 @@ class UserService
         }
     }
 
-    public function updatePassword(UserPasswordUpdateRequest $request): UserPasswordUpdateResponse
+    public function updatePassword(UserPasswordUpdateRequest $request): User
     {
         $this->validateUserPasswordUpdateRequest($request);
 
@@ -135,10 +127,7 @@ class UserService
             $this->userRepository->update($user);
 
             Database::commitTransaction();
-
-            $response = new UserPasswordUpdateResponse();
-            $response->user = $user;
-            return $response;
+            return $user;
         } catch (Exception $exception) {
             Database::rollbackTransaction();
             throw $exception;

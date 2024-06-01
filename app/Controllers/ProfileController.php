@@ -37,13 +37,13 @@ class ProfileController extends Controller
     {
         $user = $this->sessionService->current();
 
-        $profile = new UserProfileUpdateRequest();
-        $profile->id = $user->id;
-        $profile->name = $request->post('name');
+        $req = new UserProfileUpdateRequest();
+        $req->id = $user->id;
+        $req->name = $request->post('name');
 
         try {
-            $response = $this->userService->updateProfile($profile);
-            $this->sessionService->create($response->user); //update cookie session setelah update profile
+            $user = $this->userService->updateProfile($req);
+            $this->sessionService->create($user); //update cookie session setelah update profile
             response()->redirect('/');
         } catch (ValidationException $exception) {
             return $this->view('profile/profile', [
@@ -72,13 +72,13 @@ class ProfileController extends Controller
     public function updatePassword(Request $request) // Menyimpan perubahan pada kata sandi
     {
         $user = $this->sessionService->current();
-        $password = new UserPasswordUpdateRequest();
-        $password->id = $user->id;
-        $password->oldPassword = $request->post('oldPassword');
-        $password->newPassword = $request->post('newPassword');
+        $req = new UserPasswordUpdateRequest();
+        $req->id = $user->id;
+        $req->oldPassword = $request->post('oldPassword');
+        $req->newPassword = $request->post('newPassword');
 
         try {
-            $this->userService->updatePassword($password);
+            $this->userService->updatePassword($req);
             response()->redirect('/');
         } catch (ValidationException $exception) {
             return $this->view('profile/password', [

@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use MA\PHPMVC\MVC\Controller;
-use App\Controllers\Traits\UserServiceTrait;
 use MA\PHPMVC\Exception\ValidationException;
 use App\Models\User\UserProfileUpdateRequest;
 use App\Models\User\UserPasswordUpdateRequest;

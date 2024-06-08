@@ -35,6 +35,7 @@ class UserService
             $user->id = $request->id;
             $user->name = $request->name;
             $user->password = password_hash($request->password, PASSWORD_BCRYPT);
+            $user->role = 0;
 
             $this->userRepository->save($user);
 

@@ -2,19 +2,25 @@
 
 namespace MA\PHPMVC\Router;
 
+use App\Domain\Session;
+use App\Service\SessionService;
+use App\Repository\SessionRepository;
 use Exception;
+use MA\PHPMVC\Database\Database;
 use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
 use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Router\Route;
 use MA\PHPMVC\Router\Runner;
 use MA\PHPMVC\Utility\Config;
+use App\Domain\User;
 
 class Router
 {
     private static array $routes = [];
     public static Request $request;
     public static Response $response;
+    public static ?User $user;
 
     public static function get(string $path, $callback, ...$middlewares): void
     {
@@ -62,6 +68,14 @@ class Router
     {
         self::$request = $request;
         self::$response = $response;
+        $this->currentUser();
+    }
+
+    private function currentUser(){
+        $connection = Database::getConnection();
+        $sessionRepository = new SessionRepository($connection);
+        $sessionService = new SessionService($sessionRepository);
+        self::$user = $sessionService->current();
     }
 
     public function run(): SendResponse

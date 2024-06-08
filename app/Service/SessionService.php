@@ -22,16 +22,19 @@ class SessionService
         $session->id = strRandom(10);
         $session->userId = $user->id;
 
+        $expires = Config::get('session.exp');
+
         $payload = [
             'id' => $session->id,
             'name' => $user->name,
-            'role' => $user->role
+            'role' => $user->role,
+            'exp' => $expires
         ];
 
         $this->sessionRepository->save($session);
 
         $value = TokenHandler::generateToken($payload, Config::get('session.key'));
-        setcookie(Config::get('session.name'), $value, Config::get('session.exp'), "/", "", false, true);
+        setcookie(Config::get('session.name'), $value, $expires, "/", "", false, true);
 
         return $session;
     }
@@ -49,6 +52,10 @@ class SessionService
         $payload = request()->getSession(Config::get('session.name'), Config::get('session.key'));
 
         if ($payload === null) {
+            return null;
+        }
+
+        if ($payload->exp < time()) {
             return null;
         }
 

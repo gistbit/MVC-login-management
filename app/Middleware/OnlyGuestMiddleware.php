@@ -11,7 +11,7 @@ class OnlyGuestMiddleware implements Middleware
 {
     public function execute(Request $request, callable $next)
     {
-        $user = $request->getSession(Config::get('session.name'), Config::get('session.key'));
+        $user = $request->user();
         if ($user != null) {
             response()->redirect('/');
         }

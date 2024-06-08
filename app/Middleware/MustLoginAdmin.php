@@ -11,7 +11,7 @@ class MustLoginAdmin implements Middleware
 {
     public function execute(Request $request, callable $next)
     {
-        $session = $request->getSession(Config::get('session.name'), Config::get('session.key'));
+        $session = $request->user();
 
         if ($this->isAdmin($session)) {
             return $next($request);

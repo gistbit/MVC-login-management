@@ -20,7 +20,7 @@ class Runner
         $this->middlewares[] = is_string($middleware) && class_exists($middleware) ? new $middleware : $middleware;
     }
 
-    public function exec(Request $request, \Closure $callback)
+    public function execute(Request $request, \Closure $callback)
     {
         $this->addMiddleware($callback);
         return $this->handle($request);

@@ -26,7 +26,7 @@ class Router
         self::$router = $this;
         $this->request = $request;
         $this->response = $response;
-        $this->currentUser();
+        $this->setCurrentUser();
     }
 
     public static function get(string $path, $callback, ...$middlewares): void
@@ -71,7 +71,7 @@ class Router
         return null;
     }
 
-    private function currentUser(){
+    private function setCurrentUser(){
         $connection = Database::getConnection();
         $sessionRepository = new SessionRepository($connection);
         $sessionService = new SessionService($sessionRepository);
@@ -89,7 +89,7 @@ class Router
 
             $running = new Runner($route->getMiddlewares());
 
-            return $running->exec($this->request, fn() => $this->handleRouteCallback($route));
+            return $running->execute($this->request, fn() => $this->handleRouteCallback($route));
 
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage());
@@ -102,11 +102,11 @@ class Router
             $content = call_user_func_array($route->getAction(), $route->getParameter());
             $this->response->setContent($content);
         } else {
-            $this->runController($route->getController(), $route->getAction(), $route->getParameter());
+            $this->executeController($route->getController(), $route->getAction(), $route->getParameter());
         }
     }
 
-    private function runController(string $controller, string $method, $parameter)
+    private function executeController(string $controller, string $method, $parameter)
     {
         if (class_exists($controller)) {
             $controllerInstance = new $controller();

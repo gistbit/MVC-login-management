@@ -9,7 +9,7 @@ Router::get('/', 'HomeController@index');
 
 Router::get("/user/register", [AuthController::class, 'showRegistration'], OnlyGuestMiddleware::class);
 Router::post("/user/register", [AuthController::class, 'register'], OnlyGuestMiddleware::class, CSRFMiddleware::class);
-Router::get("/user/login", [AuthController::class, 'showLogin'], OnlyGuestMiddleware::class);
+Router::get("/user/login", [AuthController::class, 'showLogin'], OnlyGuestMiddleware::class, OnlyGuestMiddleware::class);
 Router::post("/user/login", [AuthController::class, 'login'], OnlyGuestMiddleware::class, CSRFMiddleware::class);
 Router::get("/user/logout", [AuthController::class, 'logout'], OnlyMemberMiddleware::class);
 

@@ -87,10 +87,9 @@ class Router
                 return $this->response->setNotFound('Route not found');
             }
 
-            $running = new Runner($route->getMiddlewares());
+            $runner = new Runner(array_merge($route->getMiddlewares(), [fn() => $this->handleRouteCallback($route)]));
 
-            return $running->execute($this->request, fn() => $this->handleRouteCallback($route));
-
+            return $runner->handle($this->request);
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage());
         }

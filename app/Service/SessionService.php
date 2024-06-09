@@ -21,20 +21,9 @@ class SessionService
         $session = new Session();
         $session->id = strRandom(10);
         $session->userId = $user->id;
-
-        $expires = Config::get('session.exp');
-
-        $payload = [
-            'id' => $session->id,
-            'name' => $user->name,
-            'role' => $user->role,
-            'exp' => $expires
-        ];
-
+        
         $this->sessionRepository->save($session);
-
-        $value = TokenHandler::generateToken($payload, Config::get('session.key'));
-        setcookie(Config::get('session.name'), $value, $expires, "/", "", false, true);
+        $this->setSessionCookie($user, $session->id);
 
         return $session;
     }
@@ -42,16 +31,18 @@ class SessionService
     public function destroy()
     {
         $session = $this->getSessionPayload();
-        $this->sessionRepository->deleteById($session->id);
-        // $this->sessionRepository->deleteAll();
-        setcookie(Config::get('session.name'), '', 1, "/");
+        if($session){
+            $this->sessionRepository->deleteById($session->id);
+            // $this->sessionRepository->deleteAll();
+            $this->clearSessionCookie();
+        }
     }
 
     public function current(): ?User
     {
         $payload = $this->getSessionPayload();
 
-        if ($payload === null || $payload->exp < time()) {
+        if ($this->isSessionExpired($payload)) {
             return null;
         }
 
@@ -70,6 +61,10 @@ class SessionService
         return $user;
     }
 
+    private function isSessionExpired($payload): bool
+    {
+        return $payload === null || $payload->exp < time();
+    }
 
     private function getSessionPayload() : ?\stdClass
     {
@@ -77,4 +72,25 @@ class SessionService
         if (empty($JWT)) return null;
         return TokenHandler::verifyToken($JWT, Config::get('session.key'));
     }
+
+    private function setSessionCookie(User $user, string $sessionId): void
+    {
+        $expires = Config::get('session.exp');
+
+        $payload = [
+            'id' => $sessionId,
+            'name' => $user->name,
+            'role' => $user->role,
+            'exp' => $expires
+        ];
+
+        $value = TokenHandler::generateToken($payload, Config::get('session.key'));
+        setcookie(Config::get('session.name'), $value, $expires, "/", "", false, true);
+    }
+
+    private function clearSessionCookie(): void
+    {
+        setcookie(Config::get('session.name'), '', 1, "/");
+    }
+
 }

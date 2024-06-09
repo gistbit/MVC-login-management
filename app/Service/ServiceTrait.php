@@ -10,8 +10,8 @@ use App\Repository\SessionRepository;
 
 trait ServiceTrait {
 
-    private UserService $userService;
-    private SessionService $sessionService;
+    protected UserService $userService;
+    protected SessionService $sessionService;
 
     protected function authService()
     {

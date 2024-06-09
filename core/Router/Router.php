@@ -75,7 +75,7 @@ class Router
         $connection = Database::getConnection();
         $sessionRepository = new SessionRepository($connection);
         $sessionService = new SessionService($sessionRepository);
-        self::$router->user = $sessionService->current();
+        $this->user = $sessionService->current();
     }
 
     public function run(): Response

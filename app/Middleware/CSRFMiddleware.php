@@ -2,7 +2,6 @@
 
 namespace App\Middleware;
 
-use Closure;
 use MA\PHPMVC\Interfaces\Middleware;
 use MA\PHPMVC\Interfaces\Request;
 

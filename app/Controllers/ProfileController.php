@@ -19,6 +19,7 @@ class ProfileController extends Controller
     {
         $this->authService();        
     }
+    
     public function show() // Menampilkan profil pengguna
     {
         // implementation

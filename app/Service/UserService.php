@@ -8,7 +8,6 @@ use MA\PHPMVC\Exception\ValidationException;
 use App\Domain\User;
 use Exception;
 use App\Models\User\{UserRegisterRequest, UserLoginRequest, UserProfileUpdateRequest, UserPasswordUpdateRequest};
-use App\Models\User\{UserRegisterResponse, UserLoginResponse, UserProfileUpdateResponse, UserPasswordUpdateResponse};
 
 class UserService
 {

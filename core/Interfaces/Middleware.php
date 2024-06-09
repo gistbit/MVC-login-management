@@ -2,7 +2,6 @@
 
 namespace MA\PHPMVC\Interfaces;
 
-use Closure;
 use MA\PHPMVC\Interfaces\Request;
 
 interface Middleware

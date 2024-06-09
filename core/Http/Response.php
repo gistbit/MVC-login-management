@@ -2,7 +2,6 @@
 
 namespace MA\PHPMVC\Http;
 
-use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Interfaces\Response as InterfacesResponse;
 use MA\PHPMVC\MVC\View;
 

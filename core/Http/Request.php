@@ -2,9 +2,7 @@
 
 namespace MA\PHPMVC\Http;
 
-use App\Domain\Session;
 use MA\PHPMVC\Interfaces\Request as InterfacesRequest;
-use MA\PHPMVC\Utility\TokenHandler;
 use App\Domain\User;
 use MA\PHPMVC\Router\Router;
 
@@ -23,13 +21,6 @@ class Request implements InterfacesRequest
         $this->cookies = $_COOKIE;
         $this->files = $_FILES;
         $this->server = $_SERVER;
-    }
-
-    public function getSession(string $name, string $key): ?\stdClass
-    {
-        $JWT = $this->cookies[$name] ?? '';
-        if (empty($JWT)) return null;
-        return TokenHandler::verifyToken($JWT, $key);
     }
 
     public function get(string $key = '')

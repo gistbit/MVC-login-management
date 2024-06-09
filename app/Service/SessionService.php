@@ -41,7 +41,7 @@ class SessionService
 
     public function destroy()
     {
-        $session = request()->getSession(Config::get('session.name'), Config::get('session.key'));
+        $session = $this->getSessionPayload();
         $this->sessionRepository->deleteById($session->id);
         // $this->sessionRepository->deleteAll();
         setcookie(Config::get('session.name'), '', 1, "/");
@@ -49,13 +49,9 @@ class SessionService
 
     public function current(): ?User
     {
-        $payload = request()->getSession(Config::get('session.name'), Config::get('session.key'));
+        $payload = $this->getSessionPayload();
 
-        if ($payload === null) {
-            return null;
-        }
-
-        if ($payload->exp < time()) {
+        if ($payload === null || $payload->exp < time()) {
             return null;
         }
 
@@ -72,5 +68,13 @@ class SessionService
         $user->role = $payload->role;
 
         return $user;
+    }
+
+
+    private function getSessionPayload() : ?\stdClass
+    {
+        $JWT = request()->cookie(Config::get('session.name')) ?? '';
+        if (empty($JWT)) return null;
+        return TokenHandler::verifyToken($JWT, Config::get('session.key'));
     }
 }

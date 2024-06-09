@@ -6,8 +6,6 @@ use App\Domain\User;
 
 interface Request
 {
-    public function getSession(string $name, string $key): ?\stdClass;
-
     public function get(string $key = '');
 
     public function post(string $key = '');

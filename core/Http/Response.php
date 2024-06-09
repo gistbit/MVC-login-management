@@ -6,7 +6,7 @@ use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Interfaces\Response as InterfacesResponse;
 use MA\PHPMVC\MVC\View;
 
-class Response implements SendResponse, InterfacesResponse
+class Response implements InterfacesResponse
 {
     private array $headers = [];
     private $content = '';

@@ -120,6 +120,6 @@ class Request implements InterfacesRequest
 
     public function user(): ?User
     {
-        return Router::$user;
+        return Router::$router->user;
     }
 }

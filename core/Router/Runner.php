@@ -30,15 +30,15 @@ class Runner
     {
         $middleware = $this->middlewares[$this->index];
         if (!isset($this->middlewares[$this->index])) {
-            return Router::$response;
+            return response();
         }
 
         $result = $this->executeMiddleware($middleware, $request);
 
         if (is_scalar($result)) {
-            return Router::$response->setContent($result);
+            return response()->setContent($result);
         } else {
-            return Router::$response;
+            return response();
         }
     }
 

@@ -12,11 +12,12 @@ define('DIR_ROOT', str_replace('\\', '/', dirname(__DIR__)));
 define('CONFIG', DIR_ROOT . '/config');
 define('VIEWS', DIR_ROOT . '/app/views');
 
-// Load the routes configuration
-require CONFIG . '/routes.php';
 
 // Initialize the router with Request and Response objects
 $router = new Router(new Request(), new Response());
+
+// Load the routes configuration
+require CONFIG . '/routes.php';
 
 // Run the router
 $response = $router->run();

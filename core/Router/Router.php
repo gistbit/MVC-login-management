@@ -2,94 +2,94 @@
 
 namespace MA\PHPMVC\Router;
 
-use App\Domain\Session;
+use App\Domain\User;
 use App\Service\SessionService;
 use App\Repository\SessionRepository;
 use Exception;
 use MA\PHPMVC\Database\Database;
 use MA\PHPMVC\Http\Request;
 use MA\PHPMVC\Http\Response;
-use MA\PHPMVC\Interfaces\SendResponse;
 use MA\PHPMVC\Router\Route;
 use MA\PHPMVC\Router\Runner;
 use MA\PHPMVC\Utility\Config;
-use App\Domain\User;
 
 class Router
 {
-    private static array $routes = [];
-    public static Request $request;
-    public static Response $response;
-    public static ?User $user;
+    public static Router $router;
+    private array $routes = [];
+    public Request $request;
+    public Response $response;
+    public ?User $user;
+
+    public function __construct(Request $request, Response $response)
+    {
+        self::$router = $this;
+        $this->request = $request;
+        $this->response = $response;
+        $this->currentUser();
+    }
 
     public static function get(string $path, $callback, ...$middlewares): void
     {
-        self::add('GET', $path, $callback, $middlewares);
+        self::$router->add('GET', $path, $callback, $middlewares);
     }
 
     public static function post(string $path, $callback, ...$middlewares): void
     {
-        self::add('POST', $path, $callback, $middlewares);
+        self::$router->add('POST', $path, $callback, $middlewares);
     }
 
     public static function put(string $path, $callback, ...$middlewares): void
     {
-        self::add('PUT', $path, $callback, $middlewares);
+        self::$router->add('PUT', $path, $callback, $middlewares);
     }
 
     public static function delete(string $path, $callback, ...$middlewares): void
     {
-        self::add('DELETE', $path, $callback, $middlewares);
+        self::$router->add('DELETE', $path, $callback, $middlewares);
     }
 
-    private static function add(string $method, string $path, $callback, array $middlewares): void
+    private function add(string $method, string $path, $callback, array $middlewares): void
     {
-        self::$routes[$method][] = [
+        $this->routes[$method][] = [
             'path' => $path,
             'callback' => $callback,
-            'middlewares' => $middlewares,
+            'middlewares' => $middlewares
         ];
     }
 
     private function dispatch(string $method, string $path): ?Route
     {
-        foreach (self::$routes[$method] ?? [] as $route) {
+        foreach ($this->routes[$method] ?? [] as $route) {
             $pattern = '#^' . $route['path'] . '$#';
             if (preg_match($pattern, $path, $variabels)) {
                 array_shift($variabels);
-                $variabels[] = self::$request;
+                $variabels[] = $this->request;
                 return new Route($route['callback'], $route['middlewares'], $variabels);
             }
         }
         return null;
     }
 
-    public function __construct(Request $request, Response $response)
-    {
-        self::$request = $request;
-        self::$response = $response;
-        $this->currentUser();
-    }
-
     private function currentUser(){
         $connection = Database::getConnection();
         $sessionRepository = new SessionRepository($connection);
         $sessionService = new SessionService($sessionRepository);
-        self::$user = $sessionService->current();
+        self::$router->user = $sessionService->current();
     }
 
-    public function run(): SendResponse
+    public function run(): Response
     {
         try {
             $route = $this->dispatch($this->getMethod(), $this->getPath());
 
             if ($route === null) {
-                return self::$response->setNotFound('Route not found');
+                return $this->response->setNotFound('Route not found');
             }
 
             $running = new Runner($route->getMiddlewares());
 
-            return $running->exec(self::$request, fn() => $this->handleRouteCallback($route));
+            return $running->exec($this->request, fn() => $this->handleRouteCallback($route));
 
         } catch (\Throwable $th) {
             return $this->responseError($th->getMessage());
@@ -100,7 +100,7 @@ class Router
     {
         if ($route->getController() === null) {
             $content = call_user_func_array($route->getAction(), $route->getParameter());
-            self::$response->setContent($content);
+            $this->response->setContent($content);
         } else {
             $this->runController($route->getController(), $route->getAction(), $route->getParameter());
         }
@@ -112,7 +112,7 @@ class Router
             $controllerInstance = new $controller();
             if (method_exists($controllerInstance, $method)) {
                 $content = call_user_func_array([$controllerInstance, $method], $parameter);
-                self::$response->setContent($content);
+                $this->response->setContent($content);
             } else {
                 throw new Exception(sprintf("Method %s not found in %s", $method, $controller));
             }
@@ -128,20 +128,20 @@ class Router
 
     private function getPath(): string
     {
-        return $this->cleanPath(self::$request->getPath());
+        return $this->cleanPath($this->request->getPath());
     }
 
     private function getMethod(): string
     {
-        return strtoupper(self::$request->getMethod());
+        return strtoupper($this->request->getMethod());
     }
 
     private function responseError($message): Response
     {
         if(Config::isDevelopmentMode()){
-            return self::$response->setStatusCode(200)->setContent(view('error/dev', ['message' => $message]));
+            return $this->response->setStatusCode(200)->setContent(view('error/dev', ['message' => $message]));
         }else{
-            return self::$response->setStatusCode(500)->setContent(view('error/500'));
+            return $this->response->setStatusCode(500)->setContent(view('error/500'));
         }
     }
 }

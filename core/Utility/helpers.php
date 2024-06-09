@@ -18,12 +18,12 @@ function cetak($arr, $die = true)
 
 function response(): Response
 {
-    return Router::$response;
+    return Router::$router->response;
 }
 
 function request(): Request
 {
-    return Router::$request;
+    return Router::$router->request;
 }
 
 function strRandom(int $length = 16): string
